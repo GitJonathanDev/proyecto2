@@ -14,21 +14,20 @@ class MenuController extends Controller
      */
     public function index()
     {
-        // Verifica si el usuario está autenticado
+
         if (!Auth::check()) {
             return Redirect::to('/');
         }
 
-        // Obtiene el tipo de usuario del usuario autenticado
+  
         $tipoUsuarioId = Auth::user()->codTipoUsuarioF;
 
-        // Consulta los menús que correspondan al tipo de usuario y que no tengan un menú padre
         $menus = Menu::where('codTipoUsuarioF', $tipoUsuarioId)
             ->whereNull('padreId')
             ->with('hijos')
             ->get();
 
-        // Pasa los menús a la vista
+
         return view('layouts.plantilla', compact('menus'));
     }
 }

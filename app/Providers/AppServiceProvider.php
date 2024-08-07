@@ -49,9 +49,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with('conteoVisitas', $conteoVisitas);
 
             if (Auth::check()) {
-                $idTipoUsuario = Auth::user()->codTipoUsuarioF; // Cambiado a codTipoUsuarioF
+                $idTipoUsuario = Auth::user()->codTipoUsuarioF; 
                 
-                $menus = Menu::where('codTipoUsuarioF', $idTipoUsuario) // Cambiado a codTipoUsuarioF
+                $menus = Menu::where('codTipoUsuarioF', $idTipoUsuario) 
                     ->whereNull('padreId')
                     ->with('hijos')
                     ->get();

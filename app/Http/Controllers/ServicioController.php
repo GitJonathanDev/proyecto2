@@ -16,13 +16,13 @@ class ServicioController extends Controller
      */
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'nombre'); // Valor por defecto
+        $criterio = $request->input('criterio', 'nombre'); 
         $buscar = $request->input('buscar', '');
 
-        // Validar que el criterio sea un campo válido
+
         $camposValidos = ['nombre', 'descripcion', 'capacidad', 'codHorarioF'];
         if (!in_array($criterio, $camposValidos)) {
-            $criterio = 'nombre'; // O cualquier valor predeterminado
+            $criterio = 'nombre';
         }
 
         $query = Servicio::query();

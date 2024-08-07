@@ -202,60 +202,60 @@ body {
   .datepicker {
     cursor: pointer;
     width: 100%;
-    font-size: 1.25rem; /* Make calendar input larger */
+    font-size: 1.25rem; 
   }
   
   .pikaday {
-    font-size: 1.25rem; /* Make Pikaday calendar larger */
+    font-size: 1.25rem; 
   }
   
   .pikaday .pika-single {
-    font-size: 1.25rem; /* Make Pikaday calendar larger */
+    font-size: 1.25rem; 
   }
   
   .pikaday .pika-select {
-    color: #fff; /* Dark theme */
+    color: #fff; 
     background: #333;
   }
   
   .pikaday .pika-label {
-    color: #fff; /* Dark theme */
+    color: #fff; 
   }
   
   .pikaday .pika-day {
-    background: #444; /* Dark theme */
+    background: #444; 
     color: #fff;
   }
   
   .pikaday .pika-day.pika-selected {
-    background: #666; /* Dark theme */
+    background: #666; 
   }
   
   .pikaday .pika-day.pika-selected:hover {
-    background: #555; /* Dark theme */
+    background: #555; 
   }
   .table {
-    background-color: #1f1f1f; /* Fondo oscuro de la tabla, consistente con el navbar y tarjetas */
-    color: #fff; /* Texto claro para contraste en fondo oscuro */
-    border-radius: 10px; /* Bordes redondeados */
-    overflow: hidden; /* Para aplicar correctamente los bordes redondeados */
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Sombra suave para un efecto sutil */
+    background-color: #1f1f1f; 
+    color: #fff; 
+    border-radius: 10px; 
+    overflow: hidden; 
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); 
 }
 
 .table th, .table td {
-    color: #fff; /* Texto claro en celdas para legibilidad */
-    border: 1px solid #333; /* Bordes en gris oscuro para un diseño cohesivo */
+    color: #fff; 
+    border: 1px solid #333; 
 }
 
 .table thead th {
-    background-color: #121212; /* Fondo de encabezado en gris muy oscuro para destacar */
-    color: #f0c900; /* Texto en color dorado para los encabezados */
+    background-color: #121212; 
+    color: #f0c900; 
 }
 
 .table tbody tr {
-    transition: background-color 0.3s ease; /* Transición suave para el efecto hover */
+    transition: background-color 0.3s ease; 
 }
 
 .table tbody tr:hover {
-    background-color: #333; /* Color de fondo de fila en hover, en un tono gris oscuro para resaltar */
+    background-color: #333; 
 }

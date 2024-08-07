@@ -202,27 +202,27 @@ body {
     text-decoration: none;
 }
 .table {
-    background-color: #ffeecc; /* Fondo de tabla claro y cálido, en línea con el color de fondo de las tarjetas */
-    color: #333333; /* Texto en gris oscuro para buen contraste */
-    border-radius: 8px; /* Bordes redondeados para un aspecto más suave */
-    overflow: hidden; /* Para aplicar correctamente los bordes redondeados */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra ligera para complementar el estilo alegre */
+    background-color: #ffeecc;
+    color: #333333; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
 }
 
 .table th, .table td {
-    color: #333333; /* Texto en gris oscuro para un contraste adecuado */
-    border: 1px solid #ff66cc; /* Bordes en rosa claro para coincidir con el esquema de colores */
+    color: #333333; 
+    border: 1px solid #ff66cc; 
 }
 
 .table thead th {
-    background-color: #ff66cc; /* Fondo de encabezado en rosa claro para destacar */
-    color: #ffffff; /* Texto blanco para el encabezado para mayor legibilidad */
+    background-color: #ff66cc;
+    color: #ffffff; 
 }
 
 .table tbody tr {
-    transition: background-color 0.3s ease; /* Transición suave para el efecto hover */
+    transition: background-color 0.3s ease; 
 }
 
 .table tbody tr:hover {
-    background-color: #ffcc99; /* Color de fondo de fila en hover, en un tono de amarillo suave para resaltar sin ser agresivo */
+    background-color: #ffcc99; 
 }

@@ -206,27 +206,27 @@ body {
     text-decoration: none;
   }
   .table {
-    background-color: #2c2c2c; /* Fondo oscuro pero no tan negro, para un estilo sofisticado */
-    color: #ffffff; /* Texto blanco para buen contraste y legibilidad */
-    border-radius: 8px; /* Bordes redondeados para un diseño más pulido */
-    overflow: hidden; /* Para aplicar correctamente los bordes redondeados */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* Sombra sutil para complementar el estilo general */
+    background-color: #2c2c2c; 
+    color: #ffffff; 
+    border-radius: 8px; 
+    overflow: hidden; 
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); 
 }
 
 .table th, .table td {
-    color: #ffffff; /* Texto blanco para las celdas */
-    border: 1px solid #444444; /* Bordes en un gris oscuro para mantener el estilo elegante */
+    color: #ffffff; 
+    border: 1px solid #444444; 
 }
 
 .table thead th {
-    background-color: #333333; /* Fondo del encabezado en un gris oscuro para contraste con el contenido */
-    color: #ffcc00; /* Texto en amarillo para destacar los encabezados */
+    background-color: #333333;
+    color: #ffcc00;
 }
 
 .table tbody tr {
-    transition: background-color 0.3s ease; /* Transición suave para el efecto hover */
+    transition: background-color 0.3s ease;
 }
 
 .table tbody tr:hover {
-    background-color: #4d4d4d; /* Color de fondo en gris medio para el efecto hover */
+    background-color: #4d4d4d;
 }

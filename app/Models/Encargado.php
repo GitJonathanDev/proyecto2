@@ -9,19 +9,18 @@ class Encargado extends Model
 {
     use HasFactory;
 
-    // Define la tabla asociada al modelo
+
     protected $table = 'Encargado';
 
-    // Define la clave primaria del modelo
     protected $primaryKey = 'carnetIdentidad';
 
-    // Indica que la clave primaria no es auto-incremental
+
     public $incrementing = false;
 
-    // Define el tipo de la clave primaria
+
     protected $keyType = 'integer';
 
-    // Los campos que se pueden asignar masivamente
+
     protected $fillable = [
         'carnetIdentidad',
         'nombre',
@@ -30,10 +29,10 @@ class Encargado extends Model
         'sexo',
         'edad',
         'telefono',
-        'codUsuarioF',  // Asegúrate de usar el nombre correcto aquí
+        'codUsuarioF',  
     ];
 
-    // Convertir atributos a sus tipos de datos correctos
+  
     protected $casts = [
         'carnetIdentidad' => 'integer',
         'nombre' => 'string',
@@ -42,15 +41,15 @@ class Encargado extends Model
         'sexo' => 'string',
         'edad' => 'integer',
         'telefono' => 'integer',
-        'codUsuarioF' => 'integer',  // Asegúrate de usar el nombre correcto aquí
+        'codUsuarioF' => 'integer', 
     ];
 
-    // Definir la relación con el modelo User
+
     public function usuario()
     {
         return $this->belongsTo(User::class, 'codUsuarioF', 'codUsuario');
     }
 
-    // Desactivar marcas de tiempo
+
     public $timestamps = false;
 }

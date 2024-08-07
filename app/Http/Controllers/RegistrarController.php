@@ -19,8 +19,8 @@ class RegistrarController extends Controller
         $usuario = new User();
         $usuario->nombreUsuario = $request->name;
         $usuario->email = $request->email;
-        $usuario->password = $request->password; // Suponiendo que la encriptación se maneja en otro lugar
-        $usuario->codTipoUsuarioF = 1; // Asignar el tipo de usuario
+        $usuario->password = $request->password; 
+        $usuario->codTipoUsuarioF = 1; 
         $usuario->save();
 
         // Crear nuevo cliente
@@ -32,12 +32,12 @@ class RegistrarController extends Controller
         $cliente->edad = $request->edad;
         $cliente->sexo = $request->sexo;
         $cliente->telefono = $request->telefono;
-        $cliente->codUsuarioF = $usuario->codUsuario; // Asegúrate de que este campo está correctamente definido
+        $cliente->codUsuarioF = $usuario->codUsuario; 
         $cliente->save();
 
         // Autenticar al usuario
         auth()->login($usuario);
 
-        return redirect()->route('cliente.index'); // Redirigir al listado de clientes
+        return redirect()->route('cliente.index'); 
     }
 }

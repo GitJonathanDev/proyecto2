@@ -11,13 +11,13 @@ class Menu extends Model
 
     protected $table = 'Menu';
 
-    // La clave primaria de la tabla
+
     protected $primaryKey = 'id';
 
-    // Desactivar marcas de tiempo
+  
     public $timestamps = false;
 
-    // Los campos que se pueden asignar masivamente
+
     protected $fillable = [
         'nombre',
         'url',
@@ -26,7 +26,7 @@ class Menu extends Model
         'padreId'
     ];
 
-    // Definir la relación con el modelo Menu para la jerarquía padre-hijo
+
     public function padre()
     {
         return $this->belongsTo(Menu::class, 'padreId', 'id');
@@ -37,7 +37,7 @@ class Menu extends Model
         return $this->hasMany(Menu::class, 'padreId', 'id');
     }
 
-    // Definir la relación con el modelo TipoUsuario
+
     public function tipoUsuario()
     {
         return $this->belongsTo(TipoUsuario::class, 'codTipoUsuarioF', 'codTipoUsuario');

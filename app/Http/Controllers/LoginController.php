@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth; // Importar la fachada Auth para autenticación
+use Illuminate\Support\Facades\Auth; 
 
 class LoginController extends Controller
 {
@@ -20,7 +20,6 @@ class LoginController extends Controller
      */
     public function vista()
     {
-        // Aquí se debe verificar el tipo de usuario para redirigir correctamente
         if (Auth::check()) {
             $user = Auth::user();
             switch ($user->codTipoUsuarioF) {
@@ -35,7 +34,7 @@ class LoginController extends Controller
             }
         }
 
-        // Si el usuario no está autenticado, redirige a la página de inicio
+
         return redirect()->route('login');
     }
 

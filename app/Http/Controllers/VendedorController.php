@@ -10,7 +10,7 @@ class VendedorController extends Controller
 {
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'nombre'); // Valor por defecto si no se proporciona criterio
+        $criterio = $request->input('criterio', 'nombre');
         $buscar = $request->input('buscar', '');
 
         $query = Encargado::query();
@@ -36,8 +36,8 @@ class VendedorController extends Controller
         $user = User::create([
             'nombreUsuario' => $request->input('nombreUsuario'),
             'email' => $request->input('email'),
-            'password' => $request->input('password'), // No encriptar la contraseña
-            'codTipoUsuarioF' => 2, // Establece el tipo de usuario por defecto
+            'password' => $request->input('password'), 
+            'codTipoUsuarioF' => 2, 
         ]);
 
         // Crear el encargado
@@ -49,7 +49,7 @@ class VendedorController extends Controller
         $vendedor->sexo = $request->input('sexo');
         $vendedor->edad = $request->input('edad');
         $vendedor->telefono = $request->input('telefono');
-        $vendedor->codUsuarioF = $user->codUsuario; // Usa el campo codUsuario del usuario creado
+        $vendedor->codUsuarioF = $user->codUsuario; 
         $vendedor->save();
 
         return back()->with('success', 'Vendedor registrado exitosamente.');

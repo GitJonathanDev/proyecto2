@@ -8,12 +8,9 @@ use Illuminate\Http\Request;
 
 class UsuarioController extends Controller
 {
-    /**
-     * Muestra una lista de los usuarios.
-     */
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'nombreUsuario'); // Por defecto, usar 'nombreUsuario'
+        $criterio = $request->input('criterio', 'nombreUsuario'); 
         $buscar = $request->input('buscar', '');
 
         $query = User::query();
@@ -27,34 +24,26 @@ class UsuarioController extends Controller
         return view('GestionarUsuario.index', compact('usuarios'));
     }
 
-    /**
-     * Muestra el formulario para crear un nuevo usuario.
-     */
     public function create()
     {
         $tiposUsuario = TipoUsuario::all();
         return view('GestionarUsuario.create', compact('tiposUsuario'));
     }
 
-    /**
-     * Almacena un nuevo usuario en la base de datos.
-     */
     public function store(Request $request)
     {
         // Crear nuevo usuario
         User::create([
             'nombreUsuario' => $request->input('nombreUsuario'),
             'email' => $request->input('email'),
-            'password' => $request->input('password'), // No encriptar la contraseña
+            'password' => $request->input('password'), 
             'codTipoUsuarioF' => $request->input('codTipoUsuarioF'),
         ]);
 
         return redirect()->route('usuario.index')->with('success', 'Usuario registrado con éxito.');
     }
 
-    /**
-     * Muestra el formulario para editar el usuario especificado.
-     */
+
     public function edit($codUsuario)
     {
         $usuario = User::where('codUsuario', $codUsuario)->firstOrFail();
@@ -62,9 +51,7 @@ class UsuarioController extends Controller
         return view('GestionarUsuario.edit', compact('usuario', 'tiposUsuario'));
     }
 
-    /**
-     * Actualiza el usuario especificado en la base de datos.
-     */
+
     public function update(Request $request, $codUsuario)
     {
         $usuario = User::where('codUsuario', $codUsuario)->firstOrFail();
@@ -72,7 +59,7 @@ class UsuarioController extends Controller
         $usuario->email = $request->input('email');
 
         if (!empty($request->input('password'))) {
-            $usuario->password = $request->input('password'); // No encriptar la contraseña
+            $usuario->password = $request->input('password'); 
         }
 
         $usuario->codTipoUsuarioF = $request->input('codTipoUsuarioF');
@@ -81,9 +68,7 @@ class UsuarioController extends Controller
         return redirect()->route('usuario.index')->with('success', 'Usuario actualizado con éxito.');
     }
 
-    /**
-     * Elimina el usuario especificado de la base de datos.
-     */
+
     public function destroy($codUsuario)
     {
         $usuario = User::where('codUsuario', $codUsuario)->firstOrFail();

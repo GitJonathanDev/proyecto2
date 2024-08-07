@@ -10,7 +10,7 @@ class ProductoController extends Controller
 {
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'nombre'); // Valor predeterminado para el criterio
+        $criterio = $request->input('criterio', 'nombre'); 
         $buscar = $request->input('buscar', '');
 
         $query = Producto::query();
@@ -21,7 +21,6 @@ class ProductoController extends Controller
 
         $productos = $query->paginate(10);
 
-        // Obtener todas las categorías para el filtro si se necesita
         $categorias = Categoria::all();
 
         return view('GestionarProducto.index', compact('productos', 'criterio', 'buscar', 'categorias'));
@@ -29,7 +28,7 @@ class ProductoController extends Controller
 
     public function create()
     {
-        $categorias = Categoria::all(); // Obtener todas las categorías
+        $categorias = Categoria::all(); 
         return view('GestionarProducto.create', compact('categorias'));
     }
 
@@ -45,7 +44,7 @@ class ProductoController extends Controller
         }
 
         Producto::create([
-            'codProducto' => $request->codProducto, // Obtener el valor del formulario
+            'codProducto' => $request->codProducto,
             'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
             'precio' => $request->precio,
@@ -60,7 +59,7 @@ class ProductoController extends Controller
     public function edit($codProducto)
     {
         $producto = Producto::findOrFail($codProducto);
-        $categorias = Categoria::all(); // Obtener todas las categorías
+        $categorias = Categoria::all(); 
 
         return view('GestionarProducto.edit', compact('producto', 'categorias'));
     }
@@ -70,7 +69,6 @@ class ProductoController extends Controller
         $producto = Producto::findOrFail($codProducto);
 
         if ($request->hasFile('imagen')) {
-            // Eliminar la imagen antigua
             if ($producto->imagen_url) {
                 $path = public_path('storage/uploads/' . $producto->imagen_url);
                 if (file_exists($path)) {

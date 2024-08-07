@@ -38,12 +38,12 @@ class MenuSeeder extends Seeder
         ];
 
         $menusCliente = [
-            // Añadir menús para clientes si es necesario
+      
         ];
 
         // Inserta los datos en la base de datos
         DB::table('Menu')->insert($menusVendedor);
         DB::table('Menu')->insert($menusAdministrador);
-        // DB::table('Menu')->insert($menusCliente); // Descomentarlo si hay menús para clientes
+        // DB::table('Menu')->insert($menusCliente); 
     }
 }

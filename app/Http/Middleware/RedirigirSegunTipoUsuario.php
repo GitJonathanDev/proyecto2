@@ -20,8 +20,8 @@ class RedirigirSegunTipoUsuario
         if (Auth::check()) {
             $user = Auth::user();
 
-            // Redirige según el tipo de usuario
-            switch ($user->codTipoUsuarioF) { // Cambié 'idTipoUsuario' a 'codTipoUsuarioF'
+        
+            switch ($user->codTipoUsuarioF) { 
                 case 1:
                     return redirect()->route('cliente');
                 case 2:
@@ -29,11 +29,11 @@ class RedirigirSegunTipoUsuario
                 case 3:
                     return redirect()->route('admin');
                 default:
-                    return redirect()->route('principal'); // Ruta por defecto para otros tipos de usuario
+                    return redirect()->route('principal'); 
             }
         }
 
-        // Si el usuario no está autenticado, continúa con la solicitud original
+
         return $next($request);
     }
 }

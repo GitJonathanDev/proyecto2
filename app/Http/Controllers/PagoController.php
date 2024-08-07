@@ -9,7 +9,7 @@ class PagoController extends Controller
 {
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'fechaPago'); // Valor predeterminado para el criterio
+        $criterio = $request->input('criterio', 'fechaPago'); 
         $buscar = $request->input('buscar', '');
         $fechaInicio = $request->input('fecha_inicio', '');
         $fechaFin = $request->input('fecha_fin', '');
@@ -40,7 +40,7 @@ class PagoController extends Controller
         $pago = Pago::findOrFail($codPago);
         $pago->fechaPago = $request->input('fechaPago');
         $pago->monto = $request->input('monto');
-        $pago->estado = $request->input('estado', 'Pendiente'); // Valor predeterminado en caso de que no se proporcione
+        $pago->estado = $request->input('estado', 'Pendiente'); 
         $pago->codClienteF = $request->input('codClienteF');
         $pago->save();
 

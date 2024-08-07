@@ -13,7 +13,7 @@ class ClienteController extends Controller
      */
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'nombre'); // Por defecto, usar 'nombre'
+        $criterio = $request->input('criterio', 'nombre'); 
         $buscar = $request->input('buscar', '');
 
         $query = Cliente::query();
@@ -45,9 +45,9 @@ class ClienteController extends Controller
         $user = new User();
         $user->nombreUsuario = $request->input('nombreUsuario');
         $user->email = $request->input('email');
-        $user->password = $request->input('password'); // No encriptar la contraseña
+        $user->password = $request->input('password');
         $user->estadoBloqueado = false;
-        $user->codTipoUsuarioF = 1; // Asignar el tipo de usuario
+        $user->codTipoUsuarioF = 1; 
         $user->save();
 
         // Crear nuevo cliente
@@ -59,7 +59,7 @@ class ClienteController extends Controller
         $cliente->sexo = $request->input('sexo');
         $cliente->edad = $request->input('edad');
         $cliente->telefono = $request->input('telefono');
-        $cliente->codUsuarioF = $user->codUsuario; // Usar codUsuario del modelo User
+        $cliente->codUsuarioF = $user->codUsuario; 
         $cliente->save();
 
         return redirect()->route('cliente.index')->with('success', 'Cliente registrado exitosamente.');

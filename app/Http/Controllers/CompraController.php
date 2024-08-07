@@ -30,9 +30,9 @@ class CompraController extends Controller
 
     public function create()
     {
-        // Obtener el usuario autenticado
+
         $usuario = Auth::user();
-        // Obtener el encargado relacionado con el usuario autenticado
+
         $encargado = Encargado::where('codUsuarioF', $usuario->codUsuario)->first();
         $proveedores = Proveedor::all();
         $productos = Producto::all();

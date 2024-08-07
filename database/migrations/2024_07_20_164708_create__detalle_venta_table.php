@@ -16,7 +16,7 @@ return new class extends Migration
             $table->integer('cantidad');
             $table->primary(['codVenta', 'codProducto']);
             $table->foreignId('codVenta')->constrained('Venta', 'codVenta');
-            $table->string('codProducto'); // CodProducto como string
+            $table->string('codProducto'); 
             $table->foreign('codProducto')->references('codProducto')->on('Producto');
         });
     }

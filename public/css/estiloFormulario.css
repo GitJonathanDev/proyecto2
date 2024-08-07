@@ -1,6 +1,4 @@
-/* estilo.css */
 
-/* Estilos generales */
 body {
     font-family: Arial, sans-serif;
     background-color: #f8f9fa;
@@ -23,7 +21,7 @@ h1 {
     font-weight: bold;
 }
 
-/* Estilos para formularios */
+
 .input-group {
     display: flex;
     align-items: center;
@@ -60,7 +58,7 @@ h1 {
     border-color: #6c757d;
 }
 
-/* Estilos para la tabla */
+
 .table {
     width: 100%;
     margin-bottom: 1rem;
@@ -88,7 +86,7 @@ h1 {
     background-color: rgba(0, 0, 0, .075);
 }
 
-/* Estilos para botones de paginación */
+
 .btn-primary {
     background-color: #007bff;
     border-color: #007bff;

@@ -31,17 +31,15 @@ class MembresiaController extends Controller
 
     public function create()
     {
-        // Obtén el usuario logueado
+
         $user = auth()->user();
-        
-        // Obtén el encargado asociado al usuario logueado
+
         $encargado = Encargado::where('codUsuarioF', $user->codUsuario)->first();
 
-        // Obtén otros datos necesarios
+
         $clientes = Cliente::all();
         $servicios = Servicio::with('precios', 'horario')->get();
         
-        // Pasa los datos a la vista
         return view('GestionarMembresia.create', [
             'clientes' => $clientes,
             'servicios' => $servicios,
@@ -51,7 +49,6 @@ class MembresiaController extends Controller
 
     public function store(Request $request)
 {
-    // Valida que codClienteF sea un número entero
     $request->validate([
         'codClienteF' => 'required|integer',
         'descripcion' => 'required|string',
@@ -91,7 +88,7 @@ class MembresiaController extends Controller
         'descripcion' => $request->descripcion,
         'precioTotal' => $montoTotal,
         'codClienteF' => $request->codClienteF,
-        'codEncargadoF' => $request->codEncargadoF, // Usa el valor del campo oculto
+        'codEncargadoF' => $request->codEncargadoF, 
         'codPagoF' => $pago->codPago,
     ]);
 
@@ -102,7 +99,7 @@ class MembresiaController extends Controller
             'subTotal' => $servicio->precio * $servicio->cantidad,
             'tipo' => $servicio->tipoPrecio,
             'codMembresia' => $membresia->codMembresia,
-            'codServicio' => $servicio->codServicio, // Asegúrate de que este campo exista en la tabla
+            'codServicio' => $servicio->codServicio, 
         ]);
     }
 
@@ -121,25 +118,13 @@ class MembresiaController extends Controller
     {
         $membresia = Membresia::findOrFail($codMembresia);
         $clientes = Cliente::all();
-        $servicios = Servicio::with('precios', 'horario')->get(); // Mantén la carga de horarios
+        $servicios = Servicio::with('precios', 'horario')->get(); 
 
         return view('GestionarMembresia.edit', compact('membresia', 'clientes', 'servicios'));
     }
 
     public function update(Request $request, $codMembresia)
     {
-        // Elimina o comenta la validación
-        // $request->validate([
-        //     'descripcion' => 'required|string',
-        //     'precioTotal' => 'required|numeric',
-        //     'codClienteF' => 'required|integer',
-        //     'codEncargadoF' => 'required|integer',
-        //     'codPagoF' => 'required|integer',
-        //     'servicios' => 'required|array',
-        //     'fechaInicio' => 'required|date',
-        //     'fechaFin' => 'required|date',
-        // ]);
-
         $membresia = Membresia::findOrFail($codMembresia);
         $membresia->update([
             'descripcion' => $request->descripcion,

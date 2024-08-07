@@ -39,7 +39,7 @@ class VentaClienteController extends Controller
     }
     public function mostrarDetalles($idsYCantidades)
     {
-        // Dividir los datos codificados en partes
+
         $items = explode(',', $idsYCantidades);
         $ids = [];
         $cantidades = [];
@@ -50,18 +50,18 @@ class VentaClienteController extends Controller
             $cantidades[$id] = $cantidad;
         }
         
-        // Obtener los productos de la base de datos
+     
         $productos = Producto::whereIn('codProducto', $ids)->get();
         
         if ($productos->isEmpty()) {
-            abort(404); // Error 404 si no se encuentran productos
+            abort(404);
         }
         
-        // Obtener el cliente logueado
+ 
         $user = Auth::user();
         $cliente = Cliente::where('codUsuarioF', $user->codUsuario)->first();
         
-        // Renderizar la vista 'RealizarVenta.compra' con los datos
+
         return view('RealizarVenta.compra', [
             'productos' => $productos,
             'cantidades' => $cantidades,
@@ -70,42 +70,42 @@ class VentaClienteController extends Controller
     }
     public function store(Request $request) {
     
-        // Obtener el ID del usuario logueado
+ 
         $userId = Auth::user()->codUsuario;
-        // Buscar el cliente asociado con el usuario
+
         $cliente = Cliente::where('codUsuarioF', $userId)->first();
     
-        // Verificar si el cliente existe
+
         if (!$cliente) {
             return redirect()->back()->withErrors('Cliente no encontrado.');
         }
     
-        // Obtener el carnetIdentidad del cliente
+   
         $idCliente = $cliente->carnetIdentidad;
         $montoTotal = 0;
     
-        // Calcular el monto total de la compra
+     
         foreach ($request->productos as $producto) {
             $montoTotal += $producto['cantidad'] * $producto['precio'];
         }
     
-        // Crear un nuevo registro de pago
+  
         $pago = new Pago();
         $pago->monto = $request->tnMonto;
         $pago->fechaPago = now()->toDateString();  
         $pago->codClienteF = $idCliente;
         $pago->save();
     
-        // Crear un nuevo registro de venta
+
         $venta = new Venta();
         $venta->fechaVenta = now()->toDateString();
         $venta->montoTotal = $montoTotal; 
         $venta->codClienteF = $idCliente;
-        $venta->codEncargadoF = 13434434; // Ajustar el ID del encargado según sea necesario
+        $venta->codEncargadoF = 12454859; 
         $venta->codPagoF = $pago->codPago;
         $venta->save();
     
-        // Registrar los detalles de la venta
+ 
         foreach ($request->productos as $producto) {
             $detalleVenta = new DetalleVenta();
             $detalleVenta->codVenta = $venta->codVenta;
@@ -114,8 +114,7 @@ class VentaClienteController extends Controller
             $detalleVenta->precioV = $producto['precio'];
             $detalleVenta->save();
         }
-    
-        // Redirigir con un mensaje de éxito
+
         return redirect()->route('cliente')->with('success', 'Compra realizada con éxito.');
     }
     
