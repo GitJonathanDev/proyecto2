@@ -164,14 +164,13 @@ return [
     */
 
     'providers' => ServiceProvider::defaultProviders()->merge([
-        // Package Service Providers...
-    ])->merge([
-        // Application Service Providers...
-        // App\Providers\AppServiceProvider::class,
-    ])->merge([
-        // Added Service Providers (Do not remove this line)...
-    ])->toArray(),
+    // Otros proveedores de servicios...
 
+    Laravel\Ui\UiServiceProvider::class, // Agrega esta línea
+
+])->merge([
+    // Added Service Providers (Do not remove this line)...
+])->toArray(),
     /*
     |--------------------------------------------------------------------------
     | Class Aliases
