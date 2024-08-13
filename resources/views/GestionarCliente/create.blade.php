@@ -304,7 +304,7 @@
 
         function restrictInputToNumbers(input) {
             input.addEventListener('input', function() {
-                this.value = this.value.replace(/\D/g, ''); // Reemplaza todo lo que no sea un número
+                this.value = this.value.replace(/\D/g, ''); 
             });
         }
 

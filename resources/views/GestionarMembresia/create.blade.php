@@ -230,14 +230,14 @@
                 <div class="card h-100">
                     <div class="card-body">
                         <h3 class="text-center mb-4">Realizar pago</h3>
-                        <form action="/consumirServicio" method="POST" target="QrImage">
+                        <form action="{{ route('consumirServicio') }}" method="POST" target="QrImage">
                             @csrf
                             <input type="hidden" name="idcliente" value="112">
                             <input type="hidden" name="tcRazonSocial" value="115" required>
                             <input type="hidden" name="tcCiNit" value="151" required>
                             <input type="hidden" name="tcCorreo" value="asdf@afdsf.com" required>
                             <input type="hidden" name="tnMonto" id="montoTotal" placeholder="Costo Total" value="" required>
-
+            
                             <div class="form-row mb-4">
                                 <div class="form-group col-md-6">
                                     <label for="tnTipoServicio">Tipo de Servicio</label>
@@ -251,7 +251,7 @@
                                     <input type="text" name="tnTelefono" id="tnTelefono" class="form-control" value="787878" readonly>
                                 </div>
                             </div>
-
+            
                             <div class="form-group text-right mt-4">
                                 <button type="submit" class="btn btn-secondary">
                                     Consumir
@@ -261,7 +261,7 @@
                     </div>
                 </div>
             </div>
-
+            
            
             <div class="col-md-6">
                 <div class="d-flex justify-content-center align-items-center h-100">
@@ -282,198 +282,198 @@
     </div>
 </div>
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const buscarCliente = document.getElementById('buscarCliente');
-    const resultadosClientes = document.getElementById('resultadosClientes');
-    const telefono = document.getElementById('telefono'); 
-    const codClienteF = document.getElementById('codClienteF'); 
-    const tnTelefono = document.getElementById('tnTelefono'); 
+    document.addEventListener('DOMContentLoaded', () => {
+        const buscarCliente = document.getElementById('buscarCliente');
+        const resultadosClientes = document.getElementById('resultadosClientes');
+        const telefono = document.getElementById('telefono'); 
+        const codClienteF = document.getElementById('codClienteF'); 
+        const tnTelefono = document.getElementById('tnTelefono'); 
 
-    buscarCliente.addEventListener('input', () => {
-        const query = buscarCliente.value;
-        fetch(`/membresia/buscar-cliente?query=${query}`)
-            .then(response => response.json())
-            .then(data => {
-                resultadosClientes.innerHTML = '';
-                data.forEach(cliente => {
-                    const item = document.createElement('li');
-                    item.classList.add('list-group-item');
-                    item.textContent = `${cliente.nombre} ${cliente.apellidoPaterno}`;
-                    item.dataset.carnetIdentidad = cliente.carnetIdentidad;
-                    item.dataset.telefono = cliente.telefono;
-                    item.addEventListener('click', () => {
-                        buscarCliente.value = `${cliente.nombre} ${cliente.apellidoPaterno}`;
-                        
-                        telefono.value = cliente.telefono;
-                        codClienteF.value = cliente.carnetIdentidad;
-                        tnTelefono.value = cliente.telefono; 
+        // Asignar la URL del endpoint desde una variable en la plantilla Blade
+        const buscarClienteUrl = "{{ route('membresia.buscar') }}";
 
-                        resultadosClientes.innerHTML = '';
+        buscarCliente.addEventListener('input', () => {
+            const query = buscarCliente.value;
+            fetch(`${buscarClienteUrl}?query=${query}`)
+                .then(response => response.json())
+                .then(data => {
+                    resultadosClientes.innerHTML = '';
+                    data.forEach(cliente => {
+                        const item = document.createElement('li');
+                        item.classList.add('list-group-item');
+                        item.textContent = `${cliente.nombre} ${cliente.apellidoPaterno}`;
+                        item.dataset.carnetIdentidad = cliente.carnetIdentidad;
+                        item.dataset.telefono = cliente.telefono;
+                        item.addEventListener('click', () => {
+                            buscarCliente.value = `${cliente.nombre} ${cliente.apellidoPaterno}`;
+                            
+                            telefono.value = cliente.telefono;
+                            codClienteF.value = cliente.carnetIdentidad;
+                            tnTelefono.value = cliente.telefono; 
+
+                            resultadosClientes.innerHTML = '';
+                        });
+                        resultadosClientes.appendChild(item);
                     });
-                    resultadosClientes.appendChild(item);
+                });
+        });
+
+        document.querySelectorAll('.seleccionar-servicio').forEach(button => {
+            button.addEventListener('click', function() {
+                const servicioId = this.getAttribute('data-cod-servicio');
+                const row = this.closest('tr');
+
+                const nombre = row.querySelector('td:nth-child(1)').textContent;
+                const descripcion = row.querySelector('td:nth-child(2)').textContent;
+                const tipoPrecio = row.querySelector('.tipo-precio option:checked').dataset.tipo + ' - $' + row.querySelector('.tipo-precio option:checked').dataset.precio;
+
+                document.getElementById('nombreServicioSeleccionado').textContent = nombre;
+                document.getElementById('descripcionServicioSeleccionado').textContent = descripcion;
+                document.getElementById('tipoPrecioSeleccionado').textContent = tipoPrecio;
+
+                document.getElementById('infoServicioCard').classList.remove('d-none');
+
+                $('#confirmarSeleccionServicio').data({
+                    id: servicioId,
+                    nombre: nombre,
+                    descripcion: descripcion,
+                    tipoPrecio: tipoPrecio.split(' - ')[0],
+                    precio: parseFloat(tipoPrecio.split(' - $')[1]),
+                    codServicio: servicioId
                 });
             });
-    });
-
-    document.querySelectorAll('.seleccionar-servicio').forEach(button => {
-        button.addEventListener('click', function() {
-            const servicioId = this.getAttribute('data-cod-servicio');
-            const row = this.closest('tr');
-
-            const nombre = row.querySelector('td:nth-child(1)').textContent;
-            const descripcion = row.querySelector('td:nth-child(2)').textContent;
-            const tipoPrecio = row.querySelector('.tipo-precio option:checked').dataset.tipo + ' - $' + row.querySelector('.tipo-precio option:checked').dataset.precio;
-
-            document.getElementById('nombreServicioSeleccionado').textContent = nombre;
-            document.getElementById('descripcionServicioSeleccionado').textContent = descripcion;
-            document.getElementById('tipoPrecioSeleccionado').textContent = tipoPrecio;
-
-            document.getElementById('infoServicioCard').classList.remove('d-none');
-
-            $('#confirmarSeleccionServicio').data({
-                id: servicioId,
-                nombre: nombre,
-                descripcion: descripcion,
-                tipoPrecio: tipoPrecio.split(' - ')[0],
-                precio: parseFloat(tipoPrecio.split(' - $')[1]),
-                codServicio: servicioId
-            });
-        });
-    });
-
-    $(document).ready(function () {
-        var serviciosSeleccionados = [];
-
-        function calcularFechaFin(fechaInicio, tipo, cantidad) {
-            var fecha = new Date(fechaInicio);
-            if (tipo === 'Diario') {
-                fecha.setDate(fecha.getDate() + cantidad);
-            } else if (tipo === 'Mensual') {
-                fecha.setMonth(fecha.getMonth() + cantidad);
-            } else if (tipo === 'Anual') {
-                fecha.setFullYear(fecha.getFullYear() + cantidad);
-            }
-            var dia = ("0" + fecha.getDate()).slice(-2);
-            var mes = ("0" + (fecha.getMonth() + 1)).slice(-2);
-            var anio = fecha.getFullYear();
-            return `${anio}-${mes}-${dia}`;
-        }
-
-        function actualizarFechaFin() {
-            var fechaInicio = $('#fechaInicio').val();
-            var cantidad = parseInt($('#cantidadServicio').val(), 10);
-            var tipoPrecio = $('#confirmarSeleccionServicio').data('tipoPrecio');
-            if (fechaInicio && !isNaN(cantidad) && tipoPrecio) {
-                var fechaFin = calcularFechaFin(fechaInicio, tipoPrecio, cantidad);
-                $('#fechaFin').val(fechaFin);
-            }
-        }
-
-        $(document).on('click', '.seleccionar-servicio', function () {
-            var servicioId = $(this).data('cod-servicio');
-            var row = $(this).closest('tr');
-
-            var nombre = row.find('td:nth-child(1)').text();
-            var descripcion = row.find('td:nth-child(2)').text();
-            var tipoPrecio = row.find('.tipo-precio option:selected').data('tipo') + ' - $' + row.find('.tipo-precio option:selected').data('precio');
-
-            $('#nombreServicioSeleccionado').text(nombre);
-            $('#descripcionServicioSeleccionado').text(descripcion);
-            $('#tipoPrecioSeleccionado').text(tipoPrecio);
-
-            $('#fechaInicio').val(new Date().toISOString().split('T')[0]);
-            $('#fechaFin').val(calcularFechaFin($('#fechaInicio').val(), tipoPrecio.split(' - ')[0], 1));
-            $('#cantidadServicio').val(1);
-
-            $('#confirmarSeleccionServicio').data({
-                id: servicioId,
-                nombre: nombre,
-                descripcion: descripcion,
-                tipoPrecioId: row.find('.tipo-precio option:selected').data('id'),
-                tipoPrecio: tipoPrecio.split(' - ')[0],
-                precio: parseFloat(tipoPrecio.split(' - $')[1])
-            });
-
-            $('#buscarServicioModal').modal('show');
         });
 
-        $('#fechaInicio, #cantidadServicio').on('change', actualizarFechaFin);
+        $(document).ready(function () {
+            var serviciosSeleccionados = [];
 
-        $(document).on('click', '#confirmarSeleccionServicio', function () {
-            var cantidad = parseInt($('#cantidadServicio').val(), 10);
-            var fechaInicio = $('#fechaInicio').val();
-            var tipoPrecio = $(this).data('tipoPrecio');
-            var fechaFin = $('#fechaFin').val();
-            var servicioData = $(this).data();
+            function calcularFechaFin(fechaInicio, tipo, cantidad) {
+                var fecha = new Date(fechaInicio);
+                if (tipo === 'Diario') {
+                    fecha.setDate(fecha.getDate() + cantidad);
+                } else if (tipo === 'Mensual') {
+                    fecha.setMonth(fecha.getMonth() + cantidad);
+                } else if (tipo === 'Anual') {
+                    fecha.setFullYear(fecha.getFullYear() + cantidad);
+                }
+                var dia = ("0" + fecha.getDate()).slice(-2);
+                var mes = ("0" + (fecha.getMonth() + 1)).slice(-2);
+                var anio = fecha.getFullYear();
+                return `${anio}-${mes}-${dia}`;
+            }
 
-            var servicioExistente = serviciosSeleccionados.find(s => s.id === servicioData.id && s.tipoPrecioId === servicioData.tipoPrecioId);
-            if (servicioExistente) {
-                servicioExistente.cantidad += cantidad;
-                servicioExistente.fechaFin = calcularFechaFin(fechaInicio, servicioData.tipoPrecio, servicioExistente.cantidad);
-            } else {
-                serviciosSeleccionados.push({
-                    id: servicioData.id,
-                    nombre: servicioData.nombre,
-                    descripcion: servicioData.descripcion,
-                    tipoPrecioId: servicioData.tipoPrecioId,
-                    tipoPrecio: servicioData.tipoPrecio,
-                    precio: servicioData.precio,
-                    cantidad: cantidad,
-                    fechaInicio: fechaInicio,
-                    fechaFin: fechaFin,
-                    codServicio: servicioData.id
+            function actualizarFechaFin() {
+                var fechaInicio = $('#fechaInicio').val();
+                var cantidad = parseInt($('#cantidadServicio').val(), 10);
+                var tipoPrecio = $('#confirmarSeleccionServicio').data('tipoPrecio');
+                if (fechaInicio && !isNaN(cantidad) && tipoPrecio) {
+                    var fechaFin = calcularFechaFin(fechaInicio, tipoPrecio, cantidad);
+                    $('#fechaFin').val(fechaFin);
+                }
+            }
+
+            $(document).on('click', '.seleccionar-servicio', function () {
+                var servicioId = $(this).data('cod-servicio');
+                var row = $(this).closest('tr');
+
+                var nombre = row.find('td:nth-child(1)').text();
+                var descripcion = row.find('td:nth-child(2)').text();
+                var tipoPrecio = row.find('.tipo-precio option:selected').data('tipo') + ' - $' + row.find('.tipo-precio option:selected').data('precio');
+
+                $('#nombreServicioSeleccionado').text(nombre);
+                $('#descripcionServicioSeleccionado').text(descripcion);
+                $('#tipoPrecioSeleccionado').text(tipoPrecio);
+
+                $('#fechaInicio').val(new Date().toISOString().split('T')[0]);
+                $('#fechaFin').val(calcularFechaFin($('#fechaInicio').val(), tipoPrecio.split(' - ')[0], 1));
+                $('#cantidadServicio').val(1);
+
+                $('#confirmarSeleccionServicio').data({
+                    id: servicioId,
+                    nombre: nombre,
+                    descripcion: descripcion,
+                    tipoPrecioId: row.find('.tipo-precio option:selected').data('id'),
+                    tipoPrecio: tipoPrecio.split(' - ')[0],
+                    precio: parseFloat(tipoPrecio.split(' - $')[1])
                 });
+
+                $('#buscarServicioModal').modal('show');
+            });
+
+            $('#fechaInicio, #cantidadServicio').on('change', actualizarFechaFin);
+
+            $(document).on('click', '#confirmarSeleccionServicio', function () {
+                var cantidad = parseInt($('#cantidadServicio').val(), 10);
+                var fechaInicio = $('#fechaInicio').val();
+                var tipoPrecio = $(this).data('tipoPrecio');
+                var fechaFin = $('#fechaFin').val();
+                var servicioData = $(this).data();
+
+                var servicioExistente = serviciosSeleccionados.find(s => s.id === servicioData.id && s.tipoPrecioId === servicioData.tipoPrecioId);
+                if (servicioExistente) {
+                    servicioExistente.cantidad += cantidad;
+                    servicioExistente.fechaFin = calcularFechaFin(fechaInicio, servicioData.tipoPrecio, servicioExistente.cantidad);
+                } else {
+                    serviciosSeleccionados.push({
+                        id: servicioData.id,
+                        nombre: servicioData.nombre,
+                        descripcion: servicioData.descripcion,
+                        tipoPrecioId: servicioData.tipoPrecioId,
+                        tipoPrecio: servicioData.tipoPrecio,
+                        precio: servicioData.precio,
+                        cantidad: cantidad,
+                        fechaInicio: fechaInicio,
+                        fechaFin: fechaFin,
+                        codServicio: servicioData.id
+                    });
+                }
+
+                mostrarServiciosSeleccionados();
+                $('#fechaInicioInput').val(fechaInicio);
+                $('#fechaFinInput').val(fechaFin);
+                $('#buscarServicioModal').modal('hide');
+            });
+
+            function mostrarServiciosSeleccionados() {
+                var tableRows = '';
+                var precioTotal = 0;
+
+                serviciosSeleccionados.forEach(function (servicio) {
+                    var subtotal = servicio.precio * servicio.cantidad;
+                    precioTotal += subtotal;
+
+                    tableRows += `<tr>
+                                   <td>${servicio.nombre}</td>
+                                   <td>${servicio.descripcion}</td>
+                                   <td>${servicio.tipoPrecio}</td>
+                                   <td>${servicio.precio.toFixed(2)}</td>
+                                   <td>${subtotal.toFixed(2)}</td>
+                                   <td>${servicio.fechaFin}</td>
+                                   <td>
+                                       <button type="button" class="btn btn-danger btn-sm quitar-servicio" data-id="${servicio.id}">
+                                           <i class="fas fa-times"></i> Quitar
+                                       </button>
+                                   </td>
+                                </tr>`;
+                });
+
+                $('#serviciosSeleccionados').html(tableRows);
+                $('#precioTotal').text(precioTotal.toFixed(2));
+                $('#serviciosSeleccionadosInput').val(JSON.stringify(serviciosSeleccionados));
+                $('#precioTotalInput').val(precioTotal.toFixed(2));
+                $('#montoTotal').val(precioTotal.toFixed(2));
             }
 
-            mostrarServiciosSeleccionados();
-            $('#fechaInicioInput').val(fechaInicio);
-            $('#fechaFinInput').val(fechaFin);
-            $('#buscarServicioModal').modal('hide');
-        });
+            $(document).on('click', '.quitar-servicio', function () {
+                var id = $(this).data('id');
+                serviciosSeleccionados = serviciosSeleccionados.filter(function (servicio) {
+                    return servicio.id !== id;
+                });
 
-        function mostrarServiciosSeleccionados() {
-            var tableRows = '';
-            var precioTotal = 0;
-
-            serviciosSeleccionados.forEach(function (servicio) {
-                var subtotal = servicio.precio * servicio.cantidad;
-                precioTotal += subtotal;
-
-                tableRows += `<tr>
-                               <td>${servicio.nombre}</td>
-                               <td>${servicio.descripcion}</td>
-                               <td>${servicio.tipoPrecio}</td>
-                               <td>${servicio.precio.toFixed(2)}</td>
-                               <td>${subtotal.toFixed(2)}</td>
-                               <td>${servicio.fechaFin}</td>
-                               <td>
-                                   <button type="button" class="btn btn-danger btn-sm quitar-servicio" data-id="${servicio.id}">
-                                       <i class="fas fa-times"></i> Quitar
-                                   </button>
-                               </td>
-                            </tr>`;
+                mostrarServiciosSeleccionados();
             });
-
-            $('#serviciosSeleccionados').html(tableRows);
-            $('#precioTotal').text(precioTotal.toFixed(2));
-            $('#serviciosSeleccionadosInput').val(JSON.stringify(serviciosSeleccionados));
-            $('#precioTotalInput').val(precioTotal.toFixed(2));
-            $('#montoTotal').val(precioTotal.toFixed(2));
-        }
-
-        $(document).on('click', '.quitar-servicio', function () {
-            var id = $(this).data('id');
-            var tipo = $(this).data('tipo');
-
-            serviciosSeleccionados = serviciosSeleccionados.filter(function (servicio) {
-                return !(servicio.id === id && servicio.tipoPrecioId === tipo);
-            });
-
-            mostrarServiciosSeleccionados();
         });
     });
-});
-
-    </script>
+</script>
     @endsection
     

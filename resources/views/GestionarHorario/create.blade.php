@@ -108,7 +108,7 @@
             validateForm();
         });
 
-        // Validar al cargar la página
+      
         validateForm();
     });
 </script>

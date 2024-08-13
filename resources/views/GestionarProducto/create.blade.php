@@ -149,7 +149,7 @@
         precioInput.addEventListener('input', validateForm);
         codCategoriaFSelect.addEventListener('change', validateForm);
 
-        // Validar al cargar la página
+
         validateForm();
     });
 </script>

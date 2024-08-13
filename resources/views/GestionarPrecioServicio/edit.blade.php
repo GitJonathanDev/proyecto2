@@ -119,7 +119,7 @@
 
         function restrictInputToNumbers(input) {
             input.addEventListener('input', function() {
-                this.value = this.value.replace(/[^0-9.]/g, ''); // Reemplaza todo lo que no sea un número o punto
+                this.value = this.value.replace(/[^0-9.]/g, ''); 
             });
         }
 
@@ -139,7 +139,7 @@
             validateForm();
         });
 
-        // Validar al cargar la página
+
         validateForm();
     });
 </script>
