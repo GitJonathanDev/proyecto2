@@ -250,7 +250,6 @@
     @auth
     <div class="wrapper">
         <div class="sidebar">
-           
             <div class="profile">
                 <img src="../img/vendedor.png" alt="profile_picture">
                 <h3>{{ Auth::user()->nombreUsuario }}</h3>
@@ -259,7 +258,7 @@
             <ul>
                 @foreach($menus as $menu)
                     <li>
-                        <a href="{{ $menu->url }}">
+                        <a href="{{ route($menu->url) }}">
                             <span class="icon"><i class="fas {{ $menu->icono }}"></i></span>
                             <span class="item">{{ $menu->nombre }}</span>
                         </a>
@@ -267,7 +266,7 @@
                             <ul>
                                 @foreach($menu->hijos as $hijo)
                                     <li>
-                                        <a href="{{ $hijo->url }}">
+                                        <a href="{{ route($hijo->url) }}">
                                             <span class="icon"><i class="fas {{ $hijo->icono }}"></i></span>
                                             <span class="item">{{ $hijo->nombre }}</span>
                                         </a>
@@ -293,28 +292,28 @@
                     </form>
                 </div>
                 
-<div class="search-container ml-4 w-50">
-    <input type="text" id="search-input" class="form-control" placeholder="Buscar...">
-    <div id="search-results" class="search-results"></div>
-</div>
+                <div class="search-container ml-4 w-50">
+                    <input type="text" id="search-input" class="form-control" placeholder="Buscar...">
+                    <div id="search-results" class="search-results"></div>
+                </div>
 
-<!-- Modal para mostrar los detalles del registro -->
-<div class="modal fade" id="recordDetailsModal" tabindex="-1" aria-labelledby="recordDetailsModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="recordDetailsModalLabel">Detalles del Registro</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body" id="record-details">
-               
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            </div>
-        </div>
-    </div>
-</div>
+                <!-- Modal para mostrar los detalles del registro -->
+                <div class="modal fade" id="recordDetailsModal" tabindex="-1" aria-labelledby="recordDetailsModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="recordDetailsModalLabel">Detalles del Registro</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" id="record-details">
+                                <!-- Detalles del registro se cargarán aquí -->
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="container">
                 @yield('content')
@@ -331,59 +330,60 @@
         });
 
         document.getElementById('search-input').addEventListener('input', function() {
-    let consulta = this.value;
-    if (consulta.length > 2) {
-        fetch(`/buscar?query=${consulta}`)
-            .then(response => response.json())
-            .then(data => {
-                console.log(data); 
-                let resultadosContainer = document.getElementById('search-results');
-                resultadosContainer.innerHTML = '';
-                if (Object.keys(data).length > 0) {
-                    for (let tabla in data) {
-                        let lista = document.createElement('ul');
-                        lista.classList.add('list-group');
-                        data[tabla].forEach(resultado => {
-                            let listItem = document.createElement('li');
-                            listItem.classList.add('list-group-item');
-                            listItem.textContent = `${resultado.columna}: ${resultado.valor}`;
-                            listItem.dataset.table = resultado.nombreTabla;
-                            listItem.dataset.id = resultado.id;
-                            listItem.addEventListener('click', function() {
-                                fetch(`/detalles-registro/${resultado.nombreTabla}/${resultado.id}`)
-                                    .then(response => response.json())
-                                    .then(registro => {
-                                        let detallesContainer = document.getElementById('record-details');
-                                        detallesContainer.innerHTML = '';
-                                        for (let clave in registro) {
-                                            let detalle = document.createElement('p');
-                                            detalle.textContent = `${clave}: ${registro[clave]}`;
-                                            detallesContainer.appendChild(detalle);
-                                        }
+            let consulta = this.value;
+            if (consulta.length > 2) {
+                fetch(`/buscar?query=${consulta}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log(data); 
+                        let resultadosContainer = document.getElementById('search-results');
+                        resultadosContainer.innerHTML = '';
+                        if (Object.keys(data).length > 0) {
+                            for (let tabla in data) {
+                                let lista = document.createElement('ul');
+                                lista.classList.add('list-group');
+                                data[tabla].forEach(resultado => {
+                                    let listItem = document.createElement('li');
+                                    listItem.classList.add('list-group-item');
+                                    listItem.textContent = `${resultado.columna}: ${resultado.valor}`;
+                                    listItem.dataset.table = resultado.nombreTabla;
+                                    listItem.dataset.id = resultado.id;
+                                    listItem.addEventListener('click', function() {
+                                        fetch(`/detalles-registro/${resultado.nombreTabla}/${resultado.id}`)
+                                            .then(response => response.json())
+                                            .then(registro => {
+                                                let detallesContainer = document.getElementById('record-details');
+                                                detallesContainer.innerHTML = '';
+                                                for (let clave in registro) {
+                                                    let detalle = document.createElement('p');
+                                                    detalle.textContent = `${clave}: ${registro[clave]}`;
+                                                    detallesContainer.appendChild(detalle);
+                                                }
                         
-                                        let myModal = new bootstrap.Modal(document.getElementById('recordDetailsModal'), {
-                                            backdrop: 'static', 
-                                            keyboard: true 
-                                        });
-                                        myModal.show();
+                                                let myModal = new bootstrap.Modal(document.getElementById('recordDetailsModal'), {
+                                                    backdrop: 'static', 
+                                                    keyboard: true 
+                                                });
+                                                myModal.show();
+                                            });
                                     });
-                            });
-                            lista.appendChild(listItem);
-                        });
-                        resultadosContainer.appendChild(lista);
-                    }
-                } else {
-                    resultadosContainer.innerHTML = '<p>No se encontraron resultados.</p>';
-                }
-                resultadosContainer.style.display = 'block';
-            });
-    } else {
-        document.getElementById('search-results').style.display = 'none';
-    }
-});
+                                    lista.appendChild(listItem);
+                                });
+                                resultadosContainer.appendChild(lista);
+                            }
+                        } else {
+                            resultadosContainer.innerHTML = '<p>No se encontraron resultados.</p>';
+                        }
+                        resultadosContainer.style.display = 'block';
+                    });
+            } else {
+                document.getElementById('search-results').style.display = 'none';
+            }
+        });
     </script>
     @endauth
 </body>
+
 </html>
 
 
