@@ -267,6 +267,7 @@
     <footer>
         <h2>Cantidad de veces que se ha visitado esta página: {{ $conteoVisitas ?? '0' }}</h2>
     </footer>
+    @yield('scripts')
     <script>
         document.querySelector(".hamburger").addEventListener("click", function() {
             document.querySelector("body").classList.toggle("active");
