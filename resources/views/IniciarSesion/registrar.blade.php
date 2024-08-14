@@ -6,13 +6,12 @@
 
 <style>
     body {
-        background: linear-gradient(rgba(0, 1, 3, 0.7), rgba(0, 0, 0, 0.8)), url('/img/fondo.jpg');
+        background: linear-gradient(rgba(0, 1, 3, 0.7), rgba(0, 0, 0, 0.8)), url('{{ route('imagen.fondo') }}');
         background-size: cover;
         background-position: center center;
         height: 100vh;
         color: #fff;
     }
-
     .block {
         width: 100%;
         max-width: 400px;

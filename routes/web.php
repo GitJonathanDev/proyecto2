@@ -222,6 +222,9 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         }
         abort(404);
     })->name('storage.image');
+    Route::get('/img/fondo.jpg', function () {
+        return response()->file(public_path('img/fondo.jpg'));
+    })->name('imagen.fondo');
 
     // Gestionar precios de servicio
     Route::prefix('precioServicio')->group(function () {

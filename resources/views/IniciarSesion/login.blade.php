@@ -3,7 +3,8 @@
 @section('title', 'Registrar')
 
 @section('content')
-    <div class="inicio" style="height: 100vh; background: linear-gradient(rgba(0, 1, 3, 0.7), rgba(0, 0, 0, 0.8)), url('/img/fondo.jpg'); background-size: cover; background-position: center center; color: #fff; position: relative;">
+<div class="inicio" style="height: 100vh; background: linear-gradient(rgba(0, 1, 3, 0.7), rgba(0, 0, 0, 0.8)), url('{{ route('imagen.fondo') }}'); background-size: cover; background-position: center center; color: #fff; position: relative;">
+
         <div class="flex justify-center items-center h-screen">
             <form class="bg-white bg-opacity-50 shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-md" action="{{ route('login.create') }}" method="POST">
                 @csrf
