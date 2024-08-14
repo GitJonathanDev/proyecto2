@@ -66,38 +66,31 @@ class ProductoController extends Controller
 
     public function update(Request $request, $codProducto)
     {
-
         $producto = Producto::findOrFail($codProducto);
-
-
+    
         if ($request->hasFile('imagen')) {
-
             if ($producto->imagen_url) {
-                $path = storage_path('app/public/uploads/' . $producto->imagen_url);
+                $path = public_path('storage/uploads/' . $producto->imagen_url);
                 if (file_exists($path)) {
                     unlink($path);
                 }
             }
-
-
+    
             $file = $request->file('imagen');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->storeAs('public/uploads', $fileName);
+            $file->move(public_path('storage/uploads'), $fileName);
             $producto->imagen_url = $fileName;
         }
-
-
+    
         $producto->update([
             'nombre' => $request->input('nombre'),
             'descripcion' => $request->input('descripcion'),
             'precio' => $request->input('precio'),
             'codCategoriaF' => $request->input('codCategoriaF'),
         ]);
-
-
+    
         return redirect()->route('producto.index')->with('success', 'Producto actualizado con éxito.');
     }
-
 
     public function destroy($codProducto)
     {
