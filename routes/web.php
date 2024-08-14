@@ -188,7 +188,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
     });
 
     // Gestionar venta
-    Route::prefix('venta')->group(function () {
+    Route::prefix('ventas')->group(function () {
         Route::get('index', [VentaController::class, 'index'])->name('venta.index');
         Route::get('create', [VentaController::class, 'create'])->name('venta.create');
         Route::post('store', [VentaController::class, 'store'])->name('venta.store');
