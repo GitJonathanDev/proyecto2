@@ -54,7 +54,7 @@
         <div class="row mb-3">
             <label for="imagen" class="col-md-3 col-form-label">Cambiar Imagen:</label>
             <div class="col-md-9">
-                <input type="file" id="imagen" class="form-control" name="imagen" accept="image/*">
+                <input type="file" id="imagen" class="form-control" name="imagen" accept="image/*" onchange="previsualizarImagen(event)">
                 <img id="imagenPrevia" src="#" alt="Imagen Previa" class="img-fluid mt-2" style="display: none;">
                 <div id="imagen-feedback" class="invalid-feedback"></div>
             </div>

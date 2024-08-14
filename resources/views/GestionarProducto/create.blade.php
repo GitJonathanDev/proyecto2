@@ -88,6 +88,8 @@
         const descripcionInput = document.getElementById('descripcion');
         const precioInput = document.getElementById('precio');
         const codCategoriaFSelect = document.getElementById('codCategoriaF');
+        const imagenInput = document.getElementById('imagen');
+        const imagenPrevia = document.getElementById('imagenPrevia');
         const submitButton = document.getElementById('submit-button');
 
         function validateInput(input, minLength, maxLength, feedbackId) {
@@ -149,6 +151,19 @@
         precioInput.addEventListener('input', validateForm);
         codCategoriaFSelect.addEventListener('change', validateForm);
 
+        imagenInput.addEventListener('change', function() {
+            const file = imagenInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    imagenPrevia.src = e.target.result;
+                    imagenPrevia.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            } else {
+                imagenPrevia.style.display = 'none';
+            }
+        });
 
         validateForm();
     });

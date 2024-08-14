@@ -10,13 +10,13 @@ class ProductoController extends Controller
 {
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'nombre'); 
+        $criterio = $request->input('criterio', 'nombre');
         $buscar = $request->input('buscar', '');
 
         $query = Producto::query();
 
         if ($buscar != '') {
-            $query->where($criterio, 'like', '%'.$buscar.'%');
+            $query->where($criterio, 'like', '%' . $buscar . '%');
         }
 
         $productos = $query->paginate(10);
@@ -28,7 +28,7 @@ class ProductoController extends Controller
 
     public function create()
     {
-        $categorias = Categoria::all(); 
+        $categorias = Categoria::all();
         return view('GestionarProducto.create', compact('categorias'));
     }
 
@@ -59,58 +59,65 @@ class ProductoController extends Controller
     public function edit($codProducto)
     {
         $producto = Producto::findOrFail($codProducto);
-        $categorias = Categoria::all(); 
+        $categorias = Categoria::all();
 
         return view('GestionarProducto.edit', compact('producto', 'categorias'));
     }
 
     public function update(Request $request, $codProducto)
     {
+
         $producto = Producto::findOrFail($codProducto);
 
+
         if ($request->hasFile('imagen')) {
+
             if ($producto->imagen_url) {
-                $path = public_path('storage/uploads/' . $producto->imagen_url);
+                $path = storage_path('app/public/uploads/' . $producto->imagen_url);
                 if (file_exists($path)) {
                     unlink($path);
                 }
             }
 
+
             $file = $request->file('imagen');
             $fileName = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('storage/uploads'), $fileName);
+            $file->storeAs('public/uploads', $fileName);
             $producto->imagen_url = $fileName;
         }
 
+
         $producto->update([
-            'nombre' => $request->nombre,
-            'descripcion' => $request->descripcion,
-            'precio' => $request->precio,
-            'codCategoriaF' => $request->codCategoriaF,
+            'nombre' => $request->input('nombre'),
+            'descripcion' => $request->input('descripcion'),
+            'precio' => $request->input('precio'),
+            'codCategoriaF' => $request->input('codCategoriaF'),
         ]);
 
-        return back()->with('success', 'Producto actualizado con éxito.');
+
+        return redirect()->route('producto.index')->with('success', 'Producto actualizado con éxito.');
     }
+
 
     public function destroy($codProducto)
     {
         $producto = Producto::findOrFail($codProducto);
+
         if ($producto->imagen_url) {
-            $path = public_path('storage/uploads/' . $producto->imagen_url);
+            $path = storage_path('app/public/uploads/' . $producto->imagen_url);
             if (file_exists($path)) {
                 unlink($path);
             }
         }
         $producto->delete();
-
-        return back()->with('success', 'Producto eliminado con éxito.');
+        return redirect()->route('producto.index')->with('success', 'Producto eliminado con éxito.');
     }
 
     public function buscar(Request $request)
     {
         $nombre = $request->input('nombre', '');
 
-        $productos = Producto::where('nombre', 'like', '%'.$nombre.'%')->get();
+        $productos = Producto::where('nombre', 'like', '%' . $nombre . '%')->get();
 
         return response()->json($productos);
     }
