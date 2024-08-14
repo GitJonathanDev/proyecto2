@@ -33,22 +33,22 @@
         </div>
 
         <!-- Subtotal -->
-<div class="container mt-4 d-flex justify-content-end">
-    <div class="card p-3 shadow-sm" style="max-width: 300px;">
-        <div class="d-flex justify-content-between align-items-center">
-            <div class="font-weight-bold">TOTAL:</div>
-            <div class="font-weight-bold" id="subtotalTotal">Bs. 0.00</div>
+        <div class="container mt-4 d-flex justify-content-end">
+            <div class="card p-3 shadow-sm" style="max-width: 300px;">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="font-weight-bold">TOTAL:</div>
+                    <div class="font-weight-bold" id="subtotalTotal">Bs. 0.00</div>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
-        
+
         <!-- Contenedor para Formulario de Pago y iframe -->
         <div class="row mb-4">
             <div class="col-md-6 mb-4">
                 <div class="card h-100">
                     <div class="card-body">
                         <h3 class="text-center mb-4">Realizar pago</h3>
-                        <form action="/consumirServicio" method="POST" target="QrImage">
+                        <form action="{{ route('consumirServicio') }}" method="POST" target="QrImage">
                             @csrf
                             <input type="hidden" name="idcliente" value="{{ $cliente->carnetIdentidad }}">
                             <input type="hidden" name="tcRazonSocial" value="{{ Auth::user()->nombreUsuario }}" required>
@@ -108,7 +108,7 @@
         </div>
 
         <!-- Formulario para Venta (Oculto) -->
-        <form id="formVenta" class="d-none" action="/venta/create" method="POST">
+        <form id="formVenta" class="d-none" action="{{ route('venta.create') }}" method="POST">
             @csrf
             <input type="hidden" name="idcliente" value="{{ $cliente->carnetIdentidad }}">
             <input type="hidden" name="tcRazonSocial" value="{{ Auth::user()->nombreUsuario }}" required>

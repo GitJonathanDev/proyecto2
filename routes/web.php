@@ -29,7 +29,7 @@ use App\Http\Controllers\BusquedaController;
 
 // Página principal y vistas de usuario
 Route::view('/', 'principal')->name('principal');
-Route::view('/cliente', 'principalCliente')->name('cliente')->middleware("tipo");
+Route::view('/cliente', 'principalCliente')->name('cliente');
 Route::get('/vendedor', [MenuController::class, 'index'])->name('encargado');
 Route::get('/administrador', [MenuController::class, 'index'])->name('admin');
 
@@ -209,6 +209,19 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::delete('eliminar/{codVenta}', [VentaClienteController::class, 'destroy'])->name('ventaCliente.destroy');
         Route::get('detalle/{codVenta}', [VentaClienteController::class, 'detalleVenta'])->name('ventaCliente.detalle');
     });
+
+    Route::get('/venta/index', [VentaClienteController::class, 'index'])->name('ventaCliente.index');
+    Route::get('/api/categorias/{codCategoria}/productos', [VentaClienteController::class, 'getProductos'])->name('venta.getProductos');
+    Route::get('/api/venta/productos', [VentaClienteController::class, 'obtenerProductos'])->name('venta.obtenerProductos');
+    Route::get('/comprar/{idsYCantidades}', [VentaClienteController::class, 'mostrarDetalles'])->name('comprar.detalle');
+    Route::post('/venta/create', [VentaClienteController::class, 'store']);
+    Route::get('/storage/uploads/{filename}', function ($filename) {
+        $path = storage_path('app/public/uploads/' . $filename);
+        if (file_exists($path)) {
+            return response()->file($path);
+        }
+        abort(404);
+    })->name('storage.image');
 
     // Gestionar precios de servicio
     Route::prefix('precioServicio')->group(function () {

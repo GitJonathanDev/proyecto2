@@ -85,7 +85,7 @@
 <script>
   function mostrarProductos(categoriaId = '') {
     const productosContainer = document.getElementById('productosContainer');
-    axios.get('/api/venta/productos', {
+    axios.get('{{ route('venta.obtenerProductos') }}', {
       params: {
         categoria: categoriaId
       }
@@ -95,7 +95,7 @@
       productosContainer.innerHTML = ''; 
 
       productos.forEach(producto => {
-        const imagenUrl = producto.imagen_url ? `/storage/uploads/${producto.imagen_url}` : 'https://via.placeholder.com/300';
+        const imagenUrl = producto.imagen_url ? `{{ route('storage.image', ['filename' => '__filename__']) }}`.replace('__filename__', producto.imagen_url) : 'https://via.placeholder.com/300';
 
         const agotadoOverlay = producto.stock === 0 ? '<div class="agotado-overlay">Agotado</div>' : '';
         const productoHTML = `
@@ -238,26 +238,29 @@
     carrito = carrito.filter(item => item.nombre !== nombre);
     actualizarInterfazCarrito();
   });
+  
   document.getElementById('pay-button').addEventListener('click', function() {
     // Prepara los datos del carrito para enviar en la solicitud
     const idsYCantidades = carrito.map(item => `${item.id}:${item.cantidad}`).join(',');
 
     if (idsYCantidades) {
-        const url = `/comprar/${idsYCantidades}`;
+        const url = `{{ route('comprar.detalle', ['idsYCantidades' => '__idsYCantidades__']) }}`.replace('__idsYCantidades__', idsYCantidades);
         console.log('Redireccionando a:', url); 
         
         window.location.href = url;
     } else {
         alert('El carrito está vacío. Añade productos antes de pagar.');
     }
-});
+  });
+
   document.getElementById('categoriaSelector').addEventListener('change', function() {
     mostrarProductos(this.value);
   });
   
   cargarCategorias();
   mostrarProductos();
-   @if (session('success'))
+  
+  @if (session('success'))
     Swal.fire({
       icon: 'success',
       title: '¡Éxito!',
@@ -267,6 +270,7 @@
     });
   @endif
 </script>
+
 
 @endpush
 

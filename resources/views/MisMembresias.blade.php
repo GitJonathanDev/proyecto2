@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   });
 
-  // Inicializar el filtro para mostrar todos los cards al cargar
+
   filterCards();
 });
 </script>
