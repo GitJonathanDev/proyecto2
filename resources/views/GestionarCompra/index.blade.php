@@ -12,7 +12,9 @@
 
     <div class="row mb-3">
         <div class="col-12 d-flex justify-content-between align-items-center">
-            <a href="{{ route('compra.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Registrar Compra</a>
+            <a href="{{ route('compra.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Registrar Compra
+            </a>
             <form action="{{ route('compra.index') }}" method="get">
                 <div class="input-group">
                     <select name="criterio" class="form-select">
@@ -63,9 +65,18 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12 d-flex justify-content-center align-items-center">
-            {{ $compras->links() }}
+    <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-between">
+            @if ($compras->currentPage() > 1)
+            <a href="{{ $compras->previousPageUrl() }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Anterior
+            </a>
+            @endif
+            @if ($compras->hasMorePages())
+            <a href="{{ $compras->nextPageUrl() }}" class="btn btn-primary">
+                Siguiente <i class="fas fa-arrow-right"></i>
+            </a>
+            @endif
         </div>
     </div>
 
