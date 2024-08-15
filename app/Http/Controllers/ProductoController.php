@@ -19,7 +19,7 @@ class ProductoController extends Controller
             $query->where($criterio, 'like', '%' . $buscar . '%');
         }
 
-        $productos = $query->paginate(10);
+        $productos = $query->paginate(5);
 
         $categorias = Categoria::all();
 

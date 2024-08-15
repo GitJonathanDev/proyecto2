@@ -108,7 +108,7 @@
         </div>
 
         <!-- Formulario para Venta (Oculto) -->
-        <form id="formVenta" class="d-none" action="{{ route('venta.create') }}" method="POST">
+        <form id="formVenta" class="d-none" action="{{ route('ventaCliente.store') }}" method="POST">
             @csrf
             <input type="hidden" name="idcliente" value="{{ $cliente->carnetIdentidad }}">
             <input type="hidden" name="tcRazonSocial" value="{{ Auth::user()->nombreUsuario }}" required>

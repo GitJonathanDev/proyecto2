@@ -25,7 +25,7 @@ class MembresiaController extends Controller
             $query->where($criterio, 'like', "%$buscar%");
         }
 
-        $membresias = $query->paginate(10);
+        $membresias = $query->paginate(5);
     
         return view('GestionarMembresia.index', compact('membresias'));
     }

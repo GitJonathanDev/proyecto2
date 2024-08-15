@@ -59,15 +59,6 @@
         margin-top: 5px;
     }
 
-    .block .password-toggle {
-        position: absolute;
-        top: 50%;
-        right: 10px;
-        transform: translateY(-50%);
-        cursor: pointer;
-        color: #555;
-    }
-
     .block button.btn-primary {
         background-color: #007bff;
         color: #fff;
@@ -86,6 +77,32 @@
     .block button.btn-primary:focus {
         outline: none;
         box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.5);
+    }
+
+    
+    .password-container {
+        position: relative;
+        margin-bottom: 1rem;
+    }
+
+    .password-container input {
+        padding-right: 3rem; 
+    }
+
+    .password-container .password-toggle {
+        position: absolute;
+        top: 50%;
+        right: 1rem;
+        transform: translateY(-50%);
+        cursor: pointer;
+        color: #555;
+        background: none;
+        border: none;
+        outline: none;
+    }
+
+    .password-container .password-toggle i {
+        font-size: 1.2rem;
     }
 </style>
 
@@ -151,17 +168,15 @@
         <div class="mb-4">
             <label for="email">Correo Electrónico:</label>
             <input type="email" name="email" id="email" required>
-            @error('email')
-                <small class="error-message">{{ $message }}</small>
-            @enderror
+            <small id="error-email" class="error-message">Por favor, ingrese un correo electrónico válido.</small>
         </div>
-
-        <div class="mb-4 position-relative">
+        
+        <div class="mb-4 password-container">
             <label for="password">Contraseña:</label>
             <input type="password" name="password" id="password" required>
-            <span class="password-toggle" onclick="togglePasswordVisibility()">
+            <button type="button" class="password-toggle" onclick="togglePasswordVisibility()">
                 <i id="password-toggle" class="fas fa-eye"></i>
-            </span>
+            </button>
             <small id="error-password" class="error-message">Por favor, ingrese una contraseña de al menos 8 caracteres.</small>
         </div>
 
@@ -197,6 +212,7 @@
         var sexo = document.getElementById("sexo").value;
         var edad = document.getElementById("edad").value.trim();
         var telefono = document.getElementById("telefono").value.trim();
+        var email = document.getElementById("email").value.trim();
         var username = document.getElementById("name").value.trim();
         var password = document.getElementById("password").value.trim();
 
@@ -237,18 +253,25 @@
             document.getElementById("error-sexo").classList.add("d-none");
         }
 
-        if (edad === "" || edad < 0) {
+        if (edad === "") {
             document.getElementById("error-edad").classList.remove("d-none");
             valido = false;
         } else {
             document.getElementById("error-edad").classList.add("d-none");
         }
 
-        if (telefono === "" || !(/^\d{8,}$/.test(telefono))) {
+        if (telefono === "") {
             document.getElementById("error-telefono").classList.remove("d-none");
             valido = false;
         } else {
             document.getElementById("error-telefono").classList.add("d-none");
+        }
+
+        if (email === "") {
+            document.getElementById("error-email").classList.remove("d-none");
+            valido = false;
+        } else {
+            document.getElementById("error-email").classList.add("d-none");
         }
 
         if (username === "") {
@@ -258,7 +281,7 @@
             document.getElementById("error-name").classList.add("d-none");
         }
 
-        if (password.length < 8) {
+        if (password === "" || password.length < 8) {
             document.getElementById("error-password").classList.remove("d-none");
             valido = false;
         } else {

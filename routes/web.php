@@ -81,7 +81,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::get('edit/{carnetIdentidad}', [VendedorController::class, 'edit'])->name('vendedor.edit');
         Route::put('update/{carnetIdentidad}', [VendedorController::class, 'update'])->name('vendedor.update');
         Route::delete('eliminar/{carnetIdentidad}', [VendedorController::class, 'destroy'])->name('vendedor.destroy');
-        Route::post('ci-ya-existe', [VendedorController::class, 'ciYaExiste'])->name('ci-ya-existe');
+        // Route::post('ci-ya-existe', [VendedorController::class, 'ciYaExiste'])->name('ci-ya-existe');
     });
 
     // Gestionar cliente
@@ -182,6 +182,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::get('index', [CompraController::class, 'index'])->name('compra.index');
         Route::get('create', [CompraController::class, 'create'])->name('compra.create');
         Route::post('store', [CompraController::class, 'store'])->name('compra.store');
+        Route::get('{codCompra}', [CompraController::class, 'show'])->name('compra.show');
         Route::get('edit/{codCompra}', [CompraController::class, 'edit'])->name('compra.edit');
         Route::put('update/{codCompra}', [CompraController::class, 'update'])->name('compra.update');
         Route::delete('eliminar/{codCompra}', [CompraController::class, 'destroy'])->name('compra.destroy');
@@ -192,6 +193,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::get('index', [VentaController::class, 'index'])->name('venta.index');
         Route::get('create', [VentaController::class, 'create'])->name('venta.create');
         Route::post('store', [VentaController::class, 'store'])->name('venta.store');
+        Route::get('{codVenta}', [VentaController::class, 'show'])->name('venta.show');
         Route::get('edit/{codVenta}', [VentaController::class, 'edit'])->name('venta.edit');
         Route::put('update/{codVenta}', [VentaController::class, 'update'])->name('venta.update');
         Route::delete('eliminar/{codVenta}', [VentaController::class, 'destroy'])->name('venta.destroy');
@@ -215,6 +217,10 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
     Route::get('/api/venta/productos', [VentaClienteController::class, 'obtenerProductos'])->name('venta.obtenerProductos');
     Route::get('/comprar/{idsYCantidades}', [VentaClienteController::class, 'mostrarDetalles'])->name('comprar.detalle');
     Route::post('/venta/create', [VentaClienteController::class, 'store']);
+
+
+
+
     Route::get('/storage/uploads/{filename}', function ($filename) {
         $path = storage_path('app/public/uploads/' . $filename);
         if (file_exists($path)) {
@@ -222,9 +228,19 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         }
         abort(404);
     })->name('storage.image');
+
+
+
     Route::get('/img/fondo.jpg', function () {
         return response()->file(public_path('img/fondo.jpg'));
     })->name('imagen.fondo');
+
+
+    Route::get('/img/vendedor.png', function () {
+        return response()->file(public_path('img/vendedor.png'));
+    })->name('img.vendedor');
+
+    
 
     // Gestionar precios de servicio
     Route::prefix('precioServicio')->group(function () {

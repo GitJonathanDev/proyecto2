@@ -24,7 +24,7 @@ class VentaController extends Controller
             $query->where($criterio, 'like', "%$buscar%");
         }
 
-        $ventas = $query->paginate(10);
+        $ventas = $query->paginate(5);
 
         return view('GestionarVenta.index', compact('ventas'));
     }

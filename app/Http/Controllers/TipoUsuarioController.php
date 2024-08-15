@@ -13,7 +13,7 @@ class TipoUsuarioController extends Controller
      */
     public function index(Request $request)
     {
-        $criterio = $request->input('criterio', 'descripcion'); // Por defecto, usar 'descripcion'
+        $criterio = $request->input('criterio', 'descripcion'); 
         $buscar = $request->input('buscar', '');
 
         $query = TipoUsuario::query();
@@ -22,7 +22,7 @@ class TipoUsuarioController extends Controller
             $query->where($criterio, 'like', '%'.$buscar.'%');
         }
 
-        $tipoUsuarios = $query->paginate(10);
+        $tipoUsuarios = $query->paginate(5);
 
         return view('GestionarTipoUsuario.index', compact('tipoUsuarios'));
     }

@@ -22,7 +22,7 @@ class ClienteController extends Controller
             $query->where($criterio, 'like', '%'.$buscar.'%');
         }
 
-        $clientes = $query->paginate(10);
+        $clientes = $query->paginate(5);
 
         return view('GestionarCliente.index', compact('clientes', 'buscar', 'criterio'));
     }

@@ -145,12 +145,46 @@
                 carnetIdentidadFeedback.textContent = '* La cédula de identidad debe ser un número de entre 8 y 10 dígitos.';
                 carnetIdentidadInput.classList.add('is-invalid');
                 carnetIdentidadInput.classList.remove('is-valid');
+                submitButton.disabled = true; // Desactiva el botón si no es válido
             } else {
                 carnetIdentidadFeedback.textContent = '';
                 carnetIdentidadInput.classList.add('is-valid');
                 carnetIdentidadInput.classList.remove('is-invalid');
+                checkCarnetIdentidadExists(carnetIdentidad); // Verifica en el servidor
             }
             return isValid;
+        }
+
+        function checkCarnetIdentidadExists(carnetIdentidad) {
+            fetch('{{ route("ci-ya-existe") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                },
+                body: JSON.stringify({ carnetIdentidad })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.existe) {
+                    carnetIdentidadFeedback.textContent = '* La cédula de identidad ya existe.';
+                    carnetIdentidadInput.classList.add('is-invalid');
+                    carnetIdentidadInput.classList.remove('is-valid');
+                    submitButton.disabled = true;
+                } else {
+                    carnetIdentidadFeedback.textContent = '';
+                    carnetIdentidadInput.classList.add('is-valid');
+                    carnetIdentidadInput.classList.remove('is-invalid');
+                    validateForm();
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                carnetIdentidadFeedback.textContent = '* Error al verificar la cédula de identidad.';
+                carnetIdentidadInput.classList.add('is-invalid');
+                carnetIdentidadInput.classList.remove('is-valid');
+                submitButton.disabled = true;
+            });
         }
 
         function validateNombre() {

@@ -23,7 +23,7 @@ class CompraController extends Controller
             $query->where($criterio, 'like', "%$buscar%");
         }
 
-        $compras = $query->paginate(10);
+        $compras = $query->paginate(5);
 
         return view('GestionarCompra.index', compact('compras'));
     }
