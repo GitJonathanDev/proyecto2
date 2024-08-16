@@ -213,33 +213,11 @@
             mostrarProductosSeleccionados();
         });
 
-        $('#nombreProducto').on('keyup', function () {
-            var query = $(this).val();
 
-            $.ajax({
-                url: '{{ route('producto.buscar') }}',
-                type: 'GET',
-                data: {
-                    nombre: query
-                },
-                success: function (data) {
-                    var tableRows = '';
-                    $.each(data, function (key, producto) {
-                        tableRows += `<tr>
-                                        <td>${producto.nombre}</td>
-                                        <td>${producto.precio}</td>
-                                        <td>${producto.categoria.nombre}</td>
-                                        <td>
-                                            <button type="button" class="btn btn-primary btn-sm seleccionar-producto"
-                                                data-id="${producto.codProducto}">Seleccionar</button>
-                                        </td>
-                                     </tr>`;
-                    });
-                    $('#tablaProductos').html(tableRows);
-                },
-                error: function (xhr, status, error) {
-                    console.error(error);
-                }
+        $('#nombreProducto').on('keyup', function () {
+            var query = $(this).val().toLowerCase();
+            $('#tablaProductos tr').filter(function() {
+                $(this).toggle($(this).text().toLowerCase().indexOf(query) > -1);
             });
         });
     });

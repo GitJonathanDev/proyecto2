@@ -217,7 +217,6 @@
     @auth
     <div class="wrapper">
         <div class="sidebar">
-           
             <div class="profile">
                 <img src="{{ route('img.vendedor') }}" alt="profile_picture">
                 <h3>{{ Auth::user()->nombreUsuario }}</h3>
@@ -269,6 +268,8 @@
         <h2>Cantidad de veces que se ha visitado esta página: {{ $conteoVisitas ?? '0' }}</h2>
     </footer>
     @yield('scripts')
+    <!-- Botón pequeño pero visible en una esquina -->
+    <a href="{{ route('menu.index2') }}" class="btn btn-invisible" style="position: fixed; bottom: 10px; right: 10px; width: 30px; height: 30px; background-color: transparent; border: 1px solid transparent; z-index: 9999; text-align: center; line-height: 30px; color: transparent; font-size: 16px;">🔗</a>
     <script>
         document.querySelector(".hamburger").addEventListener("click", function() {
             document.querySelector("body").classList.toggle("active");
@@ -276,4 +277,5 @@
     </script>
     @endauth
 </body>
+
 </html>

@@ -8,8 +8,7 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@100;200;400;600;800;900&display=swap">
     <title>BODY FIT GYM</title>
     <style>
-
-        * {
+         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -24,7 +23,6 @@
             background-color: #dde1e9;
         }
 
-        /* Header */
         .contenedor-header {
             width: 100%;
             position: fixed;
@@ -75,8 +73,41 @@
         .nav-responsive {
             display: none;
             font-size: 25px;
+            cursor: pointer;
         }
 
+        /* Responsive Menu */
+        @media screen and (max-width: 768px) {
+            .contenedor-header header {
+                flex-wrap: wrap;
+            }
+
+            #nav {
+                display: none;
+                width: 100%;
+                text-align: center;
+                flex-direction: column;
+            }
+
+            #nav a {
+                padding: 10px;
+                border-bottom: 1px solid #1f283e;
+            }
+
+            .nav-right {
+                margin-top: 10px;
+            }
+
+            .nav-responsive {
+                display: block;
+            }
+
+            .contenedor-header header nav.active {
+                display: flex;
+            }
+        }
+
+        /* Otros estilos ya presentes */
         .inicio {
             height: 100vh;
             background: linear-gradient(rgba(0, 1, 3, 0.5), rgba(0, 0, 0, 0.7)), url(img/fondo.jpg);
@@ -140,7 +171,6 @@
             color: #797e8e;
             margin: 0 20px;
         }
-
 
         .servicios {
             position: relative;
@@ -239,7 +269,6 @@
             line-height: 1.6;
         }
 
-        /* Sección de Galería */
         .galeria {
             position: relative;
             color: #fff;
@@ -256,6 +285,7 @@
             display: flex;
             gap: 20px;
             margin-top: 40px;
+            flex-wrap: wrap;
         }
 
         .galeria .fila .col {
@@ -279,83 +309,119 @@
             color: #ff1133;
             font-weight: bold;
             font-size: 5rem;
-            margin-right: 20px;
         }
 
         .galeria .contenedor-titulo .info {
             flex: 1;
-        }
-
-        .galeria .contenedor-titulo .info .frase {
-            color: #ff1133;
-            font-weight: bold;
+            margin-left: 20px;
         }
 
         .galeria .contenedor-titulo .info h2 {
             font-size: 3rem;
-            margin-bottom: 10px;
         }
 
-        @media only screen and (max-width: 900px) {
-            .contenedor-header header nav {
-                position: initial;
+        .galeria .contenedor-titulo .info .frase {
+            font-size: 20px;
+        }
+
+        .galeria .btn-ver-mas {
+            width: 50px;
+            height: 50px;
+            border: 2px solid #ff1133;
+            border-radius: 50%;
+            color: #ff1133;
+            margin-top: 50px;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .contacto {
+            position: relative;
+            color: #fff;
+        }
+
+        .contacto .contenido-seccion {
+            background: linear-gradient(rgba(0, 14, 41, 0.6), rgba(0, 7, 78, 0.7)), url(img/fondo-contacto.jpg);
+            background-size: cover;
+            background-position: center center;
+            padding: 100px 20px;
+        }
+
+        .contacto .contenido-seccion .fila {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1100px;
+            margin: auto;
+            gap: 40px;
+        }
+
+        .contacto .contenido-seccion .fila .col {
+            flex: 1;
+        }
+
+        .contacto .contenido-seccion .fila .col h3 {
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .contacto .contenido-seccion .fila .col p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .contacto .contenido-seccion .fila .col iframe {
+            width: 100%;
+            height: 300px;
+            border: none;
+        }
+
+        .btn-flotante {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background-color: #00bb2d;
+            text-decoration: none;
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 99;
+        }
+        #nav {
+            display: flex;
+            flex-direction: row;
+        }
+
+        @media screen and (max-width: 768px) {
+            #nav {
                 display: none;
-                transform: translate(0);
+                flex-direction: column;
+                background-color: rgba(0, 0, 0, 0.8);
+                position: absolute;
+                top: 60px;
+                right: 0;
+                width: 100%;
             }
 
-            .contenedor-header header .redes {
-                display: none;
+            #nav a {
+                padding: 10px;
+                border-bottom: 1px solid #fff;
+                text-align: center;
             }
 
             .nav-responsive {
                 display: block;
+                cursor: pointer;
             }
+        }
 
-            nav.responsive {
-                display: flex;
-                flex-direction: column;
-                justify-content: center;
-                position: absolute;
-                left: 0;
-                top: 0;
-                width: 100%;
-                height: 100vh;
-                background-color: #151623;
-                z-index: 99;
-                transform: translateX(-100%);
-                transition: transform 0.3s ease-in-out;
-            }
-
-            nav.responsive.active {
-                transform: translateX(0);
-            }
-
-            nav.responsive a {
-                display: block;
-                width: fit-content;
-                margin: 10px auto;
-                font-size: 30px;
-            }
-
-            .inicio .opciones {
-                display: none;
-            }
-
-            .servicios .contenido-seccion .fila,
-            .galeria .fila {
-                flex-direction: column;
-            }
-
-            .servicios .contenido-seccion .fila .col,
-            .galeria .fila .col {
-                width: 100%;
-                margin-bottom: 20px;
-            }
-
-            .servicios .contenido-seccion .fila .col img,
-            .galeria .fila .col img {
-                max-width: 100%;
-            }
+        .nav-active {
+            display: flex !important;
         }
     </style>
 </head>
@@ -368,14 +434,14 @@
                 <a href="#inicio">Inicio</a>
                 <a href="#servicios">Servicios</a>
                 <a href="#galeria">Galería</a>
+                <a href="{{ route('login.index') }}">Iniciar Sesión</a>
                 <div class="nav-right">
                     <a href="#"><i class="fab fa-facebook-f"></i></a>
                     <a href="#"><i class="fab fa-twitter"></i></a>
                     <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="{{ route('login.index') }}">Iniciar Sesión</a>
                 </div>
             </nav>
-            <div id="icono-nav" class="nav-responsive" onclick="mostrarOcultarMenu()">
+            <div id="icono-nav" class="nav-responsive">
                 <i class="fas fa-bars"></i>
             </div>
         </header>
@@ -392,18 +458,10 @@
                 </a>
             </div>
             <div class="opciones">
-                <div class="opcion">
-                    01. FITNESS
-                </div>
-                <div class="opcion">
-                    02. CROSSFIT
-                </div>
-                <div class="opcion">
-                    03. ARTES MARCIALES MIXTAS
-                </div>
-                <div class="opcion">
-                    04. DEFENSA PERSONAL
-                </div>
+                <div class="opcion">01. FITNESS</div>
+                <div class="opcion">02. CROSSFIT</div>
+                <div class="opcion">03. ARTES MARCIALES MIXTAS</div>
+                <div class="opcion">04. DEFENSA PERSONAL</div>
             </div>
         </div>
     </section>
@@ -454,22 +512,10 @@
     </section>
 
     <script>
-        let menuVisible = false;
-
-        function mostrarOcultarMenu() {
-            const nav = document.getElementById("nav");
-            const iconoNav = document.getElementById("icono-nav");
-            nav.classList.toggle("responsive");
-            menuVisible = !menuVisible;
-            iconoNav.innerHTML = menuVisible ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
-        }
-
-   
-        document.querySelectorAll('#nav a').forEach(item => {
-            item.addEventListener('click', mostrarOcultarMenu);
+        document.getElementById("icono-nav").addEventListener("click", function () {
+            var nav = document.getElementById("nav");
+            nav.classList.toggle("nav-active");
         });
-
-        
     </script>
 </body>
 </html>

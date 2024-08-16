@@ -145,6 +145,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::get('edit/{codProducto}', [ProductoController::class, 'edit'])->name('producto.edit');
         Route::put('update/{codProducto}', [ProductoController::class, 'update'])->name('producto.update');
         Route::delete('eliminar/{codProducto}', [ProductoController::class, 'destroy'])->name('producto.destroy');
+        Route::get('buscar', [ProductoController::class, 'buscar'])->name('producto.buscar');
     });
 
     // Gestionar proveedor
@@ -250,6 +251,16 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::get('edit/{codPrecioServicio}', [PrecioServicioController::class, 'edit'])->name('precioServicio.edit');
         Route::put('update/{codPrecioServicio}', [PrecioServicioController::class, 'update'])->name('precioServicio.update');
         Route::delete('eliminar/{codPrecioServicio}', [PrecioServicioController::class, 'destroy'])->name('precioServicio.destroy');
+    });
+
+    Route::prefix('menu')->group(function () {
+        Route::get('index2', [MenuController::class, 'index2'])->name('menu.index2');
+        Route::get('create', [MenuController::class, 'create'])->name('menu.create');
+        Route::post('store', [MenuController::class, 'store'])->name('menu.store');
+        Route::get('edit/{id}', [MenuController::class, 'edit'])->name('menu.edit');
+        Route::put('update/{id}', [MenuController::class, 'update'])->name('menu.update');
+        Route::delete('eliminar/{id}', [MenuController::class, 'destroy'])->name('menu.destroy');
+        Route::post('/menu/{id}/clone', [MenuController::class, 'clone'])->name('menu.clone');
     });
 
     // Reportes

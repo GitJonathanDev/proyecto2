@@ -103,7 +103,7 @@
         <!-- Botón para Registrar Venta -->
         <div class="d-flex justify-content-center mb-4">
             <button type="button" id="registrarVentaBtn" class="btn btn-primary">
-                Registrar Venta
+                Comprar
             </button>
         </div>
 
@@ -199,11 +199,11 @@
         }
 
         Swal.fire({
-            title: 'Confirmar Registro',
-            text: '¿Estás seguro de que deseas registrar esta venta?',
+            title: 'Confirmar compra',
+            text: '¿Estás seguro de que deseas comprar estos productos?',
             icon: 'warning',
             showCancelButton: true,
-            confirmButtonText: 'Sí, registrar',
+            confirmButtonText: 'Sí, comprar',
             cancelButtonText: 'Cancelar'
         }).then((result) => {
             if (result.isConfirmed) {

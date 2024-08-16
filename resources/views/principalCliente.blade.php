@@ -46,7 +46,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fas fa-times"></i> Cerrar</button>
-          <button type="button" class="btn btn-primary" id="pay-button"><i class="fas fa-shopping-cart"></i> Pagar</button>
+          <button type="button" class="btn btn-primary" id="pay-button"><i class="fas fa-shopping-cart"></i> Comprar</button>
         </div>
       </div>
     </div>
