@@ -6,44 +6,46 @@
 @auth
 <main class="container mt-5">
     <!-- Tabla de Productos -->
-    <div class="card mb-4 table-responsive">
+    <div class="card mb-4">
         <h3 class="text-center mb-4">Lista de tus productos que comprarás</h3>
-        <table class="table table-bordered table-striped table-hover">
-            <thead>
-                <tr>
-                    <th>Imagen</th>
-                    <th>Producto</th>
-                    <th>Cantidad</th>
-                    <th>Precio Unitario</th>
-                    <th>Total</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody id="productos">
-                @foreach ($productos as $index => $producto)
-                <tr id="producto-{{ $index }}">
-                    <td>
-                        @if ($producto->imagen_url)
-                        <img src="{{ asset('storage/uploads/' . $producto->imagen_url) }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 120px;">
-                        @else
-                        No tiene imagen
-                        @endif
-                    </td>
-                    <td>{{ $producto->nombre }}</td>
-                    <td>
-                        <input type="number" name="cantidad[{{ $index }}]" id="cantidad{{ $index }}"
-                            class="form-control form-control-sm" value="{{ $cantidades[$producto->codProducto] ?? 1 }}" min="1"
-                            data-precio="{{ $producto->precio }}" data-stock="{{ $producto->stock }}" oninput="validarCantidad({{ $index }})">
-                    </td>
-                    <td>Bs. {{ number_format($producto->precio, 2) }}</td>
-                    <td>Bs. <span class="subtotal">{{ number_format(($cantidades[$producto->codProducto] ?? 1) * $producto->precio, 2) }}</span></td>
-                    <td>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto({{ $index }})">Quitar</button>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Imagen</th>
+                        <th>Producto</th>
+                        <th>Cantidad</th>
+                        <th>Precio Unitario</th>
+                        <th>Total</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productos">
+                    @foreach ($productos as $index => $producto)
+                    <tr id="producto-{{ $index }}">
+                        <td>
+                            @if ($producto->imagen_url)
+                            <img src="{{ asset('storage/uploads/' . $producto->imagen_url) }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 120px;">
+                            @else
+                            No tiene imagen
+                            @endif
+                        </td>
+                        <td>{{ $producto->nombre }}</td>
+                        <td>
+                            <input type="number" name="cantidad[{{ $index }}]" id="cantidad{{ $index }}"
+                                class="form-control form-control-sm" value="{{ $cantidades[$producto->codProducto] ?? 1 }}" min="1"
+                                data-precio="{{ $producto->precio }}" data-stock="{{ $producto->stock }}" oninput="validarCantidad({{ $index }})">
+                        </td>
+                        <td>Bs. {{ number_format($producto->precio, 2) }}</td>
+                        <td>Bs. <span class="subtotal">{{ number_format(($cantidades[$producto->codProducto] ?? 1) * $producto->precio, 2) }}</span></td>
+                        <td>
+                            <button type="button" class="btn btn-danger btn-sm" onclick="eliminarProducto({{ $index }})">Quitar</button>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
     <!-- Subtotal -->
