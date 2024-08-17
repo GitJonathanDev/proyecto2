@@ -6,9 +6,9 @@
 @auth
 <main class="container mt-5">
     <!-- Tabla de Productos -->
-    <div class="card mb-4">
+    <div class="card mb-4 table-responsive">
         <h3 class="text-center mb-4">Lista de tus productos que comprarás</h3>
-        <table class="table table-bordered">
+        <table class="table table-bordered table-striped table-hover">
             <thead>
                 <tr>
                     <th>Imagen</th>
