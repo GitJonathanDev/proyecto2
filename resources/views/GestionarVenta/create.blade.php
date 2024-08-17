@@ -62,54 +62,67 @@
     </a>
 
     <!-- Modal para buscar producto -->
-    <div class="modal fade" id="buscarProductoModal" tabindex="-1" role="dialog" aria-labelledby="buscarProductoModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="buscarProductoModalLabel">Buscar Producto</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form id="formBuscarProducto">
-                        <div class="form-group">
-                            <label for="nombreProducto">Buscar por Nombre:</label>
-                            <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ingrese el nombre del producto">
-                        </div>
-                    </form>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>Nombre</th>
-                                    <th>Precio</th>
-                                    <th>Categoría</th>
-                                    <th>Opción</th> 
-                                </tr>
-                            </thead>
-                            <tbody id="tablaProductos">
-                                @foreach ($productos as $producto)
-                                <tr>
-                                    <td>{{ $producto->nombre }}</td>
-                                    <td>{{ $producto->precio }}</td>
-                                    <td>{{ $producto->categoria->nombre }}</td>
-                                    <td>
-                                        <button type="button" class="btn btn-primary btn-sm seleccionar-producto"
-                                            data-id="{{ $producto->codProducto }}">Seleccionar</button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
+<div class="modal fade" id="buscarProductoModal" tabindex="-1" role="dialog" aria-labelledby="buscarProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="buscarProductoModalLabel">Buscar Producto</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formBuscarProducto">
+                    <div class="form-group">
+                        <label for="nombreProducto">Buscar por Nombre:</label>
+                        <input type="text" class="form-control" id="nombreProducto" name="nombreProducto" placeholder="Ingrese el nombre del producto">
                     </div>
+                </form>
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Precio</th>
+                                <th>Stock</th>
+                                <th>Categoría</th>
+                                <th>Imagen</th>
+                                <th>Opción</th> 
+                            </tr>
+                        </thead>
+                        <tbody id="tablaProductos">
+                            @foreach ($productos as $producto)
+                            <tr>
+                                <td>{{ $producto->nombre }}</td>
+                                <td>{{ $producto->precio }}</td>
+                                <td>{{ $producto->stock }}</td>
+                                <td>{{ $producto->categoria->nombre }}</td>
+                                <td>
+                                    @if ($producto->imagen_url)
+                                        <img src="{{ asset('storage/uploads/' . $producto->imagen_url) }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 120px;">
+                                    @else
+                                        No tiene imagen
+                                    @endif
+                                </td>
+                                <td>
+                                    <button type="button" class="btn btn-primary btn-sm seleccionar-producto"
+                                        data-id="{{ $producto->codProducto }}" 
+                                        data-stock="{{ $producto->stock }}">
+                                        Seleccionar
+                                    </button>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
             </div>
         </div>
     </div>
+</div>
 
     <!-- Tabla de productos seleccionados -->
     <div class="mt-4">
@@ -139,81 +152,91 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     $(document).ready(function () {
-        var productosSeleccionados = [];
-    
-        $(document).on('click', '.seleccionar-producto', function () {
-            var productoId = $(this).data('id');
-            var nombreProducto = $(this).closest('tr').find('td:first').text(); 
-            var precioProducto = parseFloat($(this).closest('tr').find('td:eq(1)').text()); 
-    
-            var productoExistente = productosSeleccionados.find(function (producto) {
-                return producto.id === productoId;
-            });
-    
-            if (productoExistente) {
+    var productosSeleccionados = [];
+
+    $(document).on('click', '.seleccionar-producto', function () {
+        var productoId = $(this).data('id');
+        var nombreProducto = $(this).closest('tr').find('td:first').text();
+        var precioProducto = parseFloat($(this).closest('tr').find('td:eq(1)').text());
+        var stockProducto = parseInt($(this).data('stock'));
+
+        var productoExistente = productosSeleccionados.find(function (producto) {
+            return producto.id === productoId;
+        });
+
+        if (productoExistente) {
+            if (productoExistente.cantidad < stockProducto) {
                 productoExistente.cantidad++;
             } else {
-                productosSeleccionados.push({
-                    id: productoId,
-                    nombre: nombreProducto,
-                    precio: precioProducto,
-                    cantidad: 1 
-                });
+                alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
             }
-    
-            mostrarProductosSeleccionados();
-        });
-    
-        function mostrarProductosSeleccionados() {
-            var tableRows = '';
-            var totalVenta = 0;
-    
-            productosSeleccionados.forEach(function (producto) {
-                var subtotal = producto.cantidad * producto.precio;
-                totalVenta += subtotal;
-    
-                tableRows += `<tr>
-                                <td>${producto.nombre}</td>
-                                <td><input type="number" class="form-control cantidad-producto" value="${producto.cantidad}" min="1" data-id="${producto.id}"></td>
-                                <td>${producto.precio}</td>
-                                <td>${subtotal.toFixed(2)}</td>
-                                <td>
-                                    <button type="button" class="btn btn-danger btn-sm quitar-producto" data-id="${producto.id}">
-                                        <i class="fas fa-times"></i> Quitar
-                                    </button>
-                                </td>
-                             </tr>`;
+        } else {
+            productosSeleccionados.push({
+                id: productoId,
+                nombre: nombreProducto,
+                precio: precioProducto,
+                cantidad: 1,
+                stock: stockProducto
             });
-    
-            $('#productosSeleccionados').html(tableRows); 
-            $('#totalVenta').text(totalVenta.toFixed(2)); 
-    
-            $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados)); 
-            $('#totalVentaInput').val(totalVenta.toFixed(2)); 
         }
-    
-        $(document).on('change', '.cantidad-producto', function () {
-            var cantidad = parseInt($(this).val());
-            var productoId = $(this).data('id');
-    
-            productosSeleccionados.forEach(function (producto) {
-                if (producto.id === productoId) {
-                    producto.cantidad = cantidad;
-                }
-            });
-    
-            mostrarProductosSeleccionados();
+
+        mostrarProductosSeleccionados();
+    });
+
+    function mostrarProductosSeleccionados() {
+        var tableRows = '';
+        var totalVenta = 0;
+
+        productosSeleccionados.forEach(function (producto) {
+            var subtotal = producto.cantidad * producto.precio;
+            totalVenta += subtotal;
+
+            tableRows += `<tr>
+                            <td>${producto.nombre}</td>
+                            <td><input type="number" class="form-control cantidad-producto" value="${producto.cantidad}" min="1" max="${producto.stock}" data-id="${producto.id}"></td>
+                            <td>${producto.precio}</td>
+                            <td>${subtotal.toFixed(2)}</td>
+                            <td>
+                                <button type="button" class="btn btn-danger btn-sm quitar-producto" data-id="${producto.id}">
+                                    <i class="fas fa-times"></i> Quitar
+                                </button>
+                            </td>
+                         </tr>`;
         });
-    
-        $(document).on('click', '.quitar-producto', function () {
-            var productoId = $(this).data('id');
-    
-            productosSeleccionados = productosSeleccionados.filter(function (producto) {
-                return producto.id !== productoId;
-            });
-    
-            mostrarProductosSeleccionados();
+
+        $('#productosSeleccionados').html(tableRows);
+        $('#totalVenta').text(totalVenta.toFixed(2));
+
+        $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados));
+        $('#totalVentaInput').val(totalVenta.toFixed(2));
+    }
+
+    $(document).on('change', '.cantidad-producto', function () {
+        var cantidad = parseInt($(this).val());
+        var productoId = $(this).data('id');
+        var producto = productosSeleccionados.find(function (prod) {
+            return prod.id === productoId;
         });
+
+        if (cantidad > producto.stock) {
+            alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
+            $(this).val(producto.stock);
+        } else {
+            producto.cantidad = cantidad;
+        }
+
+        mostrarProductosSeleccionados();
+    });
+
+    $(document).on('click', '.quitar-producto', function () {
+        var productoId = $(this).data('id');
+
+        productosSeleccionados = productosSeleccionados.filter(function (producto) {
+            return producto.id !== productoId;
+        });
+
+        mostrarProductosSeleccionados();
+    });
     
         // Filtrado local en tiempo real
         $('#nombreProducto').on('keyup', function () {

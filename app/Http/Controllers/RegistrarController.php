@@ -20,7 +20,7 @@ class RegistrarController extends Controller
         $usuario = new User();
         $usuario->nombreUsuario = $request->name;
         $usuario->email = $request->email;
-        $usuario->password = $request->password; // Asegúrate de encriptar la contraseña
+        $usuario->password = $request->password;
         $usuario->codTipoUsuarioF = 1; 
         $usuario->save();
     

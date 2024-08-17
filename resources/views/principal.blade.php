@@ -20,7 +20,9 @@
         }
 
         body {
-            background-color: #dde1e9;
+            background-color: #05080a;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         .contenedor-header {

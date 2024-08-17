@@ -15,23 +15,30 @@ class BusquedaController extends Controller
         $tablasExcluir = ['migrations', 'visitaspagina', 'sessions', 'cache', 'cache_locks', 'failed_jobs', 'jobs', 'jobs_batches', 'menu'];
 
         if ($consulta) {
-            $tablas = DB::select('SHOW TABLES');
+            $tablas = DB::select("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
 
             foreach ($tablas as $tabla) {
-                $nombreTabla = $tabla->{'Tables_in_' . env('DB_DATABASE')};
+                $nombreTabla = $tabla->tablename;
 
                 if (in_array($nombreTabla, $tablasExcluir)) {
                     continue;
                 }
 
+                // Obtener la clave primaria de la tabla
                 $clavePrimaria = $this->obtenerClavePrimaria($nombreTabla);
-                $columnas = DB::select('SHOW COLUMNS FROM ' . $nombreTabla);
+                if (!$clavePrimaria) {
+                    continue;
+                }
+
+                // Obtener las columnas de la tabla
+                $columnas = DB::select("SELECT column_name FROM information_schema.columns WHERE table_name = ?", [$nombreTabla]);
 
                 foreach ($columnas as $columna) {
-                    $nombreColumna = $columna->Field;
+                    $nombreColumna = $columna->column_name;
 
+                    // Buscar coincidencias en la columna
                     $resultadosBusqueda = DB::table($nombreTabla)
-                        ->where($nombreColumna, 'LIKE', '%' . $consulta . '%')
+                        ->where($nombreColumna, 'ILIKE', '%' . $consulta . '%')
                         ->get([$nombreColumna, $clavePrimaria]);
 
                     if ($resultadosBusqueda->isNotEmpty()) {
@@ -72,7 +79,13 @@ class BusquedaController extends Controller
 
     private function obtenerClavePrimaria($nombreTabla)
     {
-        $resultado = DB::select('SHOW KEYS FROM ' . $nombreTabla . ' WHERE Key_name = "PRIMARY"');
-        return $resultado[0]->Column_name ?? null; 
+        $resultado = DB::select("
+            SELECT a.attname AS column_name
+            FROM pg_index i
+            JOIN pg_attribute a ON a.attnum = ANY(i.indkey)
+            WHERE i.indrelid = ?::regclass AND i.indisprimary
+        ", [$nombreTabla]);
+
+        return $resultado[0]->column_name ?? null;
     }
 }

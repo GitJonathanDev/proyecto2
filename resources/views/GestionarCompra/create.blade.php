@@ -83,7 +83,9 @@
                                 <tr>
                                     <th>Nombre</th>
                                     <th>Precio</th>
+                                    <th>Stock</th>
                                     <th>Categoría</th>
+                                    <th>Imagen</th>
                                     <th>Opción</th> 
                                 </tr>
                             </thead>
@@ -92,7 +94,15 @@
                                 <tr>
                                     <td>{{ $producto->nombre }}</td>
                                     <td>{{ $producto->precio }}</td>
+                                    <td>{{ $producto->stock }}</td>
                                     <td>{{ $producto->categoria->nombre }}</td>
+                                    <td>
+                                        @if ($producto->imagen_url)
+                                            <img src="{{ asset('storage/uploads/' . $producto->imagen_url) }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 120px;">
+                                        @else
+                                            No tiene imagen
+                                        @endif
+                                    </td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-sm seleccionar-producto"
                                             data-id="{{ $producto->codProducto }}">Seleccionar</button>

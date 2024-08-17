@@ -241,6 +241,9 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         return response()->file(public_path('img/vendedor.png'));
     })->name('img.vendedor');
 
+
+    Route::get('/buscar', [BusquedaController::class, 'buscar'])->name('buscar');
+
     
 
     // Gestionar precios de servicio
