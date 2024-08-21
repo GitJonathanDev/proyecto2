@@ -269,8 +269,10 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
     // Reportes
     Route::prefix('reportes')->group(function () {
         Route::get('index', [ReporteController::class, 'index'])->name('reportes.index');
-        Route::get('compras', [CompraReportController::class, 'index'])->name('reportes.compras');
-        Route::get('ventas', [VentaReportController::class, 'index'])->name('reportes.ventas');
+        Route::get('compras', [CompraReportController::class, 'index1'])->name('reportes.compras');
+        Route::get('ventas', [VentaReportController::class, 'index2'])->name('reportes.ventas');
+        Route::get('generar1', [CompraReportController::class, 'generarreportecompra'])->name('reporte.generar1');
+        Route::get('generar2', [VentaReportController::class, 'generarreporteventa'])->name('reporte.generar2');
     });
 });
 

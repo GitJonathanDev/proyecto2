@@ -6,7 +6,7 @@
 <div class="container">
     <div class="row mb-4">
         <div class="col-12 text-center">
-            <h1 class="mb-3 fw-bold">LISTA DE VENDEDORES</h1>
+            <h1 class="mb-3 fw-bold">LISTA DE ENCARGADOS</h1>
         </div>
     </div>
 

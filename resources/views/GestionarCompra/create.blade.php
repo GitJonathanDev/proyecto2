@@ -24,7 +24,6 @@
         
         <div class="form-group">
             <label for="encargado">Encargado:</label>
-      
             <input type="hidden" id="encargado" name="codEncargadoF" value="{{ $encargado->carnetIdentidad }}">
             <p>{{ $encargado->nombre }} {{ $encargado->apellidoPaterno }} {{ $encargado->apellidoMaterno }}</p>
         </div>
@@ -46,7 +45,7 @@
         <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#buscarProductoModal">
             <i class="fas fa-search"></i> Buscar Producto
         </button>
-        <button type="submit" class="btn btn-primary mb-3">
+        <button type="submit" class="btn btn-primary mb-3" id="realizarCompraBtn" disabled>
             Realizar Compra
         </button>
         @if(isset($compra))
@@ -60,6 +59,7 @@
         <i class="fas fa-arrow-left"></i> Volver
     </a>
 
+    <!-- Modal Buscar Producto -->
     <div class="modal fade" id="buscarProductoModal" tabindex="-1" role="dialog" aria-labelledby="buscarProductoModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
@@ -70,7 +70,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    
                     <form id="formBuscarProducto">
                         <div class="form-group">
                             <label for="nombreProducto">Buscar por Nombre:</label>
@@ -104,8 +103,7 @@
                                         @endif
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-primary btn-sm seleccionar-producto"
-                                            data-id="{{ $producto->codProducto }}">Seleccionar</button>
+                                        <button type="button" class="btn btn-primary btn-sm seleccionar-producto" data-id="{{ $producto->codProducto }}">Seleccionar</button>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -120,7 +118,6 @@
         </div>
     </div>
 
-
     <div class="mt-4">
         <h3>Productos Seleccionados</h3>
         <table class="table table-striped">
@@ -129,7 +126,7 @@
                     <th>Nombre</th>
                     <th>Cantidad</th>
                     <th>Precio</th>
-                    <th>Subtotal</th> 
+                    <th>Subtotal</th>
                     <th>Acción</th>
                 </tr>
             </thead>
@@ -137,7 +134,6 @@
             </tbody>
         </table>
     </div>
-
 
     <div class="mt-4">
         <h3>Total de la Compra</h3>
@@ -195,9 +191,11 @@
 
             $('#productosSeleccionados').html(tableRows); 
             $('#totalCompra').text(totalCompra.toFixed(2)); 
-
             $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados)); 
             $('#totalCompraInput').val(totalCompra.toFixed(2)); 
+
+            // Habilitar o deshabilitar el botón "Realizar Compra" según haya productos seleccionados
+            $('#realizarCompraBtn').prop('disabled', productosSeleccionados.length === 0);
         }
 
         $(document).on('change', '.cantidad-producto', function () {
@@ -222,7 +220,6 @@
 
             mostrarProductosSeleccionados();
         });
-
 
         $('#nombreProducto').on('keyup', function () {
             var query = $(this).val().toLowerCase();

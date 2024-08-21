@@ -52,7 +52,7 @@ class VendedorController extends Controller
         $vendedor->codUsuarioF = $user->codUsuario; 
         $vendedor->save();
 
-        return back()->with('success', 'Vendedor registrado exitosamente.');
+        return redirect()->route('vendedor.index')->with('success', 'Encargado registrado exitosamente.');
     }
 
     public function edit($carnetIdentidad)
@@ -74,7 +74,7 @@ class VendedorController extends Controller
         $vendedor->telefono = $request->input('telefono');
         $vendedor->save();
 
-        return back()->with('success', 'Vendedor actualizado exitosamente.');
+        return redirect()->route('vendedor.index')->with('success', 'Encargado actualizado exitosamente.');
     }
 
     public function destroy($carnetIdentidad)
@@ -82,7 +82,7 @@ class VendedorController extends Controller
         $vendedor = Encargado::where('carnetIdentidad', $carnetIdentidad)->firstOrFail();
         $vendedor->delete();
 
-        return back()->with('success', 'Vendedor eliminado exitosamente.');
+        return back()->with('success', 'Encargado eliminado exitosamente.');
     }
 
     public function ciYaExiste(Request $request)

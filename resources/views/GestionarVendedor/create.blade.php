@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h1 class="text-center my-4">REGISTRAR VENDEDOR</h1>
+    <h1 class="text-center my-4">REGISTRAR ENCARGADO</h1>
     <form id="vendedor-form" action="{{ route('vendedor.store') }}" method="POST" class="needs-validation" novalidate>
         @csrf
 

@@ -190,41 +190,48 @@
     }
 
     function eliminarProducto(index) {
-        // Elimina la fila visualmente
-        const fila = document.getElementById('producto-' + index);
-        if (fila) fila.remove();
+    // Elimina la fila visualmente
+    const fila = document.getElementById('producto-' + index);
+    if (fila) fila.remove();
 
-        // Elimina los campos ocultos correspondientes
-        const productoInput = document.getElementById('productoInput-' + index);
-        const nombreInput = document.getElementById('nombreInput-' + index);
-        const precioInput = document.getElementById('precioInput-' + index);
-        const cantidadInput = document.getElementById('cantidadInput' + index);
-        const descuentoInput = document.getElementById('descuentoInput-' + index);
-        const serialInput = document.getElementById('serialInput-' + index);
+    // Elimina los campos ocultos correspondientes
+    const productoInput = document.getElementById('productoInput-' + index);
+    const nombreInput = document.getElementById('nombreInput-' + index);
+    const precioInput = document.getElementById('precioInput-' + index);
+    const cantidadInput = document.getElementById('cantidadInput' + index);
+    const descuentoInput = document.getElementById('descuentoInput-' + index);
+    const serialInput = document.getElementById('serialInput-' + index);
 
-        const productoInputVenta = document.getElementById('productoInput-' + index + '-venta');
-        const nombreInputVenta = document.getElementById('nombreInput-' + index + '-venta');
-        const precioInputVenta = document.getElementById('precioInput-' + index + '-venta');
-        const cantidadInputVenta = document.getElementById('cantidadVentaInput' + index);
-        const descuentoInputVenta = document.getElementById('descuentoInput-' + index + '-venta');
-        const serialInputVenta = document.getElementById('serialInput-' + index + '-venta');
+    const productoInputVenta = document.getElementById('productoInput-' + index + '-venta');
+    const nombreInputVenta = document.getElementById('nombreInput-' + index + '-venta');
+    const precioInputVenta = document.getElementById('precioInput-' + index + '-venta');
+    const cantidadInputVenta = document.getElementById('cantidadVentaInput' + index);
+    const descuentoInputVenta = document.getElementById('descuentoInput-' + index + '-venta');
+    const serialInputVenta = document.getElementById('serialInput-' + index + '-venta');
 
-        if (productoInput) productoInput.remove();
-        if (nombreInput) nombreInput.remove();
-        if (precioInput) precioInput.remove();
-        if (cantidadInput) cantidadInput.remove();
-        if (descuentoInput) descuentoInput.remove();
-        if (serialInput) serialInput.remove();
+    if (productoInput) productoInput.remove();
+    if (nombreInput) nombreInput.remove();
+    if (precioInput) precioInput.remove();
+    if (cantidadInput) cantidadInput.remove();
+    if (descuentoInput) descuentoInput.remove();
+    if (serialInput) serialInput.remove();
 
-        if (productoInputVenta) productoInputVenta.remove();
-        if (nombreInputVenta) nombreInputVenta.remove();
-        if (precioInputVenta) precioInputVenta.remove();
-        if (cantidadInputVenta) cantidadInputVenta.remove();
-        if (descuentoInputVenta) descuentoInputVenta.remove();
-        if (serialInputVenta) serialInputVenta.remove();
+    if (productoInputVenta) productoInputVenta.remove();
+    if (nombreInputVenta) nombreInputVenta.remove();
+    if (precioInputVenta) precioInputVenta.remove();
+    if (cantidadInputVenta) cantidadInputVenta.remove();
+    if (descuentoInputVenta) descuentoInputVenta.remove();
+    if (serialInputVenta) serialInputVenta.remove();
 
-        actualizarTotal();
+    // Actualiza el total
+    actualizarTotal();
+
+    // Verifica si no quedan más productos
+    const tbody = document.getElementById('productos');
+    if (tbody.children.length === 0) {
+        window.location.href = "{{ route('cliente') }}";
     }
+}
 
     document.addEventListener('DOMContentLoaded', function () {
         actualizarTotal();

@@ -26,7 +26,7 @@
                     <tbody>
                         @foreach ($ventas as $venta)
                         <tr>
-                            <td>{{ $venta->id }}</td>
+                            <td>{{ $venta->codVenta }}</td>
                             <td>{{ $venta->fechaVenta->format('d/m/Y') }}</td>
                             <td>{{ $venta->montoTotal }}</td>
                             <td>{{ $venta->encargado->nombre }}</td>
@@ -37,7 +37,7 @@
                 </table>
             </div>
 
-            <a href="{{ route('reporte.index2') }}" class="btn btn-primary">Volver</a>
+            <a href="{{ route('reportes.ventas') }}" class="btn btn-primary">Volver</a>
         </div>
     </div>
 </div>

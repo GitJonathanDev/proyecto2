@@ -289,7 +289,6 @@
         const codClienteF = document.getElementById('codClienteF'); 
         const tnTelefono = document.getElementById('tnTelefono'); 
 
-        // Asignar la URL del endpoint desde una variable en la plantilla Blade
         const buscarClienteUrl = "{{ route('membresia.buscar') }}";
 
         buscarCliente.addEventListener('input', () => {

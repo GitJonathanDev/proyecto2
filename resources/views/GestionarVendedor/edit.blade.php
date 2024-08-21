@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h2 class="text-center my-4">EDITAR VENDEDOR</h2>
+    <h2 class="text-center my-4">EDITAR ENCARGADO</h2>
     <form id="vendedor-form" action="{{ route('vendedor.update', $vendedor->carnetIdentidad) }}" method="POST" class="needs-validation" novalidate>
         @csrf
         @method('PUT')

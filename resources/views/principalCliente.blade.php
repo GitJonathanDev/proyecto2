@@ -97,7 +97,7 @@
       productos.forEach(producto => {
         const imagenUrl = producto.imagen_url ? `{{ route('storage.image', ['filename' => '__filename__']) }}`.replace('__filename__', producto.imagen_url) : 'https://via.placeholder.com/300';
 
-        const agotadoOverlay = producto.stock === 0 ? '<div class="agotado-overlay">Agotado</div>' : '';
+        const agotadoOverlay = producto.stock <= 0 ? '<div class="agotado-overlay">Agotado</div>' : '';
         const productoHTML = `
           <div class="col-md-4 mb-4">
             <div class="card position-relative">
