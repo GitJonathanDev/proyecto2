@@ -72,7 +72,7 @@
                             <i class="fas fa-search"></i> Buscar Servicio
                         </button>
                     
-                        <button type="submit" class="btn btn-success mb-3">
+                        <button type="submit" class="btn btn-success mb-3" id="realizarVentaBtn">
                             Realizar Venta de Membresía
                         </button>
                     
@@ -288,6 +288,8 @@
         const telefono = document.getElementById('telefono'); 
         const codClienteF = document.getElementById('codClienteF'); 
         const tnTelefono = document.getElementById('tnTelefono'); 
+        const botonVenta = document.getElementById('realizarVentaBtn'); // Asegúrate de que el ID coincida con el de tu botón.
+        const serviciosSeleccionadosContainer = document.getElementById('serviciosSeleccionados');
 
         const buscarClienteUrl = "{{ route('membresia.buscar') }}";
 
@@ -311,6 +313,7 @@
                             tnTelefono.value = cliente.telefono; 
 
                             resultadosClientes.innerHTML = '';
+                            verificarEstadoBoton(); // Verifica el estado del botón después de seleccionar un cliente
                         });
                         resultadosClientes.appendChild(item);
                     });
@@ -431,6 +434,7 @@
                 $('#fechaInicioInput').val(fechaInicio);
                 $('#fechaFinInput').val(fechaFin);
                 $('#buscarServicioModal').modal('hide');
+                verificarEstadoBoton(); // Verifica el estado del botón después de agregar un servicio
             });
 
             function mostrarServiciosSeleccionados() {
@@ -470,9 +474,28 @@
                 });
 
                 mostrarServiciosSeleccionados();
+                verificarEstadoBoton(); // Verifica el estado del botón después de quitar un servicio
             });
         });
+
+        function verificarEstadoBoton() {
+            const hayServiciosSeleccionados = serviciosSeleccionadosContainer.children.length > 0;
+            const descripcion = document.getElementById('descripcion').value.trim();
+            const clienteSeleccionado = codClienteF.value.trim() !== ''; // Verifica que el cliente esté seleccionado
+
+            if (hayServiciosSeleccionados && descripcion !== '' && clienteSeleccionado) {
+                botonVenta.disabled = false;
+            } else {
+                botonVenta.disabled = true;
+            }
+        }
+
+        document.getElementById('descripcion').addEventListener('input', verificarEstadoBoton);
+        document.getElementById('codClienteF').addEventListener('change', verificarEstadoBoton);
+
+        verificarEstadoBoton(); // Verifica el estado inicial del botón
     });
 </script>
+
     @endsection
     
