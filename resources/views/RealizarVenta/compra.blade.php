@@ -118,7 +118,7 @@
 
     <!-- Botón para Registrar Venta -->
     <div class="d-flex justify-content-center mb-4">
-        <button type="button" id="registrarVentaBtn" class="btn btn-primary">
+        <button type="button" id="registrarVentaBtn" class="btn btn-primary" disabled>
             Comprar
         </button>
     </div>
@@ -151,33 +151,52 @@
 @push('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
-    function actualizarTotal() {
-        let total = 0;
-        const subtotals = document.querySelectorAll('.subtotal');
+    function actualizarEstadoBotonComprar() {
+    const productosTabla = document.getElementById('productos');
+    const botonComprar = document.getElementById('registrarVentaBtn');
 
-        subtotals.forEach(function (subtotal) {
-            total += parseFloat(subtotal.textContent);
-        });
+    // Verifica si hay filas en la tabla de productos
+    if (productosTabla.children.length > 0) {
+        botonComprar.disabled = false;
+    } else {
+        botonComprar.disabled = true;
+    }
+}
+function validarCantidad(index) {
+    const cantidadInput = document.getElementById('cantidad' + index);
+    const stock = parseInt(cantidadInput.getAttribute('data-stock'));
+    const precio = parseFloat(cantidadInput.getAttribute('data-precio'));
+    const cantidad = parseInt(cantidadInput.value);
 
-        document.getElementById('subtotalTotal').textContent = 'Bs. ' + total.toFixed(2);
-        document.getElementById('montoTotal').value = total.toFixed(2);
-        document.getElementById('montoVentaTotal').value = total.toFixed(2);
+
+    if (cantidad > stock) {
+        mostrarAlerta('La cantidad no puede ser mayor que el stock disponible.');
+        cantidadInput.value = stock;
     }
 
-    function validarCantidad(index) {
-        const cantidadInput = document.getElementById('cantidad' + index);
-        const stock = parseInt(cantidadInput.getAttribute('data-stock'));
-        const cantidad = parseInt(cantidadInput.value);
+    document.getElementById('cantidadInput' + index).value = cantidadInput.value;
+    document.getElementById('cantidadVentaInput' + index).value = cantidadInput.value;
 
-        if (cantidad > stock) {
-            mostrarAlerta('La cantidad no puede ser mayor que el stock disponible.');
-            cantidadInput.value = stock;
-        }
+    const subtotal = cantidad * precio;
+    const subtotalElemento = document.querySelector(`#producto-${index} .subtotal`);
+    subtotalElemento.textContent = subtotal.toFixed(2);
 
-        document.getElementById('cantidadInput' + index).value = cantidadInput.value;
-        document.getElementById('cantidadVentaInput' + index).value = cantidadInput.value;
-        actualizarTotal();
-    }
+    actualizarTotal();
+    actualizarEstadoBotonComprar(); 
+}
+
+function actualizarTotal() {
+    let total = 0;
+    const subtotals = document.querySelectorAll('.subtotal');
+
+    subtotals.forEach(function (subtotal) {
+        total += parseFloat(subtotal.textContent);
+    });
+
+    document.getElementById('subtotalTotal').textContent = 'Bs. ' + total.toFixed(2);
+    document.getElementById('montoTotal').value = total.toFixed(2);
+    document.getElementById('montoVentaTotal').value = total.toFixed(2);
+}
 
     function mostrarAlerta(mensaje) {
         Swal.fire({
@@ -225,6 +244,7 @@
 
     // Actualiza el total
     actualizarTotal();
+    actualizarEstadoBotonComprar(); 
 
     // Verifica si no quedan más productos
     const tbody = document.getElementById('productos');
@@ -235,6 +255,7 @@
 
     document.addEventListener('DOMContentLoaded', function () {
         actualizarTotal();
+        actualizarEstadoBotonComprar(); 
 
         document.getElementById('registrarVentaBtn').addEventListener('click', function () {
             Swal.fire({

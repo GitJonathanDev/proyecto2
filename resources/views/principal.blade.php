@@ -518,6 +518,11 @@
             var nav = document.getElementById("nav");
             nav.classList.toggle("nav-active");
         });
+
+        history.pushState(null, null, location.href);
+    window.addEventListener('popstate', function () {
+        history.pushState(null, null, location.href);
+    });
     </script>
 </body>
 </html>

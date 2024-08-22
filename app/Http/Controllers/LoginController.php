@@ -58,8 +58,17 @@ class LoginController extends Controller
      * Cierra la sesión del usuario y redirige al usuario a la página de inicio.
      */
     public function destroy()
-    {
-        Auth::logout();
-        return redirect()->to('/');
-    }
+{
+    Auth::logout();
+
+    request()->session()->invalidate();
+
+    request()->session()->regenerateToken();
+    
+    return redirect()->to('/')->withHeaders([
+        'Cache-Control' => 'no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0',
+        'Pragma' => 'no-cache',
+        'Expires' => '0',
+    ]);
+}
 }

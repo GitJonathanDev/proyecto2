@@ -13,6 +13,7 @@
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th>Imagen</th>
                     <th>Nombre</th>
                     <th>Cantidad</th>
                     <th>Precio Unitario</th>
@@ -22,6 +23,13 @@
             <tbody>
                 @forelse ($detalleCompra as $detalle)
                 <tr>
+                    <td>
+                        @if ($detalle->producto->imagen_url)
+                            <img src="{{ asset('storage/uploads/' . $detalle->producto->imagen_url) }}" alt="Imagen del producto" class="img-thumbnail" style="max-width: 120px;">
+                        @else
+                            No tiene imagen
+                        @endif
+                    </td>
                     <td>{{ $detalle->producto->nombre }}</td>
                     <td>{{ $detalle->cantidad }}</td>
                     <td>{{ number_format($detalle->precioC, 2, ',', '.') }}</td>
@@ -29,7 +37,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="4" class="text-center">No se han encontrado detalles de compra.</td>
+                    <td colspan="5" class="text-center">No se han encontrado detalles de compra.</td>
                 </tr>
                 @endforelse
             </tbody>
