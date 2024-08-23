@@ -1,6 +1,6 @@
 @extends('layouts.plantilla')
 
-@section('title', 'Gestionar horario')
+@section('title', 'Gestionar Horario')
 
 @section('content')
 <div class="container">
@@ -49,11 +49,12 @@
                             <td>{{ $horario->horaFin }}</td>
                             <td>
                                 <a href="{{ route('horario.edit', $horario->codHorario) }}" class="btn btn-warning btn-sm"><i class="fas fa-edit"></i> Editar</a>
-
-                                <form action="{{ route('horario.destroy', $horario->codHorario) }}" method="POST" class="d-inline">
+                                <form action="{{ route('horario.destroy', $horario->codHorario) }}" method="POST" class="d-inline form-delete">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este horario?')"><i class="fas fa-trash"></i> Eliminar</button>
+                                    <button type="submit" class="btn btn-danger btn-sm btn-delete">
+                                        <i class="fas fa-trash"></i> Eliminar
+                                    </button>
                                 </form>
                             </td>
                         </tr>
@@ -79,14 +80,45 @@
         </div>
     </div>
 </div>
+@endsection
 
-@if (session('success'))
-<div class="row mt-3">
-    <div class="col-12">
-        <div class="alert alert-success">
-            {{ session('success') }}
-        </div>
-    </div>
-</div>
-@endif
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if (session('success'))
+    Swal.fire({
+        icon: 'success',
+        title: 'Éxito',
+        text: '{{ session('success') }}',
+        confirmButtonText: 'Aceptar'
+    });
+    @elseif (session('error'))
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: '{{ session('error') }}',
+        confirmButtonText: 'Aceptar'
+    });
+    @endif
+
+    document.querySelectorAll('.form-delete').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection

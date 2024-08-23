@@ -45,7 +45,7 @@
                             <th scope="col">Apellido Materno</th>
                             <th scope="col">Sexo</th>
                             <th scope="col">Teléfono</th>
-                            <th scope="col">Edad</th> 
+                            <th scope="col">Edad</th>
                             <th scope="col">Usuario</th>
                             <th scope="col">Opciones</th>
                         </tr>
@@ -59,16 +59,16 @@
                             <td>{{ $item->apellidoMaterno }}</td>
                             <td>{{ $item->sexo }}</td>
                             <td>{{ $item->telefono }}</td>
-                            <td>{{ $item->edad }}</td> <!-- Nueva celda añadida -->
+                            <td>{{ $item->edad }}</td>
                             <td>{{ $item->usuario->nombreUsuario }}</td>
                             <td class="d-flex justify-content-around">
                                 <a href="{{ route('cliente.edit', $item->carnetIdentidad) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <form action="{{ route('cliente.destroy', $item->carnetIdentidad) }}" method="POST" class="d-inline">
+                                <form action="{{ route('cliente.destroy', $item->carnetIdentidad) }}" method="POST" class="d-inline form-delete">
                                     @method('DELETE')
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este cliente?')">
+                                    <button type="submit" class="btn btn-danger btn-sm btn-delete">
                                         <i class="fas fa-trash"></i> Eliminar
                                     </button>
                                 </form>
@@ -96,15 +96,46 @@
             @endif
         </div>
     </div>
-
-    @if (session('success'))
-    <div class="row mt-3">
-        <div class="col-12">
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        </div>
-    </div>
-    @endif
 </div>
+@endsection
+
+@section('scripts')
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if (session('success'))
+    Swal.fire({
+        title: '¡Éxito!',
+        text: "{{ session('success') }}",
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+    @elseif (session('error'))
+    Swal.fire({
+        title: 'Error',
+        text: "{{ session('error') }}",
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+    @endif
+
+    document.querySelectorAll('.form-delete').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto.",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection

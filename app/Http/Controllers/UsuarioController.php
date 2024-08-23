@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use App\Models\TipoUsuario;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class UsuarioController extends Controller
 {
@@ -71,9 +72,14 @@ class UsuarioController extends Controller
 
     public function destroy($codUsuario)
     {
-        $usuario = User::where('codUsuario', $codUsuario)->firstOrFail();
-        $usuario->delete();
-
-        return redirect()->route('usuario.index')->with('success', 'Usuario eliminado con éxito.');
+        try {
+            $usuario = User::where('codUsuario', $codUsuario)->firstOrFail();
+            $usuario->delete();
+    
+            return redirect()->route('usuario.index')->with('success', 'Usuario eliminado con éxito.');
+        } catch (QueryException $e) {
+            return redirect()->route('usuario.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        }
     }
+    
 }

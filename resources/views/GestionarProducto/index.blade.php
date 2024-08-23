@@ -20,7 +20,6 @@
                     <select name="criterio" class="form-select">
                         <option value="" disabled selected>Seleccionar criterio</option>
                         <option value="nombre">Nombre</option>
-      
                     </select>
                     <input type="text" name="buscar" class="form-control" placeholder="Buscar" aria-label="Buscar">
                     <button class="btn btn-outline-secondary" type="submit">
@@ -67,10 +66,10 @@
                                 <a href="{{ route('producto.edit', $producto->codProducto) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <form action="{{ route('producto.destroy', $producto->codProducto) }}" method="POST" class="d-inline">
+                                <form action="{{ route('producto.destroy', $producto->codProducto) }}" method="POST" class="d-inline form-delete">
                                     @csrf
-                                    @method('delete')
-                                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este producto?')">
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm btn-delete">
                                         <i class="fas fa-trash"></i> Eliminar
                                     </button>
                                 </form>
@@ -98,15 +97,47 @@
             @endif
         </div>
     </div>
-
-    @if (session('success'))
-    <div class="row mt-3">
-        <div class="col-12">
-            <div class="alert alert-success">
-                {{ session('success') }}
-            </div>
-        </div>
-    </div>
-    @endif
 </div>
+
+@endsection
+
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if (session('success'))
+    Swal.fire({
+        title: '¡Éxito!',
+        text: "{{ session('success') }}",
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+    @elseif (session('error'))
+    Swal.fire({
+        title: 'Error',
+        text: "{{ session('error') }}",
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+    @endif
+
+    document.querySelectorAll('.form-delete').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection

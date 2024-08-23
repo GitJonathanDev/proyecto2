@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Servicio;
 use App\Models\Horario;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ServicioController extends Controller
 {
@@ -56,7 +57,6 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        // Crear el servicio sin validaciones
         Servicio::create($request->only(['nombre', 'descripcion', 'capacidad', 'codHorarioF']));
 
         return redirect()->route('servicio.index')->with('success', 'Servicio creado correctamente');
@@ -98,9 +98,13 @@ class ServicioController extends Controller
      */
     public function destroy($codServicio)
     {
-        $servicio = Servicio::findOrFail($codServicio);
-        $servicio->delete();
+        try {
+            $servicio = Servicio::findOrFail($codServicio);
+            $servicio->delete();
 
-        return redirect()->route('servicio.index')->with('success', 'Servicio eliminado correctamente');
+            return redirect()->route('servicio.index')->with('success', 'Servicio eliminado correctamente.');
+        } catch (QueryException $e) {
+            return redirect()->route('servicio.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        }
     }
 }

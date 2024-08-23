@@ -240,7 +240,6 @@
   });
   
   document.getElementById('pay-button').addEventListener('click', function() {
- 
     const idsYCantidades = carrito.map(item => `${item.id}:${item.cantidad}`).join(',');
 
     if (idsYCantidades) {

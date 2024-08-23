@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Proveedor;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Database\QueryException;
 
 class ProveedorController extends Controller
 {
@@ -85,9 +86,13 @@ class ProveedorController extends Controller
 
     public function destroy($codProveedor)
     {
-        $proveedor = Proveedor::findOrFail($codProveedor);
-        $proveedor->delete();
+        try {
+            $proveedor = Proveedor::findOrFail($codProveedor);
+            $proveedor->delete();
 
-        return redirect()->route('proveedor.index')->with('success', 'Proveedor eliminado exitosamente.');
+            return redirect()->route('proveedor.index')->with('success', 'Proveedor eliminado exitosamente.');
+        } catch (QueryException $e) {
+            return redirect()->route('proveedor.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        }
     }
 }

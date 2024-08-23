@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Horario;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class HorarioController extends Controller
 {
@@ -66,9 +67,13 @@ class HorarioController extends Controller
 
     public function destroy($codHorario)
     {
-        $horario = Horario::findOrFail($codHorario);
-        $horario->delete();
+        try {
+            $horario = Horario::findOrFail($codHorario);
+            $horario->delete();
 
-        return redirect()->route('horario.index')->with('success', 'Horario eliminado correctamente');
+            return redirect()->route('horario.index')->with('success', 'Horario eliminado correctamente.');
+        } catch (QueryException $e) {
+            return redirect()->route('horario.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        }
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Cliente;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ClienteController extends Controller
 {
@@ -96,9 +97,16 @@ class ClienteController extends Controller
      */
     public function destroy($carnetIdentidad)
     {
-        $cliente = Cliente::where('carnetIdentidad', $carnetIdentidad)->firstOrFail();
-        $cliente->delete();
-        return redirect()->route('cliente.index')->with('success', 'Cliente eliminado exitosamente.');
+        try {
+            $cliente = Cliente::where('carnetIdentidad', $carnetIdentidad)->firstOrFail();
+            $cliente->delete();
+    
+            return redirect()->route('cliente.index')->with('success', 'Cliente eliminado exitosamente.');
+        } catch (QueryException $e) {
+            return redirect()->route('cliente.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados..');
+        } catch (\Exception $e) {
+            return redirect()->route('cliente.index')->with('error', 'No se puede eliminar el cliente debido a un error inesperado.');
+        }
     }
 
     /**

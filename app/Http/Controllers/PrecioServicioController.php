@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\PrecioServicio;
 use App\Models\Servicio;
+use Illuminate\Database\QueryException;
 
 class PrecioServicioController extends Controller
 {
@@ -107,9 +108,13 @@ class PrecioServicioController extends Controller
 
     public function destroy($codPrecioServicio)
     {
-        $precioServicio = PrecioServicio::findOrFail($codPrecioServicio);
-        $precioServicio->delete();
+        try {
+            $precioServicio = PrecioServicio::findOrFail($codPrecioServicio);
+            $precioServicio->delete();
 
-        return redirect()->route('precioServicio.index')->with('success', 'Precio de servicio eliminado correctamente');
+            return redirect()->route('precioServicio.index')->with('success', 'Precio de servicio eliminado correctamente.');
+        } catch (QueryException $e) {
+            return redirect()->route('precioServicio.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        }
     }
 }

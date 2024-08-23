@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Encargado;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class VendedorController extends Controller
 {
@@ -78,12 +79,18 @@ class VendedorController extends Controller
     }
 
     public function destroy($carnetIdentidad)
-    {
+{
+    try {
         $vendedor = Encargado::where('carnetIdentidad', $carnetIdentidad)->firstOrFail();
         $vendedor->delete();
 
-        return back()->with('success', 'Encargado eliminado exitosamente.');
+        return redirect()->route('vendedor.index')->with('success', 'Encargado eliminado exitosamente.');
+    } catch (QueryException $e) {
+        return redirect()->route('vendedor.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+    } catch (\Exception $e) {
+        return redirect()->route('vendedor.index')->with('error', 'No se puede eliminar el encargado debido a un error inesperado.');
     }
+}
 
     public function ciYaExiste(Request $request)
     {

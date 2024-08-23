@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Categoria;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class CategoriaController extends Controller
 {
@@ -44,7 +45,7 @@ class CategoriaController extends Controller
         $categoria->nombre = $request->nombre;
         $categoria->save();
 
-        return back()->with('success', 'Categoría registrada con éxito.');
+        return redirect()->route('categoria.index')->with('success', 'Categoría creada exitosamente.');
     }
 
     public function edit($codCategoria)
@@ -63,14 +64,18 @@ class CategoriaController extends Controller
         $categoria->nombre = $request->nombre;
         $categoria->save();
 
-        return back()->with('success', 'Categoría actualizada con éxito.');
+        return redirect()->route('categoria.index')->with('success', 'Categoría modificada exitosamente.');
     }
 
     public function destroy($codCategoria)
-    {
+{
+    try {
         $categoria = Categoria::findOrFail($codCategoria);
         $categoria->delete();
 
         return redirect()->route('categoria.index')->with('success', 'Categoría eliminada con éxito.');
+    } catch (QueryException $e) {
+        return redirect()->route('categoria.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
     }
+}
 }

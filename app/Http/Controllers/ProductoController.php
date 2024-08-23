@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Categoria;
 use App\Models\Producto;
 use Illuminate\Http\Request;
+use Illuminate\Database\QueryException;
 
 class ProductoController extends Controller
 {
@@ -53,7 +54,7 @@ class ProductoController extends Controller
             'imagen_url' => $imageUrl,
         ]);
 
-        return back()->with('success', 'Producto registrado correctamente');
+        return redirect()->route('producto.index')->with('success', 'Producto creado exitosamente.');
     }
 
     public function edit($codProducto)
@@ -93,18 +94,23 @@ class ProductoController extends Controller
     }
 
     public function destroy($codProducto)
-    {
+{
+    try {
+
         $producto = Producto::findOrFail($codProducto);
 
+        $producto->delete();
         if ($producto->imagen_url) {
             $path = storage_path('app/public/uploads/' . $producto->imagen_url);
             if (file_exists($path)) {
                 unlink($path);
             }
         }
-        $producto->delete();
         return redirect()->route('producto.index')->with('success', 'Producto eliminado con éxito.');
+    } catch (QueryException $e) {
+        return redirect()->route('producto.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
     }
+}
 
     public function buscar(Request $request)
     {

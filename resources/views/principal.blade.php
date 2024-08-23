@@ -438,9 +438,9 @@
                 <a href="#galeria">Galería</a>
                 <a href="{{ route('login.index') }}">Iniciar Sesión</a>
                 <div class="nav-right">
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-twitter"></i></a>
-                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="https://m.facebook.com/100063843083515/" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/59177634194?text=Hola, quería hablar con un encargado del gimnasio." title="Whatsapp"><i class="fa-brands fa-whatsapp"></i></a>
+                    <a href="https://maps.app.goo.gl/JAjC77y7AMYtU9Am9" title="Ubicación"><i class="fas fa-map-marker-alt"></i></a>
                 </div>
             </nav>
             <div id="icono-nav" class="nav-responsive">

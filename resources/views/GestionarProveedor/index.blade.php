@@ -49,10 +49,10 @@
                             <td>{{ $item->telefono }}</td>
                             <td>
                                 <a href="{{ route('proveedor.edit', $item->codProveedor) }}" class="btn btn-warning btn-sm me-2"><i class="fas fa-edit"></i> Editar</a>
-                                <form action="{{ route('proveedor.destroy', $item->codProveedor) }}" method="POST" class="d-inline">
+                                <form action="{{ route('proveedor.destroy', $item->codProveedor) }}" method="POST" class="d-inline form-delete">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Eliminar</button>
+                                    <button type="submit" class="btn btn-danger btn-sm btn-delete"><i class="fas fa-trash"></i> Eliminar</button>
                                 </form>
                             </td>
                         </tr>
@@ -83,10 +83,45 @@
     </div>
 </div>
 
-@if (session('success'))
-    <div class="alert alert-success mt-4">
-        {{ session('success') }}
-    </div>
-@endif
+@endsection
 
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if (session('success'))
+    Swal.fire({
+        title: '¡Éxito!',
+        text: "{{ session('success') }}",
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+    @elseif (session('error'))
+    Swal.fire({
+        title: 'Error',
+        text: "{{ session('error') }}",
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+    @endif
+
+    document.querySelectorAll('.form-delete').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection

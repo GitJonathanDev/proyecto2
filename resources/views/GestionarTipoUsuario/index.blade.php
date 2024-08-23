@@ -49,10 +49,10 @@
                                 <a href="{{ route('tipoUsuario.edit', $item->codTipoUsuario) }}" class="btn btn-warning btn-sm me-2" title="Editar">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
-                                <form action="{{ route('tipoUsuario.destroy', $item->codTipoUsuario) }}" method="POST" class="d-inline">
-                                    @method('DELETE')
+                                <form action="{{ route('tipoUsuario.destroy', $item->codTipoUsuario) }}" method="POST" class="d-inline form-delete">
                                     @csrf
-                                    <button type="submit" class="btn btn-danger btn-sm" title="Eliminar" onclick="return confirm('¿Estás seguro de eliminar este tipo de usuario?')">
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger btn-sm btn-delete" title="Eliminar">
                                         <i class="fas fa-trash"></i> Eliminar
                                     </button>
                                 </form>
@@ -80,11 +80,45 @@
         </div>
     </div>
 </div>
+@endsection
 
-@if (session('success'))
-    <div class="alert alert-success mt-4">
-        {{ session('success') }}
-    </div>
-@endif
+@section('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    @if (session('success'))
+    Swal.fire({
+        title: '¡Éxito!',
+        text: "{{ session('success') }}",
+        icon: 'success',
+        confirmButtonText: 'Aceptar'
+    });
+    @elseif (session('error'))
+    Swal.fire({
+        title: 'Error',
+        text: "{{ session('error') }}",
+        icon: 'error',
+        confirmButtonText: 'Aceptar'
+    });
+    @endif
 
+    document.querySelectorAll('.form-delete').forEach(form => {
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            Swal.fire({
+                title: '¿Estás seguro?',
+                text: "No podrás revertir esto",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, eliminar',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.submit();
+                }
+            });
+        });
+    });
+</script>
 @endsection
