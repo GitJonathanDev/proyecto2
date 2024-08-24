@@ -216,7 +216,7 @@
     position: relative;
     margin-left: 40px;
     flex: 1;
-    max-width: 80%; 
+    max-width: 50%; 
 }
 
 #search-input {
