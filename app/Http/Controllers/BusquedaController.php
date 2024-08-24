@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Log;
 class BusquedaController extends Controller
 {
     private $tablasExcluir = [
-        'migrations', 'VisitasPagina', 'sessions', 
+        'migrations', 'visitasPagina', 'sessions', 
         'cache', 'cache_locks', 'failed_jobs', 
         'jobs', 'jobs_batches', 'Menu'
     ];
