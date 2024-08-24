@@ -323,7 +323,7 @@
         document.getElementById('search-input').addEventListener('input', function() {
             let query = this.value;
             if (query.length > 0) {
-                fetch(`/buscar?query=${encodeURIComponent(query)}`)
+                fetch("{{ route('buscar') }}?query=" + encodeURIComponent(query))
                     .then(response => response.json())
                     .then(data => {
                         let searchResults = document.getElementById('search-results');
