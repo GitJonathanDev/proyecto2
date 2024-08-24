@@ -4,88 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class BusquedaController extends Controller
 {
+    private $tablasExcluir = [
+        'migrations', 'visitaspagina', 'sessions', 
+        'cache', 'cache_locks', 'failed_jobs', 
+        'jobs', 'jobs_batches', 'menu'
+    ];
+
     public function buscar(Request $request)
     {
+        set_time_limit(120); // Aumentar el límite de tiempo de ejecución
         $consulta = $request->input('query');
         $resultados = [];
 
-        $tablasExcluir = ['migrations', 'visitaspagina', 'sessions', 'cache', 'cache_locks', 'failed_jobs', 'jobs', 'jobs_batches', 'menu'];
+        if (!$consulta) {
+            return response()->json($resultados);
+        }
 
-        if ($consulta) {
-            $tablas = DB::select("SELECT tablename FROM pg_tables WHERE schemaname = 'public'");
+        try {
+            $tablas = DB::table('pg_tables')
+                ->select('tablename')
+                ->where('schemaname', 'public')
+                ->whereNotIn('tablename', $this->tablasExcluir)
+                ->pluck('tablename');
 
-            foreach ($tablas as $tabla) {
-                $nombreTabla = $tabla->tablename;
+            foreach ($tablas as $nombreTabla) {
+                $columnas = DB::table('information_schema.columns')
+                    ->select('column_name')
+                    ->where('table_name', $nombreTabla)
+                    ->pluck('column_name');
 
-                if (in_array($nombreTabla, $tablasExcluir)) {
-                    continue;
-                }
-
-                // Obtener la clave primaria de la tabla
-                $clavePrimaria = $this->obtenerClavePrimaria($nombreTabla);
-                if (!$clavePrimaria) {
-                    continue;
-                }
-
-                // Obtener las columnas de la tabla
-                $columnas = DB::select("SELECT column_name FROM information_schema.columns WHERE table_name = ?", [$nombreTabla]);
-
-                foreach ($columnas as $columna) {
-                    $nombreColumna = $columna->column_name;
-
-                    // Buscar coincidencias en la columna
+                foreach ($columnas as $nombreColumna) {
                     $resultadosBusqueda = DB::table($nombreTabla)
+                        ->select($nombreColumna)
                         ->where($nombreColumna, 'ILIKE', '%' . $consulta . '%')
-                        ->get([$nombreColumna, $clavePrimaria]);
+                        ->limit(10) // Limitar los resultados para mejorar el rendimiento
+                        ->get();
 
                     if ($resultadosBusqueda->isNotEmpty()) {
-                        foreach ($resultadosBusqueda as $resultado) {
-                            $resultados[$nombreTabla][] = [
-                                'id' => $resultado->$clavePrimaria,
-                                'columna' => $nombreColumna,
-                                'valor' => $resultado->$nombreColumna,
-                                'nombreTabla' => $nombreTabla
-                            ];
+                        if (!isset($resultados[$nombreTabla])) {
+                            $resultados[$nombreTabla] = [];
                         }
+                        $resultados[$nombreTabla][] = [
+                            'columna' => $nombreColumna,
+                            'coincidencias' => $resultadosBusqueda->pluck($nombreColumna)->all()
+                        ];
                     }
                 }
             }
+
+            return response()->json($resultados);
+
+        } catch (\Exception $e) {
+            Log::error('Error en la búsqueda: ' . $e->getMessage());
+            return response()->json(['error' => 'Ocurrió un error en la búsqueda'], 500);
         }
-
-        return response()->json($resultados);
-    }
-
-    public function obtenerDetallesRegistro(Request $request, $nombreTabla, $idRegistro)
-    {
-        $clavePrimaria = $this->obtenerClavePrimaria($nombreTabla);
-
-        if (!$clavePrimaria) {
-            return response()->json(['error' => 'Clave primaria no encontrada'], 400);
-        }
-
-        $registro = DB::table($nombreTabla)
-            ->where($clavePrimaria, $idRegistro)
-            ->first();
-
-        if ($registro) {
-            return response()->json($registro);
-        } else {
-            return response()->json(['error' => 'Registro no encontrado'], 404);
-        }
-    }
-
-    private function obtenerClavePrimaria($nombreTabla)
-    {
-        $resultado = DB::select("
-            SELECT a.attname AS column_name
-            FROM pg_index i
-            JOIN pg_attribute a ON a.attnum = ANY(i.indkey)
-            WHERE i.indrelid = ?::regclass AND i.indisprimary
-        ", [$nombreTabla]);
-
-        return $resultado[0]->column_name ?? null;
     }
 }

@@ -210,6 +210,45 @@
             width: 100%;
             z-index: 1000;
         }
+        .search-container {
+    position: relative;
+    display: inline-block;
+    margin-left: 40px;
+}
+
+#search-input {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.search-results {
+    position: absolute;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    border: 1px solid #ccc;
+    background-color: white;
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+    z-index: 1000;
+}
+
+.search-results ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.search-results li {
+    padding: 8px;
+    cursor: pointer;
+}
+
+.search-results li:hover {
+    background-color: #f1f1f1;
+}
         
     </style>
 </head>
@@ -258,6 +297,12 @@
                         </a>
                     </form>
                 </div>
+                <!-- Campo de búsqueda -->
+                <div class="search-container">
+                    <input type="text" id="search-input" placeholder="Buscar...">
+                    <div id="search-results" class="search-results"></div>
+                </div>
+                
             </div>
             <div class="container">
                 @yield('content')
@@ -274,8 +319,47 @@
         document.querySelector(".hamburger").addEventListener("click", function() {
             document.querySelector("body").classList.toggle("active");
         });
+
+        document.getElementById('search-input').addEventListener('input', function() {
+            let query = this.value;
+            if (query.length > 0) {
+                fetch(`/buscar?query=${encodeURIComponent(query)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        let searchResults = document.getElementById('search-results');
+                        searchResults.style.display = 'block';
+                        searchResults.innerHTML = '';
+                        if (Object.keys(data).length > 0) {
+                            let resultsList = '<ul>';
+                            for (const [table, columns] of Object.entries(data)) {
+                                columns.forEach(column => {
+                                    resultsList += `<li><strong>${table}</strong> - ${column.columna}: ${column.coincidencias.join(', ')}</li>`;
+                                });
+                            }
+                            resultsList += '</ul>';
+                            searchResults.innerHTML = resultsList;
+                        } else {
+                            searchResults.innerHTML = '<p>No se encontraron resultados</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error en la búsqueda:', error);
+                        document.getElementById('search-results').innerHTML = '<p>Error en la búsqueda</p>';
+                    });
+            } else {
+                document.getElementById('search-results').style.display = 'none';
+            }
+        });
+
+        document.addEventListener('click', function(event) {
+            let searchContainer = document.querySelector('.search-container');
+            if (!searchContainer.contains(event.target)) {
+                document.getElementById('search-results').style.display = 'none';
+            }
+        });
     </script>
     @endauth
 </body>
+
 
 </html>
