@@ -9,9 +9,9 @@ use Illuminate\Support\Facades\Log;
 class BusquedaController extends Controller
 {
     private $tablasExcluir = [
-        'migrations', 'visitaspagina', 'sessions', 
+        'migrations', 'VisitasPagina', 'sessions', 
         'cache', 'cache_locks', 'failed_jobs', 
-        'jobs', 'jobs_batches', 'menu'
+        'jobs', 'jobs_batches', 'Menu'
     ];
 
     public function buscar(Request $request)
