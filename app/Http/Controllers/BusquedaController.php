@@ -16,7 +16,7 @@ class BusquedaController extends Controller
 
     public function buscar(Request $request)
     {
-        set_time_limit(120); // Aumentar el límite de tiempo de ejecución
+        set_time_limit(120); 
         $consulta = $request->input('query');
         $resultados = [];
 
@@ -25,6 +25,7 @@ class BusquedaController extends Controller
         }
 
         try {
+            // Obtener tablas excluyendo las especificadas
             $tablas = DB::table('pg_tables')
                 ->select('tablename')
                 ->where('schemaname', 'public')
@@ -32,16 +33,18 @@ class BusquedaController extends Controller
                 ->pluck('tablename');
 
             foreach ($tablas as $nombreTabla) {
+                // Obtener columnas para la tabla actual
                 $columnas = DB::table('information_schema.columns')
                     ->select('column_name')
                     ->where('table_name', $nombreTabla)
                     ->pluck('column_name');
 
                 foreach ($columnas as $nombreColumna) {
+                    // Realizar búsqueda en la columna actual de la tabla
                     $resultadosBusqueda = DB::table($nombreTabla)
                         ->select($nombreColumna)
                         ->where($nombreColumna, 'ILIKE', '%' . $consulta . '%')
-                        ->limit(10) // Limitar los resultados para mejorar el rendimiento
+                        ->limit(10)
                         ->get();
 
                     if ($resultadosBusqueda->isNotEmpty()) {
