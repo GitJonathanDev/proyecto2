@@ -211,8 +211,9 @@
             z-index: 1000;
         }
         .search-container {
+    display: flex; /* Cambia a flexbox para alinear horizontalmente */
+    align-items: center; /* Alinea verticalmente los elementos */
     position: relative;
-    display: inline-block;
     margin-left: 40px;
 }
 
@@ -220,19 +221,22 @@
     padding: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    flex: 1; /* Permite que el campo de búsqueda ocupe el espacio disponible */
+    min-width: 200px; /* Ajusta el ancho mínimo del campo de búsqueda */
 }
 
 .search-results {
     position: absolute;
-    top: 35px;
+    top: 100%; /* Ajusta la posición del resultado debajo del campo de búsqueda */
     left: 0;
-    width: 100%;
+    width: calc(100% - 2px); /* Ajusta el ancho para coincidir con el campo de búsqueda */
     border: 1px solid #ccc;
     background-color: white;
     max-height: 200px;
     overflow-y: auto;
     display: none;
     z-index: 1000;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Agrega sombra para una mejor visualización */
 }
 
 .search-results ul {
