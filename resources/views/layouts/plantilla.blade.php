@@ -312,7 +312,7 @@
                 
             </div>
             <div class="container">
-                @yield('content', View::make('estadisticas'))
+                @yield('content')
             </div>
         </div>
     </div>
@@ -367,7 +367,6 @@
     </script>
     @endauth
 </body>
-
 
 
 </html>
