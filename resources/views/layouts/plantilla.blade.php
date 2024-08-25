@@ -312,10 +312,7 @@
                 
             </div>
             <div class="container">
-                <!-- Aquí se carga el contenido por defecto -->
-                @section('content')
-                    @include('inicio.estadistica')
-                @show
+                @yield('content', View::make('estadisticas'))
             </div>
         </div>
     </div>
