@@ -18,7 +18,6 @@
                     <select name="criterio" class="form-select">
                         <option value="nombre">Nombre</option>
                         <option value="descripcion">Descripción</option>
-                        <option value="capacidad">Capacidad</option>
                     </select>
                     <input type="text" name="buscar" class="form-control" placeholder="Buscar" aria-label="Buscar" aria-describedby="button-addon2">
                     <button class="btn btn-outline-secondary" type="submit" id="button-addon2">
@@ -38,7 +37,6 @@
                             <th>Código de Servicio</th>
                             <th>Nombre</th>
                             <th>Descripción</th>
-                            <th>Capacidad</th>
                             <th>Horario</th>
                             <th>Opciones</th>
                         </tr>
@@ -49,7 +47,6 @@
                             <td>{{ $servicio->codServicio }}</td>
                             <td>{{ $servicio->nombre }}</td>
                             <td>{{ $servicio->descripcion }}</td>
-                            <td>{{ $servicio->capacidad }}</td>
                             <td>
                                 @if ($servicio->horario)
                                     Hora Inicio: {{ $servicio->horario->horaInicio }}<br>

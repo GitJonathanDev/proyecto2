@@ -24,13 +24,11 @@ class Servicio extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'capacidad',
         'codHorarioF',
     ];
 
 
     protected $casts = [
-        'capacidad' => 'integer',
         'codHorarioF' => 'integer',
     ];
 

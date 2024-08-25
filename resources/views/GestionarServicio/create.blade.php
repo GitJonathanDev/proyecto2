@@ -31,14 +31,6 @@
         </div>
 
         <div class="mb-3 row">
-            <label for="capacidad" class="col-sm-3 col-form-label">Capacidad:</label>
-            <div class="col-sm-9">
-                <input type="text" id="capacidad" class="form-control @error('capacidad') is-invalid @enderror" name="capacidad" value="{{ old('capacidad') }}" required>
-                <div class="invalid-feedback">La capacidad debe ser un número entero positivo.</div>
-            </div>
-        </div>
-
-        <div class="mb-3 row">
             <label for="codHorarioF" class="col-sm-3 col-form-label">Horario:</label>
             <div class="col-sm-9">
                 <select id="codHorarioF" class="form-select @error('codHorarioF') is-invalid @enderror" name="codHorarioF" required>
@@ -69,7 +61,6 @@
     document.addEventListener('DOMContentLoaded', function() {
         const nombreInput = document.getElementById('nombre');
         const descripcionInput = document.getElementById('descripcion');
-        const capacidadInput = document.getElementById('capacidad');
         const codHorarioFSelect = document.getElementById('codHorarioF');
         const submitButton = document.querySelector('button[type="submit"]');
 
@@ -98,20 +89,7 @@
             }
             return isValid;
         }
-
-        function validateCapacidad() {
-            const capacidad = capacidadInput.value.trim();
-            const isValid = /^\d+$/.test(capacidad);
-            if (!isValid) {
-                capacidadInput.classList.add('is-invalid');
-                capacidadInput.classList.remove('is-valid');
-            } else {
-                capacidadInput.classList.add('is-valid');
-                capacidadInput.classList.remove('is-invalid');
-            }
-            return isValid;
-        }
-
+        
         function validateCodHorarioF() {
             const isValid = codHorarioFSelect.value !== '';
             if (!isValid) {
@@ -127,10 +105,9 @@
         function validateForm() {
             const isNombreValid = validateNombre();
             const isDescripcionValid = validateDescripcion();
-            const isCapacidadValid = validateCapacidad();
             const isCodHorarioFValid = validateCodHorarioF();
 
-            submitButton.disabled = !(isNombreValid && isDescripcionValid && isCapacidadValid && isCodHorarioFValid);
+            submitButton.disabled = !(isNombreValid && isDescripcionValid && isCodHorarioFValid);
         }
 
         function restrictInputToNumbers(input) {
@@ -146,12 +123,6 @@
 
         descripcionInput.addEventListener('input', function() {
             validateDescripcion();
-            validateForm();
-        });
-
-        restrictInputToNumbers(capacidadInput);
-        capacidadInput.addEventListener('input', function() {
-            validateCapacidad();
             validateForm();
         });
 

@@ -47,18 +47,15 @@ class MenuController extends Controller
         $criterio = $request->criterio;
         $buscar = $request->buscar;
     
-        // Crear la consulta base sin ningún filtro adicional
         $query = Menu::query();
     
-        // Aplicar filtro de búsqueda si se proporciona
         if ($buscar) {
             $query->where($criterio, 'like', '%' . $buscar . '%');
         }
     
-        // Obtener todos los menús
+
         $menus = $query->get();
     
-        // Obtener todos los tipos de usuario para la vista
         $tiposUsuario = TipoUsuario::all();
     
         return view('GestionarMenu.index', compact('menus', 'tiposUsuario'));

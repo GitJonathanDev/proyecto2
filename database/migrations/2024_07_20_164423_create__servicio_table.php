@@ -15,7 +15,6 @@ return new class extends Migration
             $table->bigIncrements('codServicio'); 
             $table->string('nombre');
             $table->string('descripcion');
-            $table->integer('capacidad');
             $table->foreignId('codHorarioF')->constrained('Horario', 'codHorario');
         });
     }

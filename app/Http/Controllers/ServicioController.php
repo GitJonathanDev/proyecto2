@@ -57,7 +57,7 @@ class ServicioController extends Controller
      */
     public function store(Request $request)
     {
-        Servicio::create($request->only(['nombre', 'descripcion', 'capacidad', 'codHorarioF']));
+        Servicio::create($request->only(['nombre', 'descripcion', 'codHorarioF']));
 
         return redirect()->route('servicio.index')->with('success', 'Servicio creado correctamente');
     }
@@ -85,7 +85,7 @@ class ServicioController extends Controller
     public function update(Request $request, $codServicio)
     {
         $servicio = Servicio::findOrFail($codServicio);
-        $servicio->update($request->only(['nombre', 'descripcion', 'capacidad', 'codHorarioF']));
+        $servicio->update($request->only(['nombre', 'descripcion', 'codHorarioF']));
 
         return redirect()->route('servicio.index')->with('success', 'Servicio actualizado correctamente');
     }
