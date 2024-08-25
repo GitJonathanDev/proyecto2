@@ -101,7 +101,7 @@ class VentaClienteController extends Controller
         $venta->fechaVenta = now()->toDateString();
         $venta->montoTotal = $montoTotal; 
         $venta->codClienteF = $idCliente;
-        $venta->codEncargadoF = 12454859; 
+        $venta->codEncargadoF = 11111111; 
         $venta->codPagoF = $pago->codPago;
         $venta->save();
     
