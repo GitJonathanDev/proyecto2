@@ -11,23 +11,24 @@ use Illuminate\Support\Facades\Redirect;
 class MenuController extends Controller
 {
     public function index()
-    {
-
-        if (!Auth::check()) {
-            return Redirect::to('/');
-        }
-
-
-        $tipoUsuarioId = Auth::user()->codTipoUsuarioF;
-
-        $menus = Menu::where('codTipoUsuarioF', $tipoUsuarioId)
-            ->whereNull('padreId')
-            ->with('hijos')
-            ->get();
-
-
-        return view('layouts.plantilla', compact('menus'));
+{
+    if (!Auth::check()) {
+        return Redirect::to('/');
     }
+
+    $tipoUsuarioId = Auth::user()->codTipoUsuarioF;
+
+    $menus = Menu::where('codTipoUsuarioF', $tipoUsuarioId)
+        ->whereNull('padreId')
+        ->with('hijos')
+        ->get();
+
+   
+    $estadisticasController = new EstadisticasController();
+    $estadisticas = $estadisticasController->index()->getData();
+
+    return view('layouts.plantilla', compact('menus', 'estadisticas'));
+}
     public function create()
     {
         $tiposUsuario = TipoUsuario::all();
