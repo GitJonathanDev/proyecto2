@@ -312,7 +312,9 @@
                 
             </div>
             <div class="container">
-                @yield('content')
+                @section('content')
+                    @include('estadisticas.index')
+                @show
             </div>
         </div>
     </div>
