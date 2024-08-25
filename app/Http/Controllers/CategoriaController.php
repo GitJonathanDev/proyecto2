@@ -75,7 +75,7 @@ class CategoriaController extends Controller
 
         return redirect()->route('categoria.index')->with('success', 'Categoría eliminada con éxito.');
     } catch (QueryException $e) {
-        return redirect()->route('categoria.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        return redirect()->route('categoria.index')->with('error', 'No se puede eliminar esta categoria porque tiene registros relacionados.');
     }
 }
 }

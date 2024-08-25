@@ -78,7 +78,7 @@ class UsuarioController extends Controller
     
             return redirect()->route('usuario.index')->with('success', 'Usuario eliminado con éxito.');
         } catch (QueryException $e) {
-            return redirect()->route('usuario.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+            return redirect()->route('usuario.index')->with('error', 'No se puede eliminar el usuario porque tiene registros relacionados.');
         }
     }
     

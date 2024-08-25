@@ -103,7 +103,7 @@ class ClienteController extends Controller
     
             return redirect()->route('cliente.index')->with('success', 'Cliente eliminado exitosamente.');
         } catch (QueryException $e) {
-            return redirect()->route('cliente.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados..');
+            return redirect()->route('cliente.index')->with('error', 'No se puede eliminar el cliente porque tiene registros relacionados..');
         } catch (\Exception $e) {
             return redirect()->route('cliente.index')->with('error', 'No se puede eliminar el cliente debido a un error inesperado.');
         }

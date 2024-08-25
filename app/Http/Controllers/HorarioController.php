@@ -73,7 +73,7 @@ class HorarioController extends Controller
 
             return redirect()->route('horario.index')->with('success', 'Horario eliminado correctamente.');
         } catch (QueryException $e) {
-            return redirect()->route('horario.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+            return redirect()->route('horario.index')->with('error', 'No se puede eliminar el horario porque tiene registros relacionados.');
         }
     }
 }

@@ -104,7 +104,7 @@ class ServicioController extends Controller
 
             return redirect()->route('servicio.index')->with('success', 'Servicio eliminado correctamente.');
         } catch (QueryException $e) {
-            return redirect()->route('servicio.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+            return redirect()->route('servicio.index')->with('error', 'No se puede eliminar el servicio porque tiene registros relacionados.');
         }
     }
 }

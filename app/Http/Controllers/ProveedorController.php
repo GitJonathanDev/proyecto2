@@ -92,7 +92,7 @@ class ProveedorController extends Controller
 
             return redirect()->route('proveedor.index')->with('success', 'Proveedor eliminado exitosamente.');
         } catch (QueryException $e) {
-            return redirect()->route('proveedor.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+            return redirect()->route('proveedor.index')->with('error', 'No se puede eliminr el proveedor porque tiene registros relacionados.');
         }
     }
 }

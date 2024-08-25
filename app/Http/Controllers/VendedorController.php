@@ -86,7 +86,7 @@ class VendedorController extends Controller
 
         return redirect()->route('vendedor.index')->with('success', 'Encargado eliminado exitosamente.');
     } catch (QueryException $e) {
-        return redirect()->route('vendedor.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        return redirect()->route('vendedor.index')->with('error', 'No se puede eliminar el encargado porque tiene registros relacionados.');
     } catch (\Exception $e) {
         return redirect()->route('vendedor.index')->with('error', 'No se puede eliminar el encargado debido a un error inesperado.');
     }

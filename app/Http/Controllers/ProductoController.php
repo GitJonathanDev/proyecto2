@@ -108,7 +108,7 @@ class ProductoController extends Controller
         }
         return redirect()->route('producto.index')->with('success', 'Producto eliminado con éxito.');
     } catch (QueryException $e) {
-        return redirect()->route('producto.index')->with('error', 'No se puede eliminar el tipo de usuario porque tiene registros relacionados.');
+        return redirect()->route('producto.index')->with('error', 'No se puede eliminar este producto porque tiene registros relacionados.');
     }
 }
 
