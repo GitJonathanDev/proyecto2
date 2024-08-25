@@ -312,7 +312,10 @@
                 
             </div>
             <div class="container">
-                @yield('content', View::make('estadisticas.index'))
+                <!-- Aquí se carga el contenido por defecto -->
+                @section('content')
+                    @include('inicio.estadistica')
+                @show
             </div>
         </div>
     </div>
