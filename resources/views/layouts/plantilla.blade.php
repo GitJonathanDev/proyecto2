@@ -312,9 +312,7 @@
                 
             </div>
             <div class="container">
-                @section('content')
-                    @include('estadisticas.index')
-                @show
+                @yield('content', View::make('estadisticas.index'))
             </div>
         </div>
     </div>
@@ -369,6 +367,7 @@
     </script>
     @endauth
 </body>
+
 
 
 </html>
