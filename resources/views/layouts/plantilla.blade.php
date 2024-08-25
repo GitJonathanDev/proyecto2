@@ -312,11 +312,7 @@
                 
             </div>
             <div class="container">
-                @isset($estadisticas)
-                    @include('estadisticas', $estadisticas)
-                @else
-                    @yield('content')
-                @endisset
+                @yield('content')
             </div>
         </div>
     </div>
