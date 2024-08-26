@@ -32,8 +32,8 @@
                     </td>
                     <td>{{ $detalle->producto->nombre }}</td>
                     <td>{{ $detalle->cantidad }}</td>
-                    <td>{{ number_format($detalle->precioC, 2, ',', '.') }}</td>
-                    <td>{{ number_format($detalle->cantidad * $detalle->precioC, 2, ',', '.') }}</td>
+                    <td>{{ number_format($detalle->precioC, 2, ',', '.') }} Bs.</td>
+                    <td>{{ number_format($detalle->cantidad * $detalle->precioC, 2, ',', '.') }} Bs.</td>
                 </tr>
                 @empty
                 <tr>
@@ -46,7 +46,7 @@
 
     <div class="mt-4">
         <h3>Total de la Compra</h3>
-        <p>{{ number_format($compra->montoTotal, 2, ',', '.') }}</p>
+        <p>{{ number_format($compra->montoTotal, 2, ',', '.') }} Bs.</p>
     </div>
 
     <a href="{{ route('compra.index') }}" class="btn btn-primary">Realizar Nueva Compra</a>

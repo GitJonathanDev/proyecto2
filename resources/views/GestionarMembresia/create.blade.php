@@ -128,7 +128,7 @@
                                         <select class="form-control tipo-precio" data-cod-servicio="{{ $servicio->codServicio }}">
                                             @foreach ($servicio->precios as $precio)
                                             <option value="{{ $precio->id }}" data-tipo="{{ $precio->tipo }}" data-precio="{{ $precio->precio }}">
-                                                {{ ucfirst($precio->tipo) }} - ${{ $precio->precio }}
+                                                {{ ucfirst($precio->tipo) }} - {{ $precio->precio }} Bs.
                                             </option>
                                             @endforeach
                                         </select>

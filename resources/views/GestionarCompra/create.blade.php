@@ -92,7 +92,7 @@
                                 @foreach ($productos as $producto)
                                 <tr>
                                     <td>{{ $producto->nombre }}</td>
-                                    <td>{{ $producto->precio }}</td>
+                                    <td>{{ $producto->precio }} Bs.</td>
                                     <td>{{ $producto->stock }}</td>
                                     <td>{{ $producto->categoria->nombre }}</td>
                                     <td>
@@ -180,7 +180,7 @@
                                 <td>${producto.nombre}</td>
                                 <td><input type="number" class="form-control cantidad-producto" value="${producto.cantidad}" min="1" data-id="${producto.id}"></td>
                                 <td>${producto.precio}</td>
-                                <td>${subtotal.toFixed(2)}</td>
+                                <td>${subtotal.toFixed(2)} Bs.</td>
                                 <td>
                                     <button type="button" class="btn btn-danger btn-sm quitar-producto" data-id="${producto.id}">
                                         <i class="fas fa-times"></i> Quitar

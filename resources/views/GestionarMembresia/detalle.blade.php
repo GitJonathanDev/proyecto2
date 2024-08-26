@@ -8,7 +8,7 @@
     
     @if ($detalleMembresia->isNotEmpty())
         <div class="mt-4">
-            <h5>Total Precio Membresía: <strong>${{ number_format($detalleMembresia->first()->membresia->precioTotal, 2) }}</strong></h5>
+            <h5>Total Precio Membresía: <strong>{{ number_format($detalleMembresia->first()->membresia->precioTotal, 2) }} Bs.</strong></h5>
         </div>
 
   
@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ $detalle->servicio->nombre }}</td>
                         <td>{{ $detalle->servicio->descripcion }}</td>
-                        <td>${{ number_format($detalle->subTotal, 2) }}</td>
+                        <td>{{ number_format($detalle->subTotal, 2) }} Bs.</td>
                         <td>
                             Hora Inicio: {{ $detalle->servicio->horario->horaInicio }}<br>
                             Hora Fin: {{ $detalle->servicio->horario->horaFin }}

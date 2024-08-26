@@ -52,7 +52,7 @@
                             <td>{{ $producto->codProducto }}</td>
                             <td>{{ $producto->nombre }}</td>
                             <td>{{ $producto->descripcion }}</td>
-                            <td>{{ number_format($producto->precio, 2) }}</td>
+                            <td>{{ number_format($producto->precio, 2) }} Bs.</td>
                             <td>{{ $producto->stock }}</td>
                             <td>{{ $producto->categoria->nombre ?? 'No disponible' }}</td>
                             <td>

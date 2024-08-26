@@ -48,7 +48,7 @@
                         <tr>
                             <td>{{ $precioServicio->codPrecioServicio }}</td>
                             <td>{{ $precioServicio->tipo }}</td>
-                            <td>{{ $precioServicio->precio }}</td>
+                            <td>{{ $precioServicio->precio }} Bs.</td>
                             <td>{{ $precioServicio->servicio->nombre }}</td>
                             <td>
                                 <a href="{{ route('precioServicio.edit', $precioServicio->codPrecioServicio) }}" class="btn btn-warning btn-sm me-2">
