@@ -54,7 +54,7 @@
                             <td>********</td>
                             <td>{{ $usuario->tipoUsuario->descripcion }}</td>
                             <td class="d-flex justify-content-around">
-                                @if($usuario->codUsuario != 2 && $usuario->codUsuario != 1)
+                                @if($usuario->codUsuario != 2)
                                 <a href="{{ route('usuario.edit', $usuario->codUsuario) }}" class="btn btn-warning btn-sm" title="Editar">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
