@@ -28,7 +28,7 @@
                         <tr>
                             <td>{{ $venta->codVenta }}</td>
                             <td>{{ $venta->fechaVenta->format('d/m/Y') }}</td>
-                            <td>{{ $venta->montoTotal }}</td>
+                            <td>{{ $venta->montoTotal }} Bs.</td>
                             <td>{{ $venta->encargado->nombre }}</td>
                             <td>{{ $venta->cliente->nombre }}</td>
                         </tr>

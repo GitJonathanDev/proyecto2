@@ -28,7 +28,7 @@
                         <tr>
                             <td>{{ $compra->id }}</td>
                             <td>{{ $compra->fechaCompra->format('d/m/Y') }}</td>
-                            <td>{{ $compra->montoTotal }}</td>
+                            <td>{{ $compra->montoTotal }} Bs.</td>
                             <td>{{ $compra->encargado->nombre }}</td>
                             <td>{{ $compra->proveedor->nombre }}</td>
                         </tr>

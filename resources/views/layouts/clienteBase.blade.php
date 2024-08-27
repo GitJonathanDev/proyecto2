@@ -107,7 +107,7 @@
             <a class="nav-link" href="{{ route('cliente') }}">Comprar</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="https://wa.me/611" target="_blank">Contacto</a>
+            <a class="nav-link" href="https://wa.me/59177634194?text=Hola, quería hablar con un encargado del gimnasio." target="_blank">Contacto</a>
           </li>
           @if (!empty($showCartIcon))
           <li class="nav-item">
