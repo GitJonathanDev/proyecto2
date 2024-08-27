@@ -19,6 +19,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Descripción</th>
+                        <th>Fecha fin</th>
                         <th>Subtotal</th>
                         <th>Horario</th>
                     </tr>
@@ -28,7 +29,7 @@
                     <tr>
                         <td>{{ $detalle->servicio->nombre }}</td>
                         <td>{{ $detalle->servicio->descripcion }}</td>
-                        <td>{{ $detalle->fechaFin}}</td>
+                        <td>{{ \Carbon\Carbon::parse($detalle->fechaFin)->format('Y-m-d') }}</td>
                         <td>{{ number_format($detalle->subTotal, 2) }} Bs.</td>
                         <td>
                             Hora Inicio: {{ $detalle->servicio->horario->horaInicio }}<br>
