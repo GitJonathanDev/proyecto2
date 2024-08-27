@@ -49,7 +49,7 @@
         <p>{{ number_format($compra->montoTotal, 2, ',', '.') }} Bs.</p>
     </div>
 
-    <a href="{{ route('compra.index') }}" class="btn btn-primary">Realizar Nueva Compra</a>
+    <a href="{{ route('compra.index') }}" class="btn btn-primary">Volver a la lista de compras</a>
 </div>
 
 @endsection

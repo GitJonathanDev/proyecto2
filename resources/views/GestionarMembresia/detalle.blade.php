@@ -28,6 +28,7 @@
                     <tr>
                         <td>{{ $detalle->servicio->nombre }}</td>
                         <td>{{ $detalle->servicio->descripcion }}</td>
+                        <td>{{ $detalle->fechaFin}}</td>
                         <td>{{ number_format($detalle->subTotal, 2) }} Bs.</td>
                         <td>
                             Hora Inicio: {{ $detalle->servicio->horario->horaInicio }}<br>

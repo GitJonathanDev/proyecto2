@@ -137,7 +137,7 @@
 
     <div class="mt-4">
         <h3>Total de la Compra</h3>
-        <p id="totalCompra">0</p>
+        <p id="totalCompra">0 <strong>Bs.</strong></p>st
     </div>
 </div>
 

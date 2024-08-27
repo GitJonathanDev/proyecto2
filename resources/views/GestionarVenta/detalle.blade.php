@@ -32,8 +32,8 @@
                     </td>
                     <td>{{ $detalle->producto->nombre }}</td>
                     <td>{{ $detalle->cantidad }}</td>
-                    <td>{{ number_format($detalle->precioV, 2, ',', '.') }}</td>
-                    <td>{{ number_format($detalle->cantidad * $detalle->precioV, 2, ',', '.') }}</td>
+                    <td>{{ number_format($detalle->precioV, 2, ',', '.') }} Bs.</td>
+                    <td>{{ number_format($detalle->cantidad * $detalle->precioV, 2, ',', '.') }} Bs.</td>
                 </tr>
                 @empty
                 <tr>
@@ -46,12 +46,12 @@
 
     <div class="mt-4">
         <h3>Total de la Venta</h3>
-        <p>{{ number_format($venta->montoTotal, 2, ',', '.') }}</p>
+        <p>{{ number_format($venta->montoTotal, 2, ',', '.') }} Bs.</p>
     </div>
 
     <div class="mt-4">
         <h3>Información de Pago</h3>
-        <p>Monto Pagado: {{ number_format($pago->monto, 2, ',', '.') }}</p>
+        <p>Monto Pagado: {{ number_format($pago->monto, 2, ',', '.') }} Bs.</p>
         <p>Estado del Pago: {{ $pago->estado }}</p>
     </div>
 
