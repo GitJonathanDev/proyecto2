@@ -205,7 +205,7 @@
             });
 
             $('#productosSeleccionados').html(tableRows);
-            $('#totalVenta').text(totalVenta.toFixed(2));
+            $('#totalVenta').text(totalVenta.toFixed(2) + ' Bs.');
 
             $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados));
             $('#totalVentaInput').val(totalVenta.toFixed(2));

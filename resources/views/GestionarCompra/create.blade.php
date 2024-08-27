@@ -137,7 +137,7 @@
 
     <div class="mt-4">
         <h3>Total de la Compra</h3>
-        <p id="totalCompra">0 <strong>Bs.</strong></p>st
+        <p id="totalCompra">0</p>
     </div>
 </div>
 
@@ -190,7 +190,7 @@
             });
 
             $('#productosSeleccionados').html(tableRows); 
-            $('#totalCompra').text(totalCompra.toFixed(2)); 
+            $('#totalCompra').text(totalCompra.toFixed(2) + ' Bs.'); 
             $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados)); 
             $('#totalCompraInput').val(totalCompra.toFixed(2)); 
 

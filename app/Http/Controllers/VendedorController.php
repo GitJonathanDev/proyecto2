@@ -13,18 +13,18 @@ class VendedorController extends Controller
     {
         $criterio = $request->input('criterio', 'nombre');
         $buscar = $request->input('buscar', '');
-
-        $query = Encargado::query();
-
+    
+        $query = Encargado::where('carnetIdentidad', '!=', '11111111');
+    
         if ($buscar != '') {
             $query->where($criterio, 'like', '%' . $buscar . '%');
         }
-
+    
         $vendedores = $query->paginate(5);
-
+    
         return view('GestionarVendedor.index', compact('vendedores'));
     }
-
+    
     public function create()
     {
         $usuarios = User::all();
