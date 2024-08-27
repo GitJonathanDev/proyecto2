@@ -50,7 +50,7 @@
                             <td>{{ $precioServicio->tipo }}</td>
                             <td>{{ $precioServicio->precio }} Bs.</td>
                             <td>{{ $precioServicio->servicio->nombre }}</td>
-                            <td>
+                            <td class="d-flex justify-content-around">
                                 <a href="{{ route('precioServicio.edit', $precioServicio->codPrecioServicio) }}" class="btn btn-warning btn-sm me-2">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
@@ -74,48 +74,39 @@
         </div>
     </div>
 
-    <!-- Navegación entre páginas -->
-    @if ($preciosServicio->hasPages())
     <div class="row mt-4">
-        <div class="col-12 d-flex justify-content-between align-items-center">
-            @if ($preciosServicio->onFirstPage())
-                <span class="btn btn-secondary disabled">
-                    <i class="fas fa-arrow-left"></i> Anterior
-                </span>
-            @else
-                <a href="{{ $preciosServicio->previousPageUrl() }}" class="btn btn-primary">
-                    <i class="fas fa-arrow-left"></i> Anterior
-                </a>
+        <div class="col-12 d-flex justify-content-between">
+            @if ($preciosServicio->currentPage() > 1)
+            <a href="{{ $preciosServicio->previousPageUrl() }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Anterior
+            </a>
             @endif
+
             @if ($preciosServicio->hasMorePages())
-                <a href="{{ $preciosServicio->nextPageUrl() }}" class="btn btn-primary">
-                    Siguiente <i class="fas fa-arrow-right"></i>
-                </a>
-            @else
-                <span class="btn btn-secondary disabled">
-                    Siguiente <i class="fas fa-arrow-right"></i>
-                </span>
+            <a href="{{ $preciosServicio->nextPageUrl() }}" class="btn btn-primary">
+                Siguiente <i class="fas fa-arrow-right"></i>
+            </a>
             @endif
         </div>
     </div>
-    @endif
 </div>
+@endsection
 
 @section('scripts')
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     @if (session('success'))
     Swal.fire({
-        title: '¡Éxito!',
-        text: "{{ session('success') }}",
         icon: 'success',
+        title: 'Éxito',
+        text: '{{ session('success') }}',
         confirmButtonText: 'Aceptar'
     });
     @elseif (session('error'))
     Swal.fire({
-        title: 'Error',
-        text: "{{ session('error') }}",
         icon: 'error',
+        title: 'Error',
+        text: '{{ session('error') }}',
         confirmButtonText: 'Aceptar'
     });
     @endif
@@ -140,5 +131,4 @@
         });
     });
 </script>
-@endsection
 @endsection

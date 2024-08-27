@@ -37,7 +37,7 @@
                 <table class="table table-bordered table-striped table-hover">
                     <thead class="table-dark">
                         <tr>
-                            <th>ID</th>
+                            <th>Código de Usuario</th>
                             <th>Nombre de Usuario</th>
                             <th>Email</th>
                             <th>Contraseña</th>
@@ -54,9 +54,12 @@
                             <td>********</td>
                             <td>{{ $usuario->tipoUsuario->descripcion }}</td>
                             <td class="d-flex justify-content-around">
+                                @if($usuario->codUsuario != 2 && $usuario->codUsuario != 1)
                                 <a href="{{ route('usuario.edit', $usuario->codUsuario) }}" class="btn btn-warning btn-sm" title="Editar">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
+                                @endif
+                                @if($usuario->codUsuario != 2 && $usuario->codUsuario != 1)
                                 <form action="{{ route('usuario.destroy', $usuario->codUsuario) }}" method="POST" class="d-inline form-delete">
                                     @method('DELETE')
                                     @csrf
@@ -64,6 +67,7 @@
                                         <i class="fas fa-trash"></i> Eliminar
                                     </button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                         @endforeach

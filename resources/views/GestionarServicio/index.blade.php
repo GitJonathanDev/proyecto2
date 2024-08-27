@@ -12,7 +12,9 @@
 
     <div class="row mb-4">
         <div class="col-12 d-flex justify-content-between align-items-center">
-            <a href="{{ route('servicio.create') }}" class="btn btn-primary"><i class="fas fa-plus"></i> Registrar Servicio</a>
+            <a href="{{ route('servicio.create') }}" class="btn btn-primary">
+                <i class="fas fa-plus"></i> Registrar Servicio
+            </a>
             <form action="{{ route('servicio.index') }}" method="GET" class="d-flex">
                 <div class="input-group">
                     <select name="criterio" class="form-select">
@@ -55,7 +57,7 @@
                                     No se ha definido un horario
                                 @endif
                             </td>
-                            <td>
+                            <td class="d-flex justify-content-around">
                                 <a href="{{ route('servicio.edit', $servicio->codServicio) }}" class="btn btn-warning btn-sm">
                                     <i class="fas fa-edit"></i> Editar
                                 </a>
@@ -75,9 +77,19 @@
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-12 d-flex justify-content-between align-items-center">
-            {{ $servicios->links() }}
+    <div class="row mt-4">
+        <div class="col-12 d-flex justify-content-between">
+            @if ($servicios->currentPage() > 1)
+            <a href="{{ $servicios->previousPageUrl() }}" class="btn btn-primary">
+                <i class="fas fa-arrow-left"></i> Anterior
+            </a>
+            @endif
+
+            @if ($servicios->hasMorePages())
+            <a href="{{ $servicios->nextPageUrl() }}" class="btn btn-primary">
+                Siguiente <i class="fas fa-arrow-right"></i>
+            </a>
+            @endif
         </div>
     </div>
 </div>

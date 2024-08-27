@@ -10,20 +10,20 @@ use Illuminate\Database\QueryException;
 class UsuarioController extends Controller
 {
     public function index(Request $request)
-    {
-        $criterio = $request->input('criterio', 'nombreUsuario'); 
-        $buscar = $request->input('buscar', '');
+{
+    $criterio = $request->input('criterio', 'nombreUsuario'); 
+    $buscar = $request->input('buscar', '');
 
-        $query = User::query();
+    $query = User::where('codUsuario', '!=', 2); 
 
-        if (!empty($buscar)) {
-            $query->where($criterio, 'like', '%'.$buscar.'%');
-        }
-
-        $usuarios = $query->paginate(5);
-
-        return view('GestionarUsuario.index', compact('usuarios'));
+    if (!empty($buscar)) {
+        $query->where($criterio, 'like', '%'.$buscar.'%');
     }
+
+    $usuarios = $query->paginate(5);
+
+    return view('GestionarUsuario.index', compact('usuarios'));
+}
 
     public function create()
     {
