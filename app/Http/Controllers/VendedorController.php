@@ -92,14 +92,10 @@ class VendedorController extends Controller
     }
 }
 
-    public function ciYaExiste(Request $request)
-    {
-        $request->validate([
-            'carnetIdentidad' => 'required|integer',
-        ]);
-
-        $ci = $request->input('carnetIdentidad');
-        $existe = Encargado::where('carnetIdentidad', $ci)->exists();
-        return response()->json(['existe' => $existe]);
-    }
+public function ciYaExiste(Request $request)
+{
+    $ci = $request->input('carnetIdentidad');
+    $existe = Encargado::where('carnetIdentidad', $ci)->exists();
+    return response()->json(['existe' => $existe]);
+}
 }

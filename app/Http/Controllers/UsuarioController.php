@@ -81,5 +81,10 @@ class UsuarioController extends Controller
             return redirect()->route('usuario.index')->with('error', 'No se puede eliminar el usuario porque tiene registros relacionados.');
         }
     }
-    
+    public function emailYaExiste(Request $request)
+{
+    $email = $request->input('email');
+    $existe = User::where('email', $email)->exists();
+    return response()->json(['existe' => $existe]);
+}
 }

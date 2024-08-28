@@ -145,12 +145,12 @@
                 carnetIdentidadFeedback.textContent = '* La cédula de identidad debe ser un número de entre 8 y 10 dígitos.';
                 carnetIdentidadInput.classList.add('is-invalid');
                 carnetIdentidadInput.classList.remove('is-valid');
-                submitButton.disabled = true; // Desactiva el botón si no es válido
+                submitButton.disabled = true; 
             } else {
                 carnetIdentidadFeedback.textContent = '';
                 carnetIdentidadInput.classList.add('is-valid');
                 carnetIdentidadInput.classList.remove('is-invalid');
-                checkCarnetIdentidadExists(carnetIdentidad); // Verifica en el servidor
+                checkCarnetIdentidadExists(carnetIdentidad); 
             }
             return isValid;
         }

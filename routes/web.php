@@ -81,7 +81,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::get('edit/{carnetIdentidad}', [VendedorController::class, 'edit'])->name('vendedor.edit');
         Route::put('update/{carnetIdentidad}', [VendedorController::class, 'update'])->name('vendedor.update');
         Route::delete('eliminar/{carnetIdentidad}', [VendedorController::class, 'destroy'])->name('vendedor.destroy');
-        // Route::post('ci-ya-existe', [VendedorController::class, 'ciYaExiste'])->name('ci-ya-existe');
+        Route::post('ci-ya-existe', [VendedorController::class, 'ciYaExiste'])->name('ci-ya-existes');
     });
 
     // Gestionar cliente
@@ -93,8 +93,8 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::put('update/{carnetIdentidad}', [ClienteController::class, 'update'])->name('cliente.update');
         Route::delete('eliminar/{carnetIdentidad}', [ClienteController::class, 'destroy'])->name('cliente.destroy');
         Route::post('ci-ya-existe', [ClienteController::class, 'ciYaExiste'])->name('ci-ya-existe');
-        Route::get('buscar', [ClienteController::class, 'index'])->name('clientes.buscar'); // Ajustado para llamar a index
-        Route::get('seleccionCliente/{carnetIdentidad}', [MembresiaController::class, 'seleccionCliente'])->name('cliente.seleccion'); // Asegúrate de que esta ruta sea correcta
+        Route::get('buscar', [ClienteController::class, 'index'])->name('clientes.buscar'); 
+        Route::get('seleccionCliente/{carnetIdentidad}', [MembresiaController::class, 'seleccionCliente'])->name('cliente.seleccion');
     });
 
     // Rutas para gestionar membresía
