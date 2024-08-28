@@ -11,7 +11,7 @@ class BusquedaController extends Controller
     private $tablasExcluir = [
         'migrations', 'visitasPagina', 'sessions', 
         'cache', 'cache_locks', 'failed_jobs', 
-        'jobs', 'jobs_batches', 'Menu'
+        'jobs', 'jobs_batches', 'Menu', 'Usuario'
     ];
 
     public function buscar(Request $request)
