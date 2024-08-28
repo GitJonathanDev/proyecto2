@@ -254,7 +254,7 @@
             
                             <div class="form-group text-right mt-4">
                                 <button type="submit" class="btn btn-secondary">
-                                    Consumir
+                                    Generar Qr
                                 </button>
                             </div>
                         </form>
