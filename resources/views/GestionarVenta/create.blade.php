@@ -153,7 +153,35 @@
  $(document).ready(function () {
     var productosSeleccionados = [];
 
-    // Función para mostrar productos seleccionados
+    // Selección de productos
+    $(document).on('click', '.seleccionar-producto', function () {
+        var productoId = $(this).data('id');
+        var nombreProducto = $(this).closest('tr').find('td:first').text();
+        var precioProducto = parseFloat($(this).closest('tr').find('td:eq(1)').text());
+        var stockProducto = parseInt($(this).data('stock'));
+
+        var productoExistente = productosSeleccionados.find(producto => producto.id === productoId);
+
+        if (productoExistente) {
+            if (productoExistente.cantidad < stockProducto) {
+                productoExistente.cantidad++;
+            } else {
+                alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
+            }
+        } else {
+            productosSeleccionados.push({
+                id: productoId,
+                nombre: nombreProducto,
+                precio: precioProducto,
+                cantidad: 1,
+                stock: stockProducto
+            });
+        }
+
+        mostrarProductosSeleccionados();
+        validarFormulario();
+    });
+
     function mostrarProductosSeleccionados() {
         var tableRows = '';
         var totalVenta = 0;
@@ -172,7 +200,7 @@
                                     <i class="fas fa-times"></i> Quitar
                                 </button>
                             </td>
-                          </tr>`;
+                         </tr>`;
         });
 
         $('#productosSeleccionados').html(tableRows);
@@ -181,6 +209,33 @@
         $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados));
         $('#totalVentaInput').val(totalVenta.toFixed(2));
     }
+
+    // Actualización de cantidades
+    $(document).on('change', '.cantidad-producto', function () {
+        var cantidad = parseInt($(this).val());
+        var productoId = $(this).data('id');
+        var producto = productosSeleccionados.find(producto => producto.id === productoId);
+
+        if (cantidad > producto.stock) {
+            alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
+            $(this).val(producto.stock);
+        } else {
+            producto.cantidad = cantidad;
+        }
+
+        mostrarProductosSeleccionados();
+        validarFormulario();
+    });
+
+    // Quitar productos seleccionados
+    $(document).on('click', '.quitar-producto', function () {
+        var productoId = $(this).data('id');
+
+        productosSeleccionados = productosSeleccionados.filter(producto => producto.id !== productoId);
+
+        mostrarProductosSeleccionados();
+        validarFormulario();
+    });
 
     // Búsqueda de clientes
     $('#buscadorCliente').on('keyup', function () {
@@ -208,7 +263,7 @@
         });
     });
 
-    // Selección de un cliente de la lista
+    // Seleccionar cliente
     $(document).on('click', '.cliente-item', function () {
         var clienteId = $(this).data('id');
         var telefono = $(this).data('telefono');
@@ -221,7 +276,7 @@
         validarFormulario();
     });
 
-    // Validación del formulario de venta
+    // Validación del formulario
     function validarFormulario() {
         var clienteSeleccionado = $('#codClienteF').val() !== '';
         var hayProductosSeleccionados = productosSeleccionados.length > 0;
@@ -229,36 +284,7 @@
         $('#clienteError').toggle(!clienteSeleccionado);
     }
 
-    // Eventos adicionales para manejar la cantidad de productos y la eliminación de productos
-    $(document).on('change', '.cantidad-producto', function () {
-        var cantidad = parseInt($(this).val());
-        var productoId = $(this).data('id');
-        var producto = productosSeleccionados.find(function (prod) {
-            return prod.id === productoId;
-        });
-
-        if (cantidad > producto.stock) {
-            alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
-            $(this).val(producto.stock);
-        } else {
-            producto.cantidad = cantidad;
-        }
-
-        mostrarProductosSeleccionados();
-        validarFormulario();
-    });
-
-    $(document).on('click', '.quitar-producto', function () {
-        var productoId = $(this).data('id');
-
-        productosSeleccionados = productosSeleccionados.filter(function (producto) {
-            return producto.id !== productoId;
-        });
-
-        mostrarProductosSeleccionados();
-        validarFormulario();
-    });
-
+    // Validar antes de enviar
     $('#ventaForm').on('submit', function (e) {
         if ($('#codClienteF').val() === '') {
             $('#clienteError').show();
