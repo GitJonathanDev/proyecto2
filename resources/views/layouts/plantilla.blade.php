@@ -288,7 +288,7 @@
                         </ul>
                     @endif
                 </li>
-            @endforeach
+                @endforeach
             </ul>
         </div>
         <div class="section">
@@ -312,7 +312,8 @@
                 
             </div>
             <div class="container">
-                @yield('content')
+                <!-- Default content: carga la vista de estadísticas por defecto -->
+                @include('estadisticas.index')
             </div>
         </div>
     </div>
@@ -367,6 +368,4 @@
     </script>
     @endauth
 </body>
-
-
 </html>
