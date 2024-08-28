@@ -172,17 +172,14 @@ class MembresiaController extends Controller
 
     public function buscarCliente(Request $request)
     {
-        $query = $request->get('query', '');
-    
-        if (empty($query)) {
-            return response()->json([]); 
-        }
-        $clientes = Cliente::where('nombre', 'like', "%{$query}%")
-            ->orWhere('apellidoPaterno', 'like', "%{$query}%")
-            ->orWhere('apellidoMaterno', 'like', "%{$query}%")
-            ->orWhere('carnetIdentidad', 'like', "%{$query}%")
-            ->orWhere('telefono', 'like', "%{$query}%")
-            ->get(['nombre', 'apellidoPaterno', 'apellidoMaterno', 'telefono', 'carnetIdentidad']);
+        $query = $request->get('query');
+
+        $clientes = Cliente::where('nombre', 'like', "%$query%")
+            ->orWhere('apellidoPaterno', 'like', "%$query%")
+            ->orWhere('carnetIdentidad', 'like', "%$query%")
+            ->orWhere('apellidoMaterno', 'like', "%$query%")
+            ->orWhere('telefono', 'like', "%$query%")
+            ->get(['nombre', 'apellidoPaterno','apellidoMaterno', 'telefono', 'carnetIdentidad']);
 
         return response()->json($clientes);
     }
