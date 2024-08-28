@@ -71,6 +71,7 @@ Route::middleware([\App\Http\Middleware\VerificarAutenticacion::class])->group(f
         Route::put('update/{codUsuario}', [UsuarioController::class, 'update'])->name('usuario.update');
         Route::delete('eliminar/{codUsuario}', [UsuarioController::class, 'destroy'])->name('usuario.destroy');
         Route::get('buscar', [UsuarioController::class, 'buscarClientes'])->name('usuario.buscar');
+        Route::post('email-ya-existe', [UsuarioController::class, 'emailYaExiste'])->name('email-ya-existe');
     });
 
     // Gestionar vendedor
