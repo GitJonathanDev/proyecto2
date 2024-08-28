@@ -150,148 +150,149 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
- $(document).ready(function () {
-    var productosSeleccionados = [];
+    $(document).ready(function () {
+        var productosSeleccionados = [];
 
-    // Selección de productos
-    $(document).on('click', '.seleccionar-producto', function () {
-        var productoId = $(this).data('id');
-        var nombreProducto = $(this).closest('tr').find('td:first').text();
-        var precioProducto = parseFloat($(this).closest('tr').find('td:eq(1)').text());
-        var stockProducto = parseInt($(this).data('stock'));
+        $(document).on('click', '.seleccionar-producto', function () {
+            var productoId = $(this).data('id');
+            var nombreProducto = $(this).closest('tr').find('td:first').text();
+            var precioProducto = parseFloat($(this).closest('tr').find('td:eq(1)').text());
+            var stockProducto = parseInt($(this).data('stock'));
 
-        var productoExistente = productosSeleccionados.find(producto => producto.id === productoId);
-
-        if (productoExistente) {
-            if (productoExistente.cantidad < stockProducto) {
-                productoExistente.cantidad++;
-            } else {
-                alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
-            }
-        } else {
-            productosSeleccionados.push({
-                id: productoId,
-                nombre: nombreProducto,
-                precio: precioProducto,
-                cantidad: 1,
-                stock: stockProducto
+            var productoExistente = productosSeleccionados.find(function (producto) {
+                return producto.id === productoId;
             });
-        }
 
-        mostrarProductosSeleccionados();
-        validarFormulario();
-    });
-
-    function mostrarProductosSeleccionados() {
-        var tableRows = '';
-        var totalVenta = 0;
-
-        productosSeleccionados.forEach(function (producto) {
-            var subtotal = producto.cantidad * producto.precio;
-            totalVenta += subtotal;
-
-            tableRows += `<tr>
-                            <td>${producto.nombre}</td>
-                            <td><input type="number" class="form-control cantidad-producto" value="${producto.cantidad}" min="1" max="${producto.stock}" data-id="${producto.id}"></td>
-                            <td>${producto.precio} Bs.</td>
-                            <td>${subtotal.toFixed(2)} Bs.</td>
-                            <td>
-                                <button type="button" class="btn btn-danger btn-sm quitar-producto" data-id="${producto.id}">
-                                    <i class="fas fa-times"></i> Quitar
-                                </button>
-                            </td>
-                         </tr>`;
-        });
-
-        $('#productosSeleccionados').html(tableRows);
-        $('#totalVenta').text(totalVenta.toFixed(2) + ' Bs.');
-
-        $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados));
-        $('#totalVentaInput').val(totalVenta.toFixed(2));
-    }
-
-    // Actualización de cantidades
-    $(document).on('change', '.cantidad-producto', function () {
-        var cantidad = parseInt($(this).val());
-        var productoId = $(this).data('id');
-        var producto = productosSeleccionados.find(producto => producto.id === productoId);
-
-        if (cantidad > producto.stock) {
-            alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
-            $(this).val(producto.stock);
-        } else {
-            producto.cantidad = cantidad;
-        }
-
-        mostrarProductosSeleccionados();
-        validarFormulario();
-    });
-
-    // Quitar productos seleccionados
-    $(document).on('click', '.quitar-producto', function () {
-        var productoId = $(this).data('id');
-
-        productosSeleccionados = productosSeleccionados.filter(producto => producto.id !== productoId);
-
-        mostrarProductosSeleccionados();
-        validarFormulario();
-    });
-
-    // Búsqueda de clientes
-    $('#buscadorCliente').on('keyup', function () {
-        var query = $(this).val().toLowerCase();
-
-        $.ajax({
-            url: '{{ route('membresia.buscar') }}',
-            type: 'GET',
-            data: { query: query },
-            success: function (data) {
-                var listItems = '';
-                $.each(data, function (key, cliente) {
-                    var nombreCompleto = `${cliente.nombre} ${cliente.apellidoPaterno} ${cliente.apellidoMaterno}`;
-                    if (nombreCompleto.toLowerCase().includes(query) || cliente.carnetIdentidad.toLowerCase().includes(query)) {
-                        listItems += `<li class="list-group-item cliente-item" data-id="${cliente.carnetIdentidad}" data-telefono="${cliente.telefono}">
-                                        ${nombreCompleto} - ${cliente.carnetIdentidad}
-                                      </li>`;
-                    }
+            if (productoExistente) {
+                if (productoExistente.cantidad < stockProducto) {
+                    productoExistente.cantidad++;
+                } else {
+                    alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
+                }
+            } else {
+                productosSeleccionados.push({
+                    id: productoId,
+                    nombre: nombreProducto,
+                    precio: precioProducto,
+                    cantidad: 1,
+                    stock: stockProducto
                 });
-                $('#resultadosClientes').html(listItems).show();
-            },
-            error: function (xhr, status, error) {
-                console.error('Error:', error);
             }
+
+            mostrarProductosSeleccionados();
+            validarFormulario();
         });
-    });
 
-    // Seleccionar cliente
-    $(document).on('click', '.cliente-item', function () {
-        var clienteId = $(this).data('id');
-        var telefono = $(this).data('telefono');
-        var nombreCompleto = $(this).text().trim();
+        function mostrarProductosSeleccionados() {
+            var tableRows = '';
+            var totalVenta = 0;
 
-        $('#buscadorCliente').val(nombreCompleto);
-        $('#codClienteF').val(clienteId);
-        $('#telefonoCliente').val(telefono);
-        $('#resultadosClientes').hide();
-        validarFormulario();
-    });
+            productosSeleccionados.forEach(function (producto) {
+                var subtotal = producto.cantidad * producto.precio;
+                totalVenta += subtotal;
 
-    // Validación del formulario
-    function validarFormulario() {
-        var clienteSeleccionado = $('#codClienteF').val() !== '';
-        var hayProductosSeleccionados = productosSeleccionados.length > 0;
-        $('#realizarVentaBtn').prop('disabled', !(clienteSeleccionado && hayProductosSeleccionados));
-        $('#clienteError').toggle(!clienteSeleccionado);
-    }
+                tableRows += `<tr>
+                                <td>${producto.nombre}</td>
+                                <td><input type="number" class="form-control cantidad-producto" value="${producto.cantidad}" min="1" max="${producto.stock}" data-id="${producto.id}"></td>
+                                <td>${producto.precio} Bs.</td>
+                                <td>${subtotal.toFixed(2)} Bs.</td>
+                                <td>
+                                    <button type="button" class="btn btn-danger btn-sm quitar-producto" data-id="${producto.id}">
+                                        <i class="fas fa-times"></i> Quitar
+                                    </button>
+                                </td>
+                             </tr>`;
+            });
 
-    // Validar antes de enviar
-    $('#ventaForm').on('submit', function (e) {
-        if ($('#codClienteF').val() === '') {
-            $('#clienteError').show();
-            e.preventDefault();
+            $('#productosSeleccionados').html(tableRows);
+            $('#totalVenta').text(totalVenta.toFixed(2) + ' Bs.');
+
+            $('#productosSeleccionadosInput').val(JSON.stringify(productosSeleccionados));
+            $('#totalVentaInput').val(totalVenta.toFixed(2));
+        }
+
+        $(document).on('change', '.cantidad-producto', function () {
+            var cantidad = parseInt($(this).val());
+            var productoId = $(this).data('id');
+            var producto = productosSeleccionados.find(function (prod) {
+                return prod.id === productoId;
+            });
+
+            if (cantidad > producto.stock) {
+                alert('La cantidad seleccionada no puede ser mayor al stock disponible.');
+                $(this).val(producto.stock);
+            } else {
+                producto.cantidad = cantidad;
+            }
+
+            mostrarProductosSeleccionados();
+            validarFormulario();
+        });
+
+        $(document).on('click', '.quitar-producto', function () {
+            var productoId = $(this).data('id');
+
+            productosSeleccionados = productosSeleccionados.filter(function (producto) {
+                return producto.id !== productoId;
+            });
+
+            mostrarProductosSeleccionados();
+            validarFormulario();
+        });
+
+        $('#buscadorCliente').on('keyup', function () {
+    var query = $(this).val().toLowerCase();
+
+    $.ajax({
+        url: '{{ route('membresia.buscar') }}',
+        type: 'GET',
+        data: {
+            query: query
+        },
+        success: function (data) {
+            var listItems = '';
+            $.each(data, function (key, cliente) {
+                var nombreCompleto = `${cliente.nombre} ${cliente.apellidoPaterno} ${cliente.apellidoMaterno}`;
+                if (nombreCompleto.toLowerCase().includes(query) || cliente.carnetIdentidad.toLowerCase().includes(query)) {
+                    listItems += `<li class="list-group-item cliente-item" data-id="${cliente.carnetIdentidad}" data-telefono="${cliente.telefono}">
+                                    ${nombreCompleto} - ${cliente.carnetIdentidad}
+                                  </li>`;
+                }
+            });
+            $('#resultadosClientes').html(listItems).show();
+        },
+        error: function (xhr, status, error) {
+            console.error('Error:', error);
         }
     });
 });
+
+$(document).on('click', '.cliente-item', function () {
+    var clienteId = $(this).data('id');
+    var telefono = $(this).data('telefono');
+    var nombreCompleto = $(this).text().trim();
+
+    $('#buscadorCliente').val(nombreCompleto);
+    $('#codClienteF').val(clienteId);
+    $('#telefonoCliente').val(telefono);
+    $('#resultadosClientes').hide();
+    validarFormulario();
+});
+
+function validarFormulario() {
+    var clienteSeleccionado = $('#codClienteF').val() !== '';
+    var hayProductosSeleccionados = productosSeleccionados.length > 0;
+    $('#realizarVentaBtn').prop('disabled', !(clienteSeleccionado && hayProductosSeleccionados));
+    $('#clienteError').toggle(!clienteSeleccionado);
+}
+
+$('#ventaForm').on('submit', function (e) {
+    if ($('#codClienteF').val() === '') {
+        $('#clienteError').show();
+        e.preventDefault();
+    }
+});
+    });
 </script>
 
 @endsection
