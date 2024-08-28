@@ -52,7 +52,7 @@
     <div class="mt-4">
         <h3>Información de Pago</h3>
         <p>Monto Pagado: {{ number_format($pago->monto, 2, ',', '.') }} Bs.</p>
-        <p>Estado del Pago: {{ $pago->estado }}</p>
+        {{-- <p>Estado del Pago: {{ $pago->estado }}</p> --}}
     </div>
 
     <a href="{{ route('venta.index') }}" class="btn btn-primary">Volver a la Lista de Ventas</a>
